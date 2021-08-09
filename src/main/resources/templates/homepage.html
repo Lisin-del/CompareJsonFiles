@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text = "${title}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>Загрузите ваш файл!</p>
+<form enctype="multipart/form-data" method = "post">
+    <p><input type = "file" multiple> <input type = "submit" value = "Отправить"></p>
+</form>
+</body>
+</html>
