@@ -6,8 +6,8 @@
 </head>
 <body>
 <p>Загрузите ваш файл!</p>
-<form enctype="multipart/form-data" method = "post">
-    <p><input type = "file" multiple> <input type = "submit" value = "Отправить"></p>
-</form>
+<div>
+    <p th:style = "${(testlol.metadataDescriptionVersion.equals('exist wrongType notEqual') || testlol.metadataDescriptionVersion.equals('exist type notEqual'))  ? 'color: red;' : 'color: green;' }" th:text = "'version: ' +  ${jsonFile1Version}" />
+</div>
 </body>
 </html>
