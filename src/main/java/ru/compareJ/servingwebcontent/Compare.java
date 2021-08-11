@@ -28,7 +28,7 @@ public class Compare {
 
         if(node1.get("metadata").get("application").get("name").getNodeType().equals(JsonNodeType.STRING) &&
                 node2.get("metadata").get("application").get("name").getNodeType().equals(JsonNodeType.STRING)) {
-            if(node1.get("metadata").get("application").get("name").asText().equals(node2.get("metadata").get("name").asText())) {
+            if(node1.get("metadata").get("application").get("name").asText().equals(node2.get("metadata").get("application").get("name").asText())) {
                 String info = "exist type equal";
                 infoAboutCompareProcess.put("metadataApplicationName", info);
             }
