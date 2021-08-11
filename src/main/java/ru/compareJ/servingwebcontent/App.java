@@ -23,7 +23,7 @@ public class App {
 
         ValidatorJson validatorJson = new ValidatorJson();
 
-        CompareFiles compareFiles = new CompareFiles(nodeFile1, nodeFile2);
+        CompareFiles compareFiles = new CompareFiles();
 
 
     }

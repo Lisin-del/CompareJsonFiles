@@ -26,7 +26,9 @@ public class ValidatorJson {
         return j == 5;
     }
 
-
+    public boolean validCheck(boolean valid1, boolean valid2) {
+        return valid1 && valid2;
+    }
 
 
 

@@ -2,12 +2,27 @@ package ru.compareJ.servingwebcontent;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class CompareFiles {
-    private JsonNode nodeFile1;
-    private JsonNode nodeFile2;
+import java.util.HashMap;
 
-    public CompareFiles(JsonNode nodeFile1, JsonNode nodeFile2) {
-        this.nodeFile1 = nodeFile1;
-        this.nodeFile2 = nodeFile2;
+public class CompareFiles {
+    private HashMap<String, Boolean> check = new HashMap<String, Boolean>();
+
+
+
+
+    public void checkFields(boolean valid, JsonNode nodeFile) {
+        for(JsonNode it : nodeFile.get("services")) {
+            if(it != null) {
+                check.put("services", true);
+            }
+            else {
+                check.put("services", false);
+            }
+
+            if(it.get("service-short-name") != null) {
+                check.put("service-short-name", true);
+            }
+        }
     }
+
 }
