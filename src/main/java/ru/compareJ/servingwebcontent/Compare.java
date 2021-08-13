@@ -4,11 +4,24 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Compare {
     public static  HashMap<String, String> infoAboutCompareProcess = new HashMap<>();
+    public static  HashMap<String, JsonNode> infoAboutAvailabilityNode1 = new HashMap<>();
+    public HashMap<String, JsonNode> infoAboutAvailabilityNode2 = new HashMap<>();
+
+    private String infoCompareOk = "exist type equal";
+    private String infoCompareNotEqual = "exist type notEqual";
+    private String infoCompareWrongType = "exist wrongType notEqual";
+    private String infoCompareNotExist = "notExist";
+    private String exist = "exist";
+
+
+
 
     public void compareJsonFile(JsonNode node1, JsonNode node2) {
+        //---METADATA---
         if(node1.get("metadata").get("description").get("version").getNodeType().equals(JsonNodeType.NUMBER) &&
                 node2.get("metadata").get("description").get("version").getNodeType().equals(JsonNodeType.NUMBER)) {
 
@@ -43,34 +56,60 @@ public class Compare {
         }
 
 
-        if(node1.get("services").get(0) != null && node2.get("services").get(0) != null) {
 
-            if(node1.get("services").get(0).get("service-short-name") != null && node2.get("services").get(0).get("service-short-name") != null) {
-                if(node1.get("services").get(0).get("service-short-name").getNodeType().equals(JsonNodeType.STRING) &&
-                        node2.get("services").get(0).get("service-short-name").getNodeType().equals(JsonNodeType.STRING)) {
-                    if(node1.get("services").get(0).get("service-short-name").asText().equals(node2.get("services").get(0).get("service-short-name").asText())) {
-                        String info = "exist type equal";
-                        infoAboutCompareProcess.put("servicesTopObjectServiceShortName", info);
-                    }
-                    else {
-                        String info = "exist type notEqual";
-                        infoAboutCompareProcess.put("serviceTopObjectServiceShortName", info);
-                    }
-                }
-                else {
-                    String info = "exist wrongType notEqual";
-                    infoAboutCompareProcess.put("serviceTopObjectServiceShortName", info);
-                }
-            }
-            else {
-                String info = "notExist";
-                infoAboutCompareProcess.put("serviceTopObjectServiceShortName", info);
+        //---SERVICES---
+        //CHECK TOP SERVICES OBJECTS NODE1
+        if(node1.get("services").get(0) != null) {
+            for(int i = 0; i < node1.get("services").size(); ++i) {
+                infoAboutAvailabilityNode1.put("nodeServicesTopObject" + i, node1.get("services").get(i));
             }
         }
         else {
-            String info = "notExist";
-            infoAboutCompareProcess.put("serviceTopObject", info);
+            infoAboutAvailabilityNode1.put("nodeServicesTopObject", null);
         }
+
+        //CHECK TOP SERVICES OBJECTS NODE2
+        if(node2.get("services").get(0) != null) {
+            for(int i = 0; i < node2.get("services").size(); ++i) {
+                infoAboutAvailabilityNode2.put("nodeServicesTopObject" + i, node2.get("services").get(i));
+            }
+        }
+        else {
+            infoAboutAvailabilityNode2.put("nodeServicesTopObject", null);
+        }
+
+        for(Map.Entry<String, JsonNode> elementNode1 : infoAboutAvailabilityNode1.entrySet()) {
+            for(Map.Entry<String, JsonNode> elementNode2 : infoAboutAvailabilityNode2.entrySet()) {
+                if(elementNode1.getKey().equals(elementNode2.getKey())) {
+                    if(elementNode1.getValue().get("service-short-name") != null) {
+                        infoAboutAvailabilityNode1.put("serviceShortName" + elementNode1.getKey(), elementNode1.getValue());
+                    }
+                    else {
+                        infoAboutAvailabilityNode1.put("serviceShortName" + elementNode1.getKey(), null);
+                    }
+
+                    if(elementNode2.getValue().get("service-short-name") != null) {
+                        infoAboutAvailabilityNode2.put("serviceShortName" + elementNode2.getKey(), elementNode1.getValue());
+                    }
+                    else {
+                        infoAboutAvailabilityNode2.put("serviceShortName" + elementNode2.getKey(), null);
+                    }
+                }
+            }
+        }
+
+        for(Map.Entry<String, JsonNode> te : infoAboutAvailabilityNode1.entrySet()) {
+            System.out.println(te.getKey() + te.getValue());
+        }
+        for(Map.Entry<String, JsonNode> te : infoAboutAvailabilityNode2.entrySet()) {
+            System.out.println(te.getKey() + te.getValue());
+        }
+
+        int l = 0;
+
+
+
+
 
     }
 
