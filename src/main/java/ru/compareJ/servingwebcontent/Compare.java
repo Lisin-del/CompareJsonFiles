@@ -78,6 +78,7 @@ public class Compare {
             infoAboutAvailabilityNode2.put("nodeServicesTopObject", null);
         }
 
+        //CHECK SERVICE-SHORT-NAME
         for(Map.Entry<String, JsonNode> elementNode1 : infoAboutAvailabilityNode1.entrySet()) {
             for(Map.Entry<String, JsonNode> elementNode2 : infoAboutAvailabilityNode2.entrySet()) {
                 if(elementNode1.getKey().equals(elementNode2.getKey())) {
@@ -94,6 +95,25 @@ public class Compare {
                     else {
                         infoAboutAvailabilityNode2.put("serviceShortName" + elementNode2.getKey(), null);
                     }
+
+                    if(infoAboutAvailabilityNode1.get("service-short-name" + elementNode1.getKey()) != null &&
+                            infoAboutAvailabilityNode2.get("service-short-name" + elementNode2.getKey()) != null) {
+                        if(elementNode1.getValue().get("service-short-name").getNodeType().equals(JsonNodeType.STRING) &&
+                                elementNode2.getValue().get("service-short-name").getNodeType().equals(JsonNodeType.STRING)) {
+                            if(elementNode1.getValue().get("service-short-name").asText().equals(elementNode2.getValue().get("service-short-name").asText())) {
+                                infoAboutCompareProcess.put("servicesShortName", infoCompareOk);
+                            }
+                            else {
+                                infoAboutCompareProcess.put("servicesShortName", infoCompareNotEqual);
+                            }
+                        }
+                        else {
+                            infoAboutCompareProcess.put("servicesShortName", infoCompareWrongType);
+                        }
+                    }
+                    else {
+                        infoAboutCompareProcess.put("servicesShortName", infoCompareNotExist);
+                    }
                 }
             }
         }
@@ -101,10 +121,14 @@ public class Compare {
         for(Map.Entry<String, JsonNode> te : infoAboutAvailabilityNode1.entrySet()) {
             System.out.println(te.getKey() + te.getValue());
         }
+        System.out.println();
         for(Map.Entry<String, JsonNode> te : infoAboutAvailabilityNode2.entrySet()) {
             System.out.println(te.getKey() + te.getValue());
         }
-
+        System.out.println();
+        for(Map.Entry<String, String> te : infoAboutCompareProcess.entrySet()) {
+            System.out.println(te.getKey() + te.getValue());
+        }
         int l = 0;
 
 
