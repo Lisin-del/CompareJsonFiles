@@ -9,11 +9,10 @@
     },
     "services": [
 		{
-            "service-short-name": "TEST_1",
             "service_name": "test-service-1",
             "artifact_type": "zip",
             "docker_registry": "docker.io:12345",
-            "docker_image_name": "busybox", 
+            "docker_image_name": "busybox",
             "docker_tag": "1.33.0",
             "force": true,
             "github_repository": "https://github.com/mirror/busybox",

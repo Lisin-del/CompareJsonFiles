@@ -32,11 +32,6 @@ public class App {
             System.out.println("it is not work!");
         }
 
-        System.out.println((compare.getInfoAboutCompareProcess().get("metadataDescriptionVersion").equals("exist wrongType notEqual") ||
-                compare.getInfoAboutCompareProcess().get("metadataDescriptionVersion").equals("exist type equal")) ? "lolwork" : "lolnowork");
-
-
-
 
     }
 

@@ -1,0 +1,15 @@
+#twoColumns {
+    whiet-space: nowrap;
+}
+
+.rightColumn {
+    white-space: normal;
+    display: inline-block;
+    width: 48%;
+}
+
+.leftColumn {
+    white-space: normal;
+    display: inline-block;
+    width: 48%;
+}
