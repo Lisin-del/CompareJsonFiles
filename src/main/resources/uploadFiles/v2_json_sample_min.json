@@ -8,6 +8,21 @@
         }
     },
     "services": [
+        {
+            "service_name": "test-service-1",
+            "artifact_type": "zip",
+            "docker_registry": "docker.io:12345",
+            "docker_image_name": "busybox",
+            "docker_tag": "1.33.0",
+            "force": true,
+            "github_repository": "https://github.com/mirror/busybox",
+            "github_branch": "master",
+            "github_hash": "qwerty123456789qwerty123456789qwerty111q",
+            "hashes": {
+                "sha1": "749d65718qwec394eae890e7137898419b48b021",
+                "sha256": "5123772326b5821234a130987930e1c46cvbnf10ce768199d56e4b874dfghjkl"
+            }
+        }
 	
     ],
     "artifacts": [ 
@@ -16,7 +31,7 @@
     "script": [
 
     ],
-    "parameters": {
+	"parameters": {
 
     }
 }

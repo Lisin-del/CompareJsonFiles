@@ -12,7 +12,10 @@ public class HomeController {
     public String greeting(Model model) {
         model.addAttribute("title", "Главная страница");
         model.addAttribute("jsonFile1Version", 3);
-        model.addAttribute("testlol", Compare.infoAboutCompareProcess);
+        model.addAttribute("compare", Compare.infoAboutCompareProcess);
+
+        model.addAttribute("file1", App.nodeFile1);
+        model.addAttribute("file2", App.nodeFile2);
         return "homepage";
     }
 

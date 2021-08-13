@@ -7,7 +7,27 @@
 <body>
 <p>Загрузите ваш файл!</p>
 <div>
-    <p th:style = "${(testlol.metadataDescriptionVersion.equals('exist wrongType notEqual') || testlol.metadataDescriptionVersion.equals('exist type notEqual'))  ? 'color: red;' : 'color: green;' }" th:text = "'version: ' +  ${jsonFile1Version}" />
+    <p th:style = "${(compare.metadataDescriptionVersion.equals('exist wrongType notEqual') || compare.metadataDescriptionVersion.equals('exist type notEqual'))  ? 'color: red;' : 'color: green;' }"
+       th:text = "'version: ' +  ${jsonFile1Version}" />
+    <p th:style = "${(file1.get('services').get(0).get('service-short-name') == null && file2.get('services').get(0).get('service-short-name') != null) ? 'color: red;' : 'color: green;'}"
+            th:text = "'service-short-nameFile1:' + ${file1.get('services').get(0).get('service-short-name')}" />
+    <p th:style = "${(file1.get('services').get(0).get('service-short-name') != null && file2.get('services').get(0).get('service-short-name') == null) ? 'color: red;' : 'color: green;'}"
+            th:text = "'service-short-nameFile2:' + ${file2.get('services').get(0).get('service-short-name')}"/>
+
+
+    <div th:style = "${(available.node1ServicesTopObject.equals('exist') && available.node2ServicesTopObject.equals('notExist')) ? 'color: green;' : 'color: red;'}">
+        <p th:text = "'service-short-name: ' + ${file1.get('services').get(0).get('service-short-name')}"/>
+        <p th:text = "'service_name: ' + ${file1.get('services').get(0).get('service_name')}"/>
+        <p th:text = "'artifact_type: ' + ${file1.get('services').get(0).get('artifact_type')}"/>
+        <p th:text = "'docker_registry: ' + ${file1.get('services').get(0).get('docker_registry')}"/>
+
+    </div>
+    <div>
+        <p th:text = "'service-short-name: ' + ${file2.get('services').get(0).get('service-short-name')}"/>
+        <p th:text = "'service_name: ' + ${file2.get('services').get(0).get('service_name')}"/>
+        <p th:text = "'artifact_type: ' + ${file2.get('services').get(0).get('artifact_type')}"/>
+        <p th:text = "'docker_registry: ' + ${file2.get('services').get(0).get('docker_registry')}"/>
+    </div>
 </div>
 </body>
 </html>
