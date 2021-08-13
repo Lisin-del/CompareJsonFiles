@@ -6,9 +6,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
+
+
     @GetMapping("/")
     public String greeting(Model model) {
         model.addAttribute("title", "Главная страница");
+        model.addAttribute("jsonFile1Version", 3);
+        model.addAttribute("testlol", Compare.infoAboutCompareProcess);
         return "homepage";
     }
+
+
 }

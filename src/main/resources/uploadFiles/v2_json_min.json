@@ -1,10 +1,10 @@
 {
     "metadata": {
         "description": {
-            "version": "2"
+            "version": 2
         },
         "application": {
-            "name": "application_name"
+            "name": "application_new_name"
         }
     },
     "services": [
