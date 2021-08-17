@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type = "text/css" href="css/st.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title th:text = "${title}"></title>
+</head>
+<body>
+
+<div th:each = "filetest1 : ${node1}">h
+    <p th:text = ${filetest1}/>
+</div>
+
+<div th:each = "filetest2 : ${node2}">h
+    <p th:text = ${filetest2}/>
+</div>
+</body>
+</html>

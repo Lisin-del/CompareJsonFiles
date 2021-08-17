@@ -5,52 +5,65 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.HashMap;
 
 public class Compare {
-    private String infoCompareOk = "exist type equal";
-    private String infoCompareNotEqual = "exist type notEqual";
-    private String infoCompareWrongType = "exist wrongType notEqual";
+    public static HashMap<String, JsonNode> checkAvailabilityElement = new HashMap<>();
+    public static HashMap<String, ResultCompare> resultCompareFiles = new HashMap<>();
 
-    //sample new method
-    public static HashMap<String, String> infoElementsFiles = new HashMap<>();
-    public static HashMap<String, String> infoCompareFiles = new HashMap<>();
+    private JsonNode node1;
+    private JsonNode node2;
 
-    private CheckElementsMetadata checkElementsMetadata = new CheckElementsMetadata();
-    private CheckElementsServices checkElementsServices = new CheckElementsServices();
+    private ValidatorJson validatorJson = new ValidatorJson();
 
-    public void compareJsonFile(JsonNode node1, JsonNode node2) {
-        //---METADATA---
-        //---compare versions---
-        if(checkElementsMetadata.typeVersionMetadata(node1, node2)) {
-            if(checkElementsMetadata.compareVersionsMetadata(node1, node2)) {
-                infoCompareFiles.put("metadataVersion", infoCompareOk);
+    public void compareFiles() {
+        if(validatorJson.validationObjectJson(node1) && validatorJson.validationObjectJson(node2)) {
+            if(node1.hashCode() == node2.hashCode()) {
+
             }
             else {
-                infoCompareFiles.put("metadataVersion", infoCompareNotEqual);
+                
             }
         }
         else {
-            infoCompareFiles.put("metadataVersion", infoCompareWrongType);
+            resultCompareFiles.put("validFile", ResultCompare.WRONGSTRUCTURE);
         }
-
-
-        //---compare names---
-        if(checkElementsMetadata.typeNameMetadata(node1, node2)) {
-            if(checkElementsMetadata.compareNamesMetadata(node1, node2)) {
-                infoCompareFiles.put("metadataName", infoCompareOk);
-            }
-            else {
-                infoCompareFiles.put("metadataName", infoCompareNotEqual);
-            }
-        }
-        else {
-            infoCompareFiles.put("metadataName", infoCompareWrongType);
-        }
-
-
-
-        //---SERVICES---
-
-
     }
 
 
+
+
+
+
+
+
+
+    public static HashMap<String, JsonNode> getCheckAvailabilityElement() {
+        return checkAvailabilityElement;
+    }
+
+    public static void setCheckAvailabilityElement(HashMap<String, JsonNode> checkAvailabilityElement) {
+        Compare.checkAvailabilityElement = checkAvailabilityElement;
+    }
+
+    public static HashMap<String, ResultCompare> getResultCompareFiles() {
+        return resultCompareFiles;
+    }
+
+    public static void setResultCompareFiles(HashMap<String, ResultCompare> resultCompareFiles) {
+        Compare.resultCompareFiles = resultCompareFiles;
+    }
+
+    public JsonNode getNode1() {
+        return node1;
+    }
+
+    public void setNode1(JsonNode node1) {
+        this.node1 = node1;
+    }
+
+    public JsonNode getNode2() {
+        return node2;
+    }
+
+    public void setNode2(JsonNode node2) {
+        this.node2 = node2;
+    }
 }

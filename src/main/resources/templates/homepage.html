@@ -4,25 +4,18 @@
     <title th:text = "${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type = "text/css" href="css/st.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 </head>
 <body>
-    <p>Lol</p>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
-    <div id = "twoColumns">
-        <div class = "rightColumn">
-            <p th:text = "'service-short-name: ' + ${file1.get('services').get(0).get('service-short-name')}"/>
-            <p th:text = "'service_name: ' + ${file1.get('services').get(0).get('service_name')}"/>
-            <p th:text = "'artifact_type: ' + ${file1.get('services').get(0).get('artifact_type')}"/>
-            <p th:text = "'docker_registry: ' + ${file1.get('services').get(0).get('docker_registry')}"/>
-        </div>
-        <div class = "leftColumn">
-            <p th:text = "'service-short-name: ' + ${file2.get('services').get(0).get('service-short-name')}"/>
-            <p th:text = "'service_name: ' + ${file2.get('services').get(0).get('service_name')}"/>
-            <p th:text = "'artifact_type: ' + ${file2.get('services').get(0).get('artifact_type')}"/>
-            <p th:text = "'docker_registry: ' + ${file2.get('services').get(0).get('docker_registry')}"/>
-        </div>
-    </div>
 
+    <form action="/uploads" method="post" enctype="multipart/form-data">
+        <input type="file" name="uploadFiles" value = "Выбрать файл"><br/>
+        <input type="file" name="uploadFiles" value = "Выбрать файл"><br/>
+        <input class="btn btn-secondary" type="submit" value = "Upload">
+        <a type="button" class="btn btn-secondary" href="http://localhost:8080/result" role="button">Result</a>
+    </form>
 
 
 

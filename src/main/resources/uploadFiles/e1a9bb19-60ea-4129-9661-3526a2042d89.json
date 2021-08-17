@@ -1,0 +1,22 @@
+{
+    "metadata": {
+        "description": {
+            "version": 2
+        },
+        "application": {
+            "name": "application_name"
+        }
+    },
+    "services": [
+	
+    ],
+    "artifacts": [ 
+
+    ],
+    "script": [
+
+    ],
+    "parameters": {
+
+    }
+}
