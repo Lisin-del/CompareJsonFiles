@@ -7,6 +7,7 @@ public enum ResultCompare {
     NOTEQUAL,
     TYPE,
     WRONGTYPE,
-    WRONGSTRUCTURE
+    WRONGSTRUCTURE,
+    WRONGEXTENSION
 
 }

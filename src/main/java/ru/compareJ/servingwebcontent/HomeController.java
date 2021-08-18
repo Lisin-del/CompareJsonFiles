@@ -17,13 +17,15 @@ import java.util.UUID;
 
 @Controller
 public class HomeController {
+
     Compare compareFiles = new Compare();
+
     @GetMapping("/")
     public String greeting(Model model) {
         deleteAllFilesFolder("./src/main/resources/uploadFiles/");
         model.addAttribute("title", "Home page");
-        model.addAttribute("file1", compareFiles.getNode1());
-        model.addAttribute("file2", compareFiles.getNode2());
+        model.addAttribute("node1", compareFiles.getNode1());
+        model.addAttribute("node2", compareFiles.getNode2());
         return "homepage";
     }
 
@@ -43,12 +45,12 @@ public class HomeController {
      */
     @PostMapping("/uploads")
     public String uploads(MultipartFile[] uploadFiles, HttpServletRequest req, Model model){
-        deleteAllFilesFolder("./src/main/resources/uploadFiles/");
+
         List<String> list = new ArrayList<>(); // Генерируем путь хранения нескольких файлов
         if (uploadFiles.length > 0){
             for (MultipartFile file:uploadFiles){
                 MultipartFile uploadFile = file;
-                //String realPath = req.getSession().getServletContext().getRealPath(uploadPath);
+                String realPath = req.getSession().getServletContext().getRealPath(uploadPath);
                 String format = sdf.format(new Date());
                 File folder = new File(uploadPath);
                 if (!folder.isDirectory()){ // Если текущий каталог не существует
@@ -63,6 +65,7 @@ public class HomeController {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+
             }
 
         }else if (uploadFiles.length == 0){
@@ -75,6 +78,7 @@ public class HomeController {
 
         compareFiles.setNode1(node.getJsonNode(parserJson.getResultStringFile1()));
         compareFiles.setNode2(node.getJsonNode(parserJson.getResultStringFile2()));
+        deleteAllFilesFolder("./src/main/resources/uploadFiles/");
         return "homepage";
     }
 
@@ -92,6 +96,9 @@ public class HomeController {
         model.addAttribute("title", "Result page");
         model.addAttribute("node1", compareFiles.getNode1());
         model.addAttribute("node2", compareFiles.getNode2());
+        model.addAttribute("result", Compare.resultCompareFiles);
+        model.addAttribute("checkElement", Compare.checkAvailabilityElement);
+        model.addAttribute("enumRes", ResultCompare.values());
         compareFiles.compareFiles();
 
         return "resultpage";

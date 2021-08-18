@@ -14,9 +14,11 @@ public class Compare {
     private ValidatorJson validatorJson = new ValidatorJson();
 
     public void compareFiles() {
-        if(validatorJson.validationObjectJson(node1) && validatorJson.validationObjectJson(node2)) {
+        checkAvailabilityElement.clear();
+        resultCompareFiles.clear();
+        if(validatorJson.validationObjectJson(node1) & validatorJson.validationObjectJson(node2)) {
             if(node1.hashCode() == node2.hashCode()) {
-
+                resultCompareFiles.put("nodes", ResultCompare.EQUAL);
             }
             else {
                 
@@ -25,31 +27,12 @@ public class Compare {
         else {
             resultCompareFiles.put("validFile", ResultCompare.WRONGSTRUCTURE);
         }
+        int l = 0;
     }
 
 
 
 
-
-
-
-
-
-    public static HashMap<String, JsonNode> getCheckAvailabilityElement() {
-        return checkAvailabilityElement;
-    }
-
-    public static void setCheckAvailabilityElement(HashMap<String, JsonNode> checkAvailabilityElement) {
-        Compare.checkAvailabilityElement = checkAvailabilityElement;
-    }
-
-    public static HashMap<String, ResultCompare> getResultCompareFiles() {
-        return resultCompareFiles;
-    }
-
-    public static void setResultCompareFiles(HashMap<String, ResultCompare> resultCompareFiles) {
-        Compare.resultCompareFiles = resultCompareFiles;
-    }
 
     public JsonNode getNode1() {
         return node1;

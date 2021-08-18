@@ -1,12 +1,12 @@
 package ru.compareJ.servingwebcontent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class ParserJson {
-    private File directoryUploads = new File("./src/main/resources/uploadFiles/");
-    private File[] files = directoryUploads.listFiles();
 
     private BufferedReader buffReaderFile1;
     private BufferedReader buffReaderFile2;
@@ -16,24 +16,48 @@ public class ParserJson {
     private String line;
 
     public void read() {
-       try {
-           buffReaderFile1 = new BufferedReader(new FileReader(files[0]));
-           while((line = buffReaderFile1.readLine()) != null) {
-               resultStringFile1.append(line);
-           }
+        File directoryUploads = new File("./src/main/resources/uploadFiles/");
+        ArrayList<File> files = new ArrayList<>();
+        for(File file : directoryUploads.listFiles()) {
+            String ext = FilenameUtils.getExtension(file.getName());
+            if(ext.equals("json")) {
+                files.add(file);
+            }
+        }
 
-           buffReaderFile2 = new BufferedReader(new FileReader(files[1]));
-           while((line = buffReaderFile2.readLine()) != null) {
-               resultStringFile2.append(line);
-           }
+        if(files.size() == 2) {
+            try {
+                buffReaderFile1 = new BufferedReader(new FileReader(files.get(0)));
+                while((line = buffReaderFile1.readLine()) != null) {
+                    resultStringFile1.append(line);
+                }
+
+                buffReaderFile2 = new BufferedReader(new FileReader(files.get(1)));
+                while((line = buffReaderFile2.readLine()) != null) {
+                    resultStringFile2.append(line);
+                }
 
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            finally {
+                try {
+                    buffReaderFile1.close();
+                    buffReaderFile2.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else {
+            Compare.resultCompareFiles.put("extension", ResultCompare.WRONGEXTENSION);
         }
     }
+
+
 
     //getting the result string
     public String getResultStringFile1() {
