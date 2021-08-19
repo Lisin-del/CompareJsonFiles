@@ -92,13 +92,19 @@ public class HomeController {
 
     @GetMapping("/result")
     public String result(Model model) {
-
+        int var = 0;
         model.addAttribute("title", "Result page");
         model.addAttribute("node1", compareFiles.getNode1());
         model.addAttribute("node2", compareFiles.getNode2());
         model.addAttribute("result", Compare.resultCompareFiles);
         model.addAttribute("checkElement", Compare.checkAvailabilityElement);
-        model.addAttribute("enumRes", ResultCompare.values());
+        model.addAttribute("EXIST", ResultCompare.EXIST);
+        model.addAttribute("NOTEXIST", ResultCompare.NOTEXIST);
+        model.addAttribute("EQUAL", ResultCompare.EQUAL);
+        model.addAttribute("NOTEQUAL", ResultCompare.NOTEQUAL);
+        model.addAttribute("WRONGTYPE", ResultCompare.WRONGTYPE);
+        model.addAttribute("WRONGSTRUCTURE", ResultCompare.WRONGSTRUCTURE);
+        model.addAttribute("variable", var);
 
 
         compareFiles.compareFiles();

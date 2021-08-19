@@ -14,28 +14,31 @@
             <div class="col-lg-6 col-md-6">
                 <h3>Json file #1</h3>
 
-                <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('nodes') == enum}">
-                    <div th:each = "filetest : ${node1}">
-                        <p th:text = ${filetest}/>
-                    </div>
-                </th:block>
-
-                <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('validFile') == enum}">
+                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
                     <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
                 </th:block>
+
+                <th:block th:each = "resCom : ${result}" th:with = "sumhash = ${(node1.hashCode() + node2.hashCode())}" th:if = "${resCom.key == sumhash}">
+                    <th:block th:each = "node : ${node1}">
+                        <p th:text = "${node}"/>
+                    </th:block>
+                </th:block>
+
             </div>
 
             <div class="col-lg-6 col-md-6">
                 <h3>Json file #2</h3>
-                <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('nodes') == enum}">
-                    <div th:each = "filetest : ${node2}">
-                        <p th:text = ${filetest}/>
-                    </div>
-                </th:block>
 
-                <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('validFile') == enum}">
+                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
                     <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
                 </th:block>
+
+                <th:block th:each = "resCom : ${result}" th:with = "sumhash = ${(node1.hashCode() + node2.hashCode())}" th:if = "${resCom.key == sumhash}">
+                    <th:block th:each = "node : ${node2}">
+                        <p th:text = "${node}"/>
+                    </th:block>
+                </th:block>
+
             </div>
 
         </div>
