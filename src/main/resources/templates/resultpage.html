@@ -8,50 +8,36 @@
     <title th:text = "${title}"></title>
 </head>
 <body>
-<div class="row justify-content-center">
-    <div class="row">
-        <div class="col-lg-6 col-md-6">
-            <h3>Json file #1</h3>
-            <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('nodes') == enum}">
-                <div th:each = "filetest : ${node1}">
-                    <p th:text = ${filetest}/>
-                </div>
-            </th:block>
+    <div class="row justify-content-center">
+        <div class="row">
 
-            <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('extension') == enum}">
-                <h5>Your file has incorrect extension!</h5>
-            </th:block>
+            <div class="col-lg-6 col-md-6">
+                <h3>Json file #1</h3>
+                <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('nodes') == enum}">
+                    <div th:each = "filetest : ${node1}">
+                        <p th:text = ${filetest}/>
+                    </div>
+                </th:block>
 
-            <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('validFile') == enum}">
-                <h5>Your file has incorrect structure!Please check your file!</h5>
-            </th:block>
-
-            <div th:each = "t : ${result}">
-                <p th:text = "${t.value}"/>
+                <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('validFile') == enum}">
+                    <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
+                </th:block>
             </div>
 
+            <div class="col-lg-6 col-md-6">
+                <h3>Json file #2</h3>
+                <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('nodes') == enum}">
+                    <div th:each = "filetest : ${node2}">
+                        <p th:text = ${filetest}/>
+                    </div>
+                </th:block>
 
-        </div>
-
-        <div class="col-lg-6 col-md-6">
-            <h3>Json file #2</h3>
-            <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('nodes') == enum}">
-                <div th:each = "filetest : ${node2}">
-                    <p th:text = ${filetest}/>
-                </div>
-            </th:block>
-
-            <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('extension') == enum}">
-                <h5>Your file has incorrect extension!</h5>
-            </th:block>
-
-            <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('validFile') == enum}">
-                <h5>Your file has incorrect structure!Please check your file!</h5>
-            </th:block>
-
+                <th:block th:each = "enum : ${enumRes}" th:if = "${result.get('validFile') == enum}">
+                    <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
+                </th:block>
+            </div>
 
         </div>
     </div>
-</div>
 </body>
 </html>

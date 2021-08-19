@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
 
+
 public class Compare {
     public static HashMap<String, JsonNode> checkAvailabilityElement = new HashMap<>();
     public static HashMap<String, ResultCompare> resultCompareFiles = new HashMap<>();
@@ -16,18 +17,18 @@ public class Compare {
     public void compareFiles() {
         checkAvailabilityElement.clear();
         resultCompareFiles.clear();
+
         if(validatorJson.validationObjectJson(node1) & validatorJson.validationObjectJson(node2)) {
             if(node1.hashCode() == node2.hashCode()) {
                 resultCompareFiles.put("nodes", ResultCompare.EQUAL);
             }
             else {
-                
+
             }
         }
         else {
             resultCompareFiles.put("validFile", ResultCompare.WRONGSTRUCTURE);
         }
-        int l = 0;
     }
 
 

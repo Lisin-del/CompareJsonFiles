@@ -99,6 +99,8 @@ public class HomeController {
         model.addAttribute("result", Compare.resultCompareFiles);
         model.addAttribute("checkElement", Compare.checkAvailabilityElement);
         model.addAttribute("enumRes", ResultCompare.values());
+
+
         compareFiles.compareFiles();
 
         return "resultpage";

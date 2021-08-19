@@ -52,9 +52,6 @@ public class ParserJson {
                 }
             }
         }
-        else {
-            Compare.resultCompareFiles.put("extension", ResultCompare.WRONGEXTENSION);
-        }
     }
 
 
