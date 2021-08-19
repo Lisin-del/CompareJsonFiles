@@ -1,29 +1,5 @@
-#twoColumns {
-    whiet-space: nowrap;
-}
-
-.rightColumn {
-    white-space: normal;
-    display: inline-block;
-    width: 48%;
-}
-
-.leftColumn {
-    white-space: normal;
-    display: inline-block;
-    width: 48%;
-}
-
-.red {
-    color: #FF382C;
-}
-
-.green {
-    color: #00D36E;
-}
-
-.yellow {
-    color: #FFBB00;
+.p {
+    background-color: #B34EE9;
 }
 
 

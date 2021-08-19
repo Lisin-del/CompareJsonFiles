@@ -8,6 +8,9 @@ import java.util.HashMap;
 public class Compare {
     public static HashMap<String, JsonNode> checkAvailabilityElement = new HashMap<>();
     public static HashMap<String, ResultCompare> resultCompareFiles = new HashMap<>();
+    private CompareMetadata compareMetadata = new CompareMetadata();
+
+
 
     private JsonNode node1;
     private JsonNode node2;
@@ -23,6 +26,7 @@ public class Compare {
                 resultCompareFiles.put("nodes", ResultCompare.EQUAL);
             }
             else {
+                compareMetadata.metadataCompare(node1, node2);
 
             }
         }
