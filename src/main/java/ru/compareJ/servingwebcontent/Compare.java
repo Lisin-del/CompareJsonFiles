@@ -23,11 +23,11 @@ public class Compare {
 
         if(validatorJson.validationObjectJson(node1) & validatorJson.validationObjectJson(node2)) {
             if(node1.hashCode() == node2.hashCode()) {
-                int hash = node1.hashCode() + node2.hashCode();
+                int hash = node1.hashCode();
                 resultCompareFiles.put(hash, ResultCompare.EQUAL);
             }
             else {
-                int hash = node1.hashCode() + node2.hashCode();
+                int hash = node1.hashCode();
                 resultCompareFiles.put(hash, ResultCompare.NOTEQUAL);
                 compareMetadata.metadataCompare(node1, node2);
                 compareServices.servicesCompare(node1, node2);

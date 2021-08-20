@@ -106,6 +106,10 @@ public class HomeController {
         model.addAttribute("WRONGSTRUCTURE", ResultCompare.WRONGSTRUCTURE);
         model.addAttribute("variable", var);
 
+//        for(ResultCompare resultCompare : ResultCompare.values()) {
+//            model.addAttribute(resultCompare.toString(), resultCompare);
+//        }
+
 
         compareFiles.compareFiles();
 
