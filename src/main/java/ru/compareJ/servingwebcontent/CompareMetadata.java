@@ -33,5 +33,8 @@ public class CompareMetadata {
                 Compare.resultCompareFiles.put(hash2, ResultCompare.NOTEQUAL);
             }
         }
+        else if(node1.get("metadata").hashCode() == node2.get("metadata").hashCode()) {
+            Compare.resultCompareFiles.put(node1.get("metadata").hashCode(), ResultCompare.EQUAL);
+        }
     }
 }
