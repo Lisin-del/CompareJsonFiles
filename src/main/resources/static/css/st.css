@@ -1,11 +1,15 @@
 .green {
-    color: #27DB78;
+    background-color: #7AE969;
 }
 
 .red {
-    color: #DB3727;
+    background-color: #FC717B;
 }
 
 .orange {
-    color: #EB9F00;
+    background-color: #FFAE73;
+}
+
+.space {
+    margin-left: 20px;
 }
