@@ -114,6 +114,24 @@
 
                         }</div>
 
+                        <!--parameters-->
+                        <div th:if = "${node == 'parameters'}">"parameters": {
+                            <div th:each = "field : ${node1.get('parameters').fields()}">
+
+                                <div class = "space" th:if = "${field.getKey() == 'common'}">"common": {
+                                    <div th:each = "fieldCommon : ${field.getValue().fields()}">
+                                        <p class = "space" th:text = "${fieldCommon}"/>
+                                    </div>
+                                }</div>
+
+                                <div class = "space" th:if = "${field.getKey() == 'services'}">"services": {
+                                    <div th:each = "fieldServices : ${field.getValue().fields()}">
+                                        <p class = "space" th:text = "${fieldServices}"/>
+                                    </div>
+                                }</div>
+                            </div>
+                        }</div>
+
 
                     </th:block>
                 </th:block>
@@ -272,6 +290,24 @@
                             </div>
 
                         }</div>
+
+                        <!--parameters-->
+                        <div th:if = "${node == 'parameters'}">"parameters": {
+                            <div th:each = "field : ${node2.get('parameters').fields()}">
+
+                                <div class = "space" th:if = "${field.getKey() == 'common'}">"common": {
+                                    <div th:each = "fieldCommon : ${field.getValue().fields()}">
+                                        <p class = "space" th:text = "${fieldCommon}"/>
+                                    </div>
+                                    }</div>
+
+                                <div class = "space" th:if = "${field.getKey() == 'services'}">"services": {
+                                    <div th:each = "fieldServices : ${field.getValue().fields()}">
+                                        <p class = "space" th:text = "${fieldServices}"/>
+                                    </div>
+                                    }</div>
+                            </div>
+                            }</div>
 
                     </th:block>
                 </th:block>
