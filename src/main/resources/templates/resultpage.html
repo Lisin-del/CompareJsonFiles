@@ -21,7 +21,7 @@
                 </th:block>
 
                 <!--check equal files-->
-                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.hashCode() and resCom.value == EQUAL}">
+                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == EQUAL}">
                     <th:block th:each = "node : ${node1.fieldNames()}">
                         <!--metadata-->
                         <div th:if = "${node == 'metadata'}" >"metadata": {
@@ -43,28 +43,83 @@
                         ]</div>
 
                         <!--artifacts-->
-                        <div th:if = "${node == 'artifacts'}" th:each = "topObj : ${node1.get('artifacts')}">"artifacts": [
-                            <!--mvn-->
-                            <div class = "space" th:if = "${topObj.get('mvn') != null}">"mvn": [
-                                <div class = "space" th:each = "elementMvn : ${topObj.get('mvn')}">{
-                                    <div th:each = "field : ${elementMvn.fields()}">
-                                        <p th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
-                                        <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
-                                            <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
-                                        }</div>
-                                    </div>
+                        <div th:if = "${node == 'artifacts'}" >"artifacts": [
+
+                            <th:block th:each = "topObj : ${node1.get('artifacts')}">
+                                <!--mvn-->
+                                <div class = "space" th:if = "${topObj.get('mvn') != null}">{"mvn": [
+
+                                    <div class = "space" th:each = "elementMvn : ${topObj.get('mvn')}">{
+
+                                        <div th:each = "field : ${elementMvn.fields()}">
+                                            <p th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
+
+                                            <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
+                                                <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
+                                            }</div>
+                                        </div>
+
+                                    }</div>
+
+                                ]</div>
+
+                                <!--target_repository-->
+                                <div class = "space" th:each = "fieldTopObj : ${topObj.fields()}" th:if = "${topObj.get('mvn') != null and fieldTopObj.getKey() == 'target_repository'}">
+                                    <p class = "space" th:text = "${fieldTopObj}"/>
                                 }</div>
-                            ]</div>
 
-                            <!--top objects artifacts-->
+                                <!--top objects of the artifacts-->
+                                <div class = "space" th:if = "${topObj.get('mvn') == null}">{
 
+                                    <div  th:each = "fieldTopObj : ${topObj.fields()}">
+                                        <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes' and fieldTopObj.getKey() != 'file'}" th:text = "${fieldTopObj}"/>
+
+                                        <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
+                                            <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
+                                        }</div>
+
+                                        <div class = "space" th:if = "${fieldTopObj.getKey() == 'file'}" >"file": [
+                                            <p class = "space" th:each = "fileFile : ${fieldTopObj.getValue()}" th:text = "${fileFile}"/>
+                                        ]</div>
+                                    </div>
+
+                                }</div>
+
+                            </th:block>
                         ]</div>
+
+                        <!--script-->
+                        <div th:if = "${node == 'script'}">"script": [
+                            <div class = "space" th:each = "topObj : ${node1.get('script')}">{
+                                <div th:each = "fieldTopObj : ${topObj.fields()}">
+                                    <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes'}" th:text = "${fieldTopObj}"/>
+
+                                    <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
+                                        <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
+                                    }</div>
+                                </div>
+                            }</div>
+                        ]</div>
+
+                        <!--rpm-->
+                        <div th:if = "${node == 'rpm'}">"rpm": {
+
+                            <div th:each = "field : ${node1.get('rpm').fields()}">
+                                <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
+
+                                <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
+                                    <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
+                                }</div>
+                            </div>
+
+                        }</div>
+
 
                     </th:block>
                 </th:block>
 
                 <!--check metadata-->
-                <div th:each = "resCom : ${result}" th:if = "${resCom.key == node1.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
+                <div th:each = "resCom : ${result}" th:if = "${ resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
 
                     <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('metadata').hashCode() and resCom.value == EQUAL}">
                         <div th:each = "field : ${node1.get('metadata').fields()}">
@@ -86,7 +141,7 @@
                 }</div><br/>
 
                 <!--check services-->
-                <label th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
+                <label th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
 
                     <th:block th:each = "service : ${node1.get('services')}">
 
@@ -106,7 +161,7 @@
 
                 ]</label>
 
-                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">
+                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">
                     <div th:each = "service : ${node1.get('services')}">
                         <p th:text = "${service}"/>
                     </div>
@@ -125,7 +180,7 @@
                 </th:block>
 
                 <!--check equal files-->
-                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.hashCode() and resCom.value == EQUAL}">
+                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == EQUAL}">
                     <th:block th:each = "node : ${node2.fieldNames()}">
                         <!--metadata-->
                         <div th:if = "${node == 'metadata'}" >"metadata": {
@@ -147,29 +202,82 @@
                         ]</div>
 
                         <!--artifacts-->
-                        <div th:if = "${node == 'artifacts'}" th:each = "topObj : ${node2.get('artifacts')}">"artifacts": [
-                            <!--mvn-->
-                            <div class = "space" th:if = "${topObj.get('mvn') != null}">"mvn": [
-                                <div class = "space" th:each = "elementMvn : ${topObj.get('mvn')}">{
-                                    <div th:each = "field : ${elementMvn.fields()}">
-                                        <p th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
-                                        <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
-                                            <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
-                                        }</div>
-                                    </div>
+                        <div th:if = "${node == 'artifacts'}" >"artifacts": [
+
+                            <th:block th:each = "topObj : ${node2.get('artifacts')}">
+                                <!--mvn-->
+                                <div class = "space" th:if = "${topObj.get('mvn') != null}">{"mvn": [
+
+                                    <div class = "space" th:each = "elementMvn : ${topObj.get('mvn')}">{
+
+                                        <div th:each = "field : ${elementMvn.fields()}">
+                                            <p th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
+
+                                            <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
+                                                <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
+                                            }</div>
+                                        </div>
+
+                                    }</div>
+
+                                ]</div>
+
+                                <!--target_repository-->
+                                <div class = "space" th:each = "fieldTopObj : ${topObj.fields()}" th:if = "${topObj.get('mvn') != null and fieldTopObj.getKey() == 'target_repository'}">
+                                    <p class = "space" th:text = "${fieldTopObj}"/>
                                 }</div>
-                            ]</div>
 
-                            <!--top objects artifacts-->
+                                <!--top objects of the artifacts-->
+                                <div class = "space" th:if = "${topObj.get('mvn') == null}">{
 
+                                    <div  th:each = "fieldTopObj : ${topObj.fields()}">
+                                        <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes' and fieldTopObj.getKey() != 'file'}" th:text = "${fieldTopObj}"/>
+
+                                        <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
+                                            <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
+                                        }</div>
+
+                                        <div class = "space" th:if = "${fieldTopObj.getKey() == 'file'}" >"file": [
+                                            <p class = "space" th:each = "fileFile : ${fieldTopObj.getValue()}" th:text = "${fileFile}"/>
+                                        ]</div>
+                                    </div>
+
+                                }</div>
+
+                            </th:block>
                         ]</div>
 
+                        <!--script-->
+                        <div th:if = "${node == 'script'}">"script": [
+                            <div class = "space" th:each = "topObj : ${node2.get('script')}">{
+                                <div th:each = "fieldTopObj : ${topObj.fields()}">
+                                    <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes'}" th:text = "${fieldTopObj}"/>
+
+                                    <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
+                                        <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
+                                    }</div>
+                                </div>
+                            }</div>
+                        ]</div>
+
+                        <!--rpm-->
+                        <div th:if = "${node == 'rpm'}">"rpm": {
+
+                            <div th:each = "field : ${node2.get('rpm').fields()}">
+                                <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
+
+                                <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
+                                    <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
+                                }</div>
+                            </div>
+
+                        }</div>
 
                     </th:block>
                 </th:block>
 
                 <!--check metadata-->
-                <label th:each = "resCom : ${result}" th:if = "${resCom.key == node2.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
+                <label th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
 
                     <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('metadata').hashCode() and resCom.value == EQUAL}">
                         <div th:each = "field : ${node2.get('metadata').fields()}">
@@ -191,7 +299,7 @@
                 }</label><br/>
 
                 <!--check services-->
-                <label th:each = "resCom : ${result}" th:if = "${resCom.key == node2.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
+                <label th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
 
                     <th:block th:each = "service : ${node2.get('services')}">
 
@@ -210,7 +318,7 @@
 
                 ]</label>
 
-                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">
+                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">
                     <div th:each = "service: ${node2.get('services')}">
                         <p th:text = "${service}"/>
                     </div>

@@ -18,6 +18,7 @@ public class ParserJson {
     public void read() {
         File directoryUploads = new File("./src/main/resources/uploadFiles/");
         ArrayList<File> files = new ArrayList<>();
+
         for(File file : directoryUploads.listFiles()) {
             String ext = FilenameUtils.getExtension(file.getName());
             if(ext.equals("json")) {
