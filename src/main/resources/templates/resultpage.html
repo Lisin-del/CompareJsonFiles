@@ -136,6 +136,7 @@
                     </th:block>
                 </th:block>
 
+                <!--####################-->
                 <!--check metadata-->
                 <div th:each = "resCom : ${result}" th:if = "${ resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
 
@@ -156,34 +157,34 @@
                         </div>
 
                     </th:block>
-                }</div><br/>
+                }</div>
 
                 <!--check services-->
-                <label th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
+                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
 
-                    <th:block th:each = "service : ${node1.get('services')}">
+                    <div class = "space" th:each = "service : ${node1.get('services')}">{
 
                         <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOTEQUAL}">
                             <th:block th:each = "field : ${service.fields()}">
-                                <p class = "red" th:text = "${field}"/>
+                                <p class = "space red" th:text = "${field}"/>
                             </th:block>
-                        </div><br/>
+                        </div>
 
                         <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == EQUAL}">
                             <th:block th:each = "field : ${service.fields()}">
-                                <p th:text = "${field}"/>
+                                <p class = "space" th:text = "${field}"/>
                             </th:block>
-                        </div><br/>
+                        </div>
 
-                    </th:block>
+                    }</div>
 
-                ]</label>
+                ]</div>
 
-                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">
+                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">
                     <div th:each = "service : ${node1.get('services')}">
                         <p th:text = "${service}"/>
                     </div>
-                </th:block>
+                </div>
 
 
             </div>
@@ -312,8 +313,9 @@
                     </th:block>
                 </th:block>
 
+                <!--####################-->
                 <!--check metadata-->
-                <label th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
+                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
 
                     <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('metadata').hashCode() and resCom.value == EQUAL}">
                         <div th:each = "field : ${node2.get('metadata').fields()}">
@@ -332,33 +334,33 @@
                         </div>
 
                     </th:block>
-                }</label><br/>
+                }</div>
 
                 <!--check services-->
-                <label th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
+                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
 
-                    <th:block th:each = "service : ${node2.get('services')}">
+                    <div class = "space" th:each = "service : ${node2.get('services')}">{
 
                         <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOTEQUAL}">
                             <th:block th:each = "field : ${service.fields()}">
-                                <p class = "red" th:text = "${field}"/>
+                                <p class = "space red" th:text = "${field}"/>
                             </th:block>
-                        </div><br/>
+                        </div>
 
                         <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == EQUAL}">
                             <th:block th:each = "field : ${service.fields()}">
-                                <p th:text = "${field}"/>
+                                <p class = "space" th:text = "${field}"/>
                             </th:block>
-                        </div><br/>
-                    </th:block>
+                        </div>
+                    }</div>
 
-                ]</label>
+                ]</div>
 
-                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">
+                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">
                     <div th:each = "service: ${node2.get('services')}">
                         <p th:text = "${service}"/>
                     </div>
-                </th:block>
+                </div>
 
             </div>
 
