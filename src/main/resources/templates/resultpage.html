@@ -31,8 +31,8 @@
                         }</div>
 
                         <!--services-->
-                        <div th:if = "${node == 'services'}" th:each = "topObj : ${node1.get('services')}">"services": [
-                            <div>{
+                        <div th:if = "${node == 'services'}">"services": [
+                            <div class = "space" th:each = "topObj : ${node1.get('services')}">{
                                 <div th:each = "field : ${topObj.fields()}">
                                     <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
                                     <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
@@ -209,8 +209,8 @@
                         }</div>
 
                         <!--services-->
-                        <div th:if = "${node == 'services'}" th:each = "topObj : ${node2.get('services')}">"services": [
-                            <div>{
+                        <div th:if = "${node == 'services'}" >"services": [
+                            <div class = "space" th:each = "topObj : ${node2.get('services')}">{
                                 <div th:each = "field : ${topObj.fields()}">
                                     <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
                                     <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {

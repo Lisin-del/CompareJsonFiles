@@ -10,6 +10,7 @@ public class Compare {
     public static HashMap<Integer, ResultCompare> resultCompareFiles = new HashMap<>();
     private CompareMetadata compareMetadata = new CompareMetadata();
     private CompareServices compareServices = new CompareServices();
+    private CompareArtifacts compareArtifacts = new CompareArtifacts();
 
 
     private JsonNode node1;

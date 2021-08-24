@@ -29,13 +29,9 @@ public class HomeController {
         return "homepage";
     }
 
-
     @Value("${multipart.location}")
     private String uploadPath;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
-
-
-
 
     /**
      * Загрузка нескольких файлов
@@ -46,7 +42,6 @@ public class HomeController {
     @PostMapping("/uploads")
     public String uploads(MultipartFile[] uploadFiles, HttpServletRequest req, Model model){
 
-        List<String> list = new ArrayList<>(); // Генерируем путь хранения нескольких файлов
         if (uploadFiles.length > 0){
             for (MultipartFile file:uploadFiles){
                 MultipartFile uploadFile = file;
@@ -60,12 +55,9 @@ public class HomeController {
                 String newName = UUID.randomUUID().toString() + oldName.substring(oldName.lastIndexOf("."),oldName.length()); //Новое имя
                 try {
                     uploadFile.transferTo(new File(folder,newName)); //загрузить файлы
-                    String filePath = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/uploadFile/" + format + newName;
-                    list.add(filePath);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
 
         }else if (uploadFiles.length == 0){
@@ -82,8 +74,6 @@ public class HomeController {
         return "homepage";
     }
 
-
-
     public static void deleteAllFilesFolder(String path) {
         for (File myFile : new File(path).listFiles()) {
             myFile.delete();
@@ -98,22 +88,14 @@ public class HomeController {
         model.addAttribute("node2", compareFiles.getNode2());
         model.addAttribute("result", Compare.resultCompareFiles);
         model.addAttribute("checkElement", Compare.checkAvailabilityElement);
-        model.addAttribute("EXIST", ResultCompare.EXIST);
-        model.addAttribute("NOTEXIST", ResultCompare.NOTEXIST);
-        model.addAttribute("EQUAL", ResultCompare.EQUAL);
-        model.addAttribute("NOTEQUAL", ResultCompare.NOTEQUAL);
-        model.addAttribute("WRONGTYPE", ResultCompare.WRONGTYPE);
-        model.addAttribute("WRONGSTRUCTURE", ResultCompare.WRONGSTRUCTURE);
         model.addAttribute("variable", var);
 
-//        for(ResultCompare resultCompare : ResultCompare.values()) {
-//            model.addAttribute(resultCompare.toString(), resultCompare);
-//        }
-
+        for(ResultCompare resultCompare : ResultCompare.values()) {
+            model.addAttribute(resultCompare.toString(), resultCompare);
+        }
 
         compareFiles.compareFiles();
 
         return "resultpage";
     }
-
 }

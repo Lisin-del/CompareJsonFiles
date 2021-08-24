@@ -10,7 +10,7 @@ public class ValidatorJson {
         int j = 0;
 
         try {
-            if(node.get("metadata").get("description").get("version") != null && node.get("metadata").get("application").get("name") != null) {
+            if(node.get("metadata").get("description").get("version").asInt() == 2 && node.get("metadata").get("application").get("name") != null) {
                 ++j;
             }
             if(node.get("services") != null) {
