@@ -87,8 +87,9 @@ public class HomeController {
         model.addAttribute("node1", compareFiles.getNode1());
         model.addAttribute("node2", compareFiles.getNode2());
         model.addAttribute("result", Compare.resultCompareFiles);
-        model.addAttribute("checkElement", Compare.checkAvailabilityElement);
         model.addAttribute("variable", var);
+        model.addAttribute("checkNoFields1", Compare.checkNoFields1);
+        model.addAttribute("checkNoFields2", Compare.checkNoFields2);
 
         for(ResultCompare resultCompare : ResultCompare.values()) {
             model.addAttribute(resultCompare.toString(), resultCompare);

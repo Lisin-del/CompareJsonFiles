@@ -3,14 +3,20 @@ package ru.compareJ.servingwebcontent;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class Compare {
-    public static HashMap<Integer, ResultCompare> checkAvailabilityElement = new HashMap<>();
+    public static HashMap<String, ResultCompare> checkNoFields1 = new HashMap<>();
+    public static HashMap<String, ResultCompare> checkNoFields2 = new HashMap<>();
     public static HashMap<Integer, ResultCompare> resultCompareFiles = new HashMap<>();
+    public HashMap<Integer, HashMap<String, ResultCompare>> testMap = new HashMap<>();
+
     private CompareMetadata compareMetadata = new CompareMetadata();
     private CompareServices compareServices = new CompareServices();
     private CompareArtifacts compareArtifacts = new CompareArtifacts();
+
+    private CheckFieldsServices checkFieldsServices = new CheckFieldsServices();
 
 
     private JsonNode node1;
@@ -19,7 +25,20 @@ public class Compare {
     private ValidatorJson validatorJson = new ValidatorJson();
 
     public void compareFiles() {
-        checkAvailabilityElement.clear();
+        //# test code
+        testMap.put(2, checkNoFields1);
+        testMap.get(2).put("test", ResultCompare.NOTEXIST);
+
+        for(Map.Entry<Integer, HashMap<String, ResultCompare>> f : testMap.entrySet()) {
+            System.out.println(f.getKey());
+            for(Map.Entry<String, ResultCompare> ff : f.getValue().entrySet()) {
+                System.out.println(ff.getKey() + "-" + ff.getValue());
+            }
+        }
+        //##
+
+        checkNoFields1.clear();
+        checkNoFields2.clear();
         resultCompareFiles.clear();
 
         if(validatorJson.validationObjectJson(node1) & validatorJson.validationObjectJson(node2)) {
@@ -36,7 +55,9 @@ public class Compare {
                 resultCompareFiles.put(hash2, ResultCompare.NOTEQUAL);
 
                 compareMetadata.metadataCompare(node1, node2);
+                checkFieldsServices.checkAvailabilityFields(node1, node2);
                 compareServices.servicesCompare(node1, node2);
+
             }
         }
         else {
