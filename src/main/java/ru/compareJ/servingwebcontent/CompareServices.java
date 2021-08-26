@@ -9,16 +9,25 @@ import java.util.Map;
 
 public class CompareServices {
 
-    private ArrayList<String> fieldsServices = new ArrayList<>();
+    private ArrayList<String> mandatoryFieldsServices = new ArrayList<>();
     {
-        fieldsServices.add("service_name");
-        fieldsServices.add("artifact_type");
-        fieldsServices.add("docker_registry");
-        fieldsServices.add("docker_image_name");
-        fieldsServices.add("docker_tag");
-        fieldsServices.add("hashes");
-        fieldsServices.add("sha1");
-        fieldsServices.add("sha256");
+        mandatoryFieldsServices.add("service_name");
+        mandatoryFieldsServices.add("artifact_type");
+        mandatoryFieldsServices.add("docker_registry");
+        mandatoryFieldsServices.add("docker_image_name");
+        mandatoryFieldsServices.add("docker_tag");
+        mandatoryFieldsServices.add("hashes");
+        mandatoryFieldsServices.add("sha1");
+        mandatoryFieldsServices.add("sha256");
+    }
+
+    private ArrayList<String> optionalFieldsServices = new ArrayList<>();
+    {
+        optionalFieldsServices.add("service-short-name");
+        optionalFieldsServices.add("force");
+        optionalFieldsServices.add("github_repository");
+        optionalFieldsServices.add("github_branch");
+        optionalFieldsServices.add("github_hash");
     }
 
     public void servicesCompare(JsonNode node1, JsonNode node2) {
@@ -44,59 +53,75 @@ public class CompareServices {
                 int countMandatory1 = 0;
                 int countMandatory2 = 0;
 
-                for(JsonNode service2 : node2.get("services")) {
-                    //check mandatory fields json file #1
-                    Iterator<Map.Entry<String, JsonNode>> iterator1 = service1.fields();
-                    HashMap<String, JsonNode> mandatoryFields1 = new HashMap<>();
+                //test code
+                Iterator<Map.Entry<String, JsonNode>> iterator1 = service1.fields();
+                HashMap<String, JsonNode> fieldsNode1 = new HashMap<>();
 
-                    while(iterator1.hasNext()) {
-                        Map.Entry<String, JsonNode> field = iterator1.next();
-                        for(String mandatoryField : fieldsServices) {
-                            if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && field.getKey().equals(mandatoryField)) {
-                                mandatoryFields1.put(field.getKey(), field.getValue());
+                while(iterator1.hasNext()) {
+                    Map.Entry<String, JsonNode> field = iterator1.next();
+                    for(String mandatoryField : mandatoryFieldsServices) {
+                        if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
+                            fieldsNode1.put(field.getKey(), field.getValue());
+                        }
+                        else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
+                            if(field.getValue().get(mandatoryField) != null) {
+                                fieldsNode1.put(mandatoryField, field.getValue().get(mandatoryField));
                             }
-                            else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
-                                if(field.getKey().equals("hashes")) {
-                                    if(field.getValue().get(mandatoryField) != null) {
-                                        mandatoryFields1.put(mandatoryField, field.getValue().get(mandatoryField));
-                                    }
-                                }
-                            }
-
                         }
                     }
+                }
 
-                    //check mandatory fields json file #2
+                for(JsonNode service2 : node2.get("services")) {
+                    //test code
                     Iterator<Map.Entry<String, JsonNode>> iterator2 = service2.fields();
-                    HashMap<String, JsonNode> mandatoryFields2 = new HashMap<>();
+                    HashMap<String, JsonNode> fieldsNode2 = new HashMap<>();
 
                     while(iterator2.hasNext()) {
                         Map.Entry<String, JsonNode> field = iterator2.next();
-                        for(String mandatoryField : fieldsServices) {
-                            if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && field.getKey().equals(mandatoryField)) {
-                                mandatoryFields2.put(field.getKey(), field.getValue());
+                        for(String mandatoryField : mandatoryFieldsServices) {
+                            if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
+                                fieldsNode2.put(field.getKey(), field.getValue());
                             }
                             else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
-                                if(field.getKey().equals("hashes")) {
-                                    if(field.getValue().get(mandatoryField) != null) {
-                                        mandatoryFields2.put(mandatoryField, field.getValue().get(mandatoryField));
-                                    }
+                                if(field.getValue().get(mandatoryField) != null) {
+                                    fieldsNode2.put(mandatoryField, field.getValue().get(mandatoryField));
                                 }
                             }
+                        }
+                    }
+
+                    if(fieldsNode1.equals(fieldsNode2)) {
+                        if(service1.hashCode() == service2.hashCode()) {
+                            ++count;
+                        }
+                        else {
+                            for(String optionalField : optionalFieldsServices) {
+                                //optional fields compare
+                                if(service1.get(optionalField).getNodeType() == service2.get(optionalField).getNodeType()) {
+                                    if(service1.get(optionalField).hashCode() == service2.get(optionalField).hashCode()) {
+                                        Compare.resultCompareFiles.put(service1.get(optionalField).hashCode(), ResultCompare.EQUAL);
+                                    }
+                                    else {
+                                        Compare.resultCompareFiles.put(service1.get(optionalField).hashCode(), ResultCompare.NOTEQUAL);
+                                        Compare.resultCompareFiles.put(service2.get(optionalField).hashCode(), ResultCompare.NOTEQUAL);
+                                    }
+                                }
+                                else {
+                                    Compare.resultCompareFiles.put(service1.get(optionalField).hashCode(), ResultCompare.WRONGTYPE);
+                                    Compare.resultCompareFiles.put(service2.get(optionalField).hashCode(), ResultCompare.WRONGTYPE);
+                                }
+
+
+                            }
+
 
                         }
                     }
 
-                    if(mandatoryFields1.size() == mandatoryFields2.size()) {
-                        System.out.println("It is working!");
-                        mandatoryFields1.clear();
-                        mandatoryFields2.clear();
-                    }
 
 
-                    if(service1.hashCode() == service2.hashCode()) {
-                        ++count;
-                    }
+
+
                 }
 
                 if(count > 0) {
@@ -106,6 +131,14 @@ public class CompareServices {
                     Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.NOTEQUAL);
                 }
             }
+
+
+
+
+
+
+
+
 
             //json file #2
             for(JsonNode service2 : node2.get("services")) {

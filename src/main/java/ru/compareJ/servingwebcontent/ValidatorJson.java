@@ -1,6 +1,7 @@
 package ru.compareJ.servingwebcontent;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 import java.util.*;
 
@@ -10,7 +11,8 @@ public class ValidatorJson {
         int j = 0;
 
         try {
-            if(node.get("metadata").get("description").get("version").asInt() == 2 && node.get("metadata").get("application").get("name") != null) {
+            if(node.get("metadata").get("description").get("version").asInt() == 2 && node.get("metadata").get("application").get("name") != null &&
+                    node.get("metadata").get("application").get("name").getNodeType().equals(JsonNodeType.STRING)) {
                 ++j;
             }
             if(node.get("services") != null) {
