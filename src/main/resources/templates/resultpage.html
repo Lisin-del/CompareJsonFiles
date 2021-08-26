@@ -178,17 +178,30 @@
 
                         </div>
 
+                        <div th:each = "res : ${result}">
+                            <th:block th:each = "noField : ${checkNoFields}">
+                                <th:block th:each = "noField2 : ${noField.getValue()}">
+                                    <p class = "noField" th:if = "${noField.getKey() == res.getKey()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                </th:block>
+                            </th:block>
+                        </div>
+
                     }</div>
+
 
                 ]</div>
 
                 <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">
                     <div th:each = "service : ${node1.get('services')}">
                         <p th:text = "${service}"/>
+                    </div>
 
-                        <div th:each = "noField : ${checkNoFields1}">
-                            <p class = "redRed" th:text = "${noField.getKey()} + ':' + ${noField.getValue()}"/>
-                        </div>
+                    <div th:each = "res : ${result}">
+                        <th:block th:each = "noField : ${checkNoFields}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "noField" th:if = "${noField.getKey() == res.getKey()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
                     </div>
 
                 </div>

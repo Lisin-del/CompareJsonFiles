@@ -3,6 +3,7 @@ package ru.compareJ.servingwebcontent;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -23,18 +24,21 @@ public class CheckFieldsServices {
         //создать мапу HashMap<Integer, HashMap<String, ResultCompare>>
         //проводим проверку на отсутствие полей в топовом объекте, если там отстутсвует обязательно поле, обрабатываем это
         //записываем в мапу хэш этого объекта и результаты проверки
-
+        HashMap<String, ResultCompare> noFields = new HashMap<>();
 
         //#file1 services
-        for(JsonNode nd1 : node1.get("services")) {
+        for(JsonNode topObj : node1.get("services")) {
             for(String field1 : fieldsServices) {
-                if(!field1.equals("sha1") && !field1.equals("sha256") && nd1.get(field1) == null) {
-                    Compare.checkNoFields1.put(field1, ResultCompare.NOTEXIST);
+                if(!field1.equals("sha1") && !field1.equals("sha256") && topObj.get(field1) == null) {
+
+                    noFields.put(field1, ResultCompare.NOTEXIST);
+                    Compare.checkNoFields.put(topObj.hashCode(), noFields);
                 }
                 else if(field1.equals("sha1") || field1.equals("sha256")) {
-                    if(nd1.get("hashes") != null) {
-                        if(nd1.get("hashes").get(field1) == null) {
-                            Compare.checkNoFields1.put(field1, ResultCompare.NOTEXIST);
+                    if(topObj.get("hashes") != null) {
+                        if(topObj.get("hashes").get(field1) == null) {
+                            noFields.put(field1, ResultCompare.NOTEXIST);
+                            Compare.checkNoFields.put(topObj.hashCode(), noFields);
                         }
                     }
                 }
@@ -50,12 +54,12 @@ public class CheckFieldsServices {
         for(JsonNode nd2 : node2.get("services")) {
             for(String field2 : fieldsServices) {
                 if(!field2.equals("sha1") && !field2.equals("sha256") && nd2.get(field2) == null) {
-                    Compare.checkNoFields2.put(field2, ResultCompare.NOTEXIST);
+
                 }
                 else if(field2.equals("sha1") || field2.equals("sha256")) {
                     if(nd2.get("hashes") != null) {
                         if(nd2.get("hashes").get(field2) == null) {
-                            Compare.checkNoFields2.put(field2, ResultCompare.NOTEXIST);
+
                         }
                     }
                 }
