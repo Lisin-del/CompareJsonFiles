@@ -31,6 +31,8 @@ public class Compare {
             if(node1.hashCode() == node2.hashCode()) {
                 int hash = node1.hashCode();
 
+                checkFieldsServices.checkAvailabilityFields(node1, node2);
+
                 resultCompareFiles.put(hash, ResultCompare.EQUAL);
             }
             else {
@@ -41,9 +43,9 @@ public class Compare {
                 resultCompareFiles.put(hash2, ResultCompare.NOTEQUAL);
 
                 compareMetadata.metadataCompare(node1, node2);
+
                 checkFieldsServices.checkAvailabilityFields(node1, node2);
                 compareServices.servicesCompare(node1, node2);
-
             }
         }
         else {

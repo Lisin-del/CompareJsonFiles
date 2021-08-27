@@ -21,13 +21,10 @@ public class CheckFieldsServices {
     }
 
     public void checkAvailabilityFields(JsonNode node1, JsonNode node2) {
-        //создать мапу HashMap<Integer, HashMap<String, ResultCompare>>
-        //проводим проверку на отсутствие полей в топовом объекте, если там отстутсвует обязательно поле, обрабатываем это
-        //записываем в мапу хэш этого объекта и результаты проверки
-        HashMap<String, ResultCompare> noFields1 = new HashMap<>();
 
         //#file1 services
         for(JsonNode topObj : node1.get("services")) {
+            HashMap<String, ResultCompare> noFields1 = new HashMap<>();
             for(String field1 : fieldsServices) {
                 if(!field1.equals("sha1") && !field1.equals("sha256") && topObj.get(field1) == null) {
 
@@ -42,18 +39,15 @@ public class CheckFieldsServices {
                         }
                     }
                 }
-
             }
         }
 
 
         //#file2 services
-        HashMap<String, ResultCompare> noFields2 = new HashMap<>();
-
         for(JsonNode topObj : node2.get("services")) {
+            HashMap<String, ResultCompare> noFields2 = new HashMap<>();
             for(String field2 : fieldsServices) {
                 if(!field2.equals("sha1") && !field2.equals("sha256") && topObj.get(field2) == null) {
-
                     noFields2.put(field2, ResultCompare.NOTEXIST);
                     Compare.checkNoFields.put(topObj.hashCode(), noFields2);
                 }
@@ -67,8 +61,5 @@ public class CheckFieldsServices {
                 }
             }
         }
-
     }
-
-
 }
