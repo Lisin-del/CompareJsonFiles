@@ -40,7 +40,7 @@
                                     }</div>
                                 </div>
 
-                                <th:block th:each = "noField : ${checkNoFields}">
+                                <th:block th:each = "noField : ${checkFieldsMandatory}">
                                     <th:block th:each = "noField2 : ${noField.getValue()}">
                                         <p class = "space noField" th:if = "${noField.getKey() == topObj.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                     </th:block>
@@ -155,7 +155,7 @@
                     <th:block th:each = "field : ${node1.get('metadata').fields()}">
 
                         <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == NOTEQUAL}">
-                            <p class = "orange space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
+                            <p class = "red space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
                         </div>
 
                         <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == EQUAL}">
@@ -173,12 +173,10 @@
                             <th:block th:each = "field : ${service.fields()}">
                                 <th:block th:each = "res : ${resCom}">
                                     <p class = "space red" th:if = "${res.getKey() != field.getValue().hashCode()}" th:text = "${field}"/>
-                                    <p th:each = "res : ${result}" th:if = "${field.getValue().hashCode() == res.getKey() and res.getValue() == NOTEQUAL or res.getValue() == WRONGTYPE}" th:text = "${field.getKey()}"/>
                                 </th:block>
-
                             </th:block>
 
-                            <th:block th:each = "noField : ${checkNoFields}">
+                            <th:block th:each = "noField : ${checkFieldsMandatory}">
                                 <th:block th:each = "noField2 : ${noField.getValue()}">
                                     <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                 </th:block>
@@ -187,10 +185,14 @@
 
                         <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == EQUAL}">
                             <th:block th:each = "field : ${service.fields()}">
-                                <p class = "space" th:text = "${field}"/>
+                                <p class = "space" th:each = "mandField : ${mandatoryFieldsServices}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+                                <th:block th:each = "checkOptional : ${checkFieldsOptional1}">
+                                    <p class = "space red" th:if = "${checkOptional.getKey() == field.getValue().hashCode() and checkOptional.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    <p class = "space" th:if = "${checkOptional.getKey() == field.getValue().hashCode() and checkOptional.getValue() == EQUAL}" th:text = "${field}"/>
+                                </th:block>
                             </th:block>
 
-                            <th:block th:each = "noField : ${checkNoFields}">
+                            <th:block th:each = "noField : ${checkFieldsMandatory}">
                                 <th:block th:each = "noField2 : ${noField.getValue()}">
                                     <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                 </th:block>
@@ -211,7 +213,7 @@
                         </th:block>
 
                         <div th:each = "res : ${result}">
-                            <th:block th:each = "noField : ${checkNoFields}">
+                            <th:block th:each = "noField : ${checkFieldsMandatory}">
                                 <th:block th:each = "noField2 : ${noField.getValue()}">
                                     <p class = "space noField" th:if = "${noField.getKey() == res.getKey()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                 </th:block>
@@ -255,7 +257,7 @@
                                     }</div>
                                 </div>
 
-                                <th:block th:each = "noField : ${checkNoFields}">
+                                <th:block th:each = "noField : ${checkFieldsMandatory}">
                                     <th:block th:each = "noField2 : ${noField.getValue()}">
                                         <p class = "space noField" th:if = "${noField.getKey() == topObj.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                     </th:block>
@@ -370,7 +372,7 @@
                     <th:block th:each = "field : ${node2.get('metadata').fields()}">
 
                         <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == NOTEQUAL}">
-                            <p class = "orange space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
+                            <p class = "green space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
                         </div>
 
                         <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == EQUAL}">
@@ -390,7 +392,7 @@
                                 <p class = "space green" th:text = "${field}"/>
                             </th:block>
 
-                            <th:block th:each = "noField : ${checkNoFields}">
+                            <th:block th:each = "noField : ${checkFieldsMandatory}">
                                 <th:block th:each = "noField2 : ${noField.getValue()}">
                                     <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                 </th:block>
@@ -399,10 +401,16 @@
 
                         <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == EQUAL}">
                             <th:block th:each = "field : ${service.fields()}">
-                                <p class = "space" th:text = "${field}"/>
+                                <p class = "space" th:each = "mandField : ${mandatoryFieldsServices}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+                                <th:block th:each = "checkOptional : ${checkFieldsOptional2}">
+                                    <p class = "space green" th:if = "${checkOptional.getKey() == field.getValue().hashCode() and checkOptional.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    <p class = "space" th:if = "${checkOptional.getKey() == field.getValue().hashCode() and checkOptional.getValue() == EQUAL}" th:text = "${field}"/>
+                                </th:block>
+
+
                             </th:block>
 
-                            <th:block th:each = "noField : ${checkNoFields}">
+                            <th:block th:each = "noField : ${checkFieldsMandatory}">
                                 <th:block th:each = "noField2 : ${noField.getValue()}">
                                     <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                 </th:block>
@@ -419,7 +427,7 @@
                         </th:block>
 
                         <div th:each = "res : ${result}">
-                            <th:block th:each = "noField : ${checkNoFields}">
+                            <th:block th:each = "noField : ${checkFieldsMandatory}">
                                 <th:block th:each = "noField2 : ${noField.getValue()}">
                                     <p class = "space noField" th:if = "${noField.getKey() == res.getKey()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                 </th:block>

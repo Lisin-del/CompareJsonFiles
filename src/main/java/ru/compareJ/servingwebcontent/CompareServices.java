@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class CompareServices {
 
-    private ArrayList<String> mandatoryFieldsServices = new ArrayList<>();
+    public static ArrayList<String> mandatoryFieldsServices = new ArrayList<>();
     {
         mandatoryFieldsServices.add("service_name");
         mandatoryFieldsServices.add("artifact_type");
@@ -68,10 +68,11 @@ public class CompareServices {
                     }
                 }
 
+                HashMap<String, JsonNode> fieldsNode2 = new HashMap<>();
                 for(JsonNode service2 : node2.get("services")) {
                     //check mandatory fields services file 2
                     Iterator<Map.Entry<String, JsonNode>> iterator2 = service2.fields();
-                    HashMap<String, JsonNode> fieldsNode2 = new HashMap<>();
+
 
                     while(iterator2.hasNext()) {
                         Map.Entry<String, JsonNode> field = iterator2.next();
@@ -87,38 +88,18 @@ public class CompareServices {
                         }
                     }
 
-                    //check equal mandatory fields
-                    if(fieldsNode1.equals(fieldsNode2)) {
-                        ++count;
-                        if(service1.hashCode() == service2.hashCode()) {
-                            Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.EQUAL);
-                        }
-                        else {
+                }
+                //check equal mandatory fields
+                if(fieldsNode1.equals(fieldsNode2)) {
+                    ++count;
+                    compareOptionalFields(node1, node2);
+                }
 
-                            for(String optionalField : optionalFieldsServices) {
-                                //optional fields compare
-                                if(service1.get(optionalField).getNodeType() == service2.get(optionalField).getNodeType()) {
-                                    if(service1.get(optionalField).hashCode() == service2.get(optionalField).hashCode()) {
-                                        Compare.resultCompareFiles.put(service1.get(optionalField).hashCode(), ResultCompare.EQUAL);
-                                    }
-                                    else {
-                                        Compare.resultCompareFiles.put(service1.get(optionalField).hashCode(), ResultCompare.NOTEQUAL);
-                                        Compare.resultCompareFiles.put(service2.get(optionalField).hashCode(), ResultCompare.NOTEQUAL);
-                                    }
-                                }
-                                else {
-                                    Compare.resultCompareFiles.put(service1.get(optionalField).hashCode(), ResultCompare.WRONGTYPE);
-                                    Compare.resultCompareFiles.put(service2.get(optionalField).hashCode(), ResultCompare.WRONGTYPE);
-                                }
-                            }
-                        }
-                    }
-                    if(count > 0) {
-                        Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.EQUAL);
-                    }
-                    else {
-                        Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.NOTEQUAL);
-                    }
+                if(count > 0) {
+                    Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.EQUAL);
+                }
+                else {
+                    Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.NOTEQUAL);
                 }
             }
 
@@ -130,6 +111,8 @@ public class CompareServices {
                 //check mandatory fields services file 2
                 Iterator<Map.Entry<String, JsonNode>> iterator2 = service2.fields();
                 HashMap<String, JsonNode> fieldsNode2 = new HashMap<>();
+
+
 
                 while(iterator2.hasNext()) {
                     Map.Entry<String, JsonNode> field = iterator2.next();
@@ -145,10 +128,12 @@ public class CompareServices {
                     }
                 }
 
+                HashMap<String, JsonNode> fieldsNode1 = new HashMap<>();
                 for(JsonNode service1 : node1.get("services")) {
                     //check mandatory fields services file 1
                     Iterator<Map.Entry<String, JsonNode>> iterator1 = service1.fields();
-                    HashMap<String, JsonNode> fieldsNode1 = new HashMap<>();
+
+
 
                     while(iterator1.hasNext()) {
                         Map.Entry<String, JsonNode> field = iterator1.next();
@@ -164,39 +149,72 @@ public class CompareServices {
                         }
                     }
 
-                    //check equal mandatory fields
-                    if(fieldsNode2.equals(fieldsNode1)) {
-                        ++count;
-                        if(service1.hashCode() == service2.hashCode()) {
-                            Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.EQUAL);
-                        }
-                        else {
-                            for(String optionalField : optionalFieldsServices) {
-                                //optional fields compare
-                                if(service1.get(optionalField).getNodeType() == service2.get(optionalField).getNodeType()) {
-                                    if(service1.get(optionalField).hashCode() == service2.get(optionalField).hashCode()) {
-                                        Compare.resultCompareFiles.put(service1.get(optionalField).hashCode(), ResultCompare.EQUAL);
-                                    }
-                                    else {
-                                        Compare.resultCompareFiles.put(service1.get(optionalField).hashCode(), ResultCompare.NOTEQUAL);
-                                        Compare.resultCompareFiles.put(service2.get(optionalField).hashCode(), ResultCompare.NOTEQUAL);
-                                    }
-                                }
-                                else {
-                                    Compare.resultCompareFiles.put(service1.get(optionalField).hashCode(), ResultCompare.WRONGTYPE);
-                                    Compare.resultCompareFiles.put(service2.get(optionalField).hashCode(), ResultCompare.WRONGTYPE);
-                                }
-                            }
-                        }
-                    }
-                    if(count > 0) {
-                        Compare.resultCompareFiles.put(service2.hashCode(), ResultCompare.EQUAL);
-                    }
-                    else {
-                        Compare.resultCompareFiles.put(service2.hashCode(), ResultCompare.NOTEQUAL);
-                    }
+                }
+                //check equal mandatory fields
+                if(fieldsNode2.equals(fieldsNode1)) {
+                    ++count;
+                    compareOptionalFields(node1, node2);
+                }
+                if(count > 0) {
+                    Compare.resultCompareFiles.put(service2.hashCode(), ResultCompare.EQUAL);
+                }
+                else {
+                    Compare.resultCompareFiles.put(service2.hashCode(), ResultCompare.NOTEQUAL);
                 }
             }
         }
+
     }
+
+    public void compareOptionalFields(JsonNode node1, JsonNode node2) {
+        for(String field : optionalFieldsServices) {
+            for(JsonNode service1 : node1.get("services")) {
+                int count = 0;
+                for(JsonNode service2 : node2.get("services")) {
+                    if(service1.get(field) != null && service2.get(field) != null) {
+                        if(service1.get(field).equals(service2.get(field))) {
+                            ++count;
+                        }
+                    }
+                }
+                if(count > 0) {
+                    Compare.checkFieldsOptional1.put(service1.get(field).hashCode(), ResultCompare.EQUAL);
+                }
+                else {
+                    Compare.checkFieldsOptional1.put(service1.get(field).hashCode(), ResultCompare.NOTEQUAL);
+                }
+            }
+        }
+
+
+        for(String field : optionalFieldsServices) {
+            for(JsonNode service2 : node1.get("services")) {
+                int count = 0;
+                for(JsonNode service1 : node2.get("services")) {
+                    if(service2.get(field) != null && service1.get(field) != null) {
+                        if(service2.get(field).equals(service1.get(field))) {
+                            ++count;
+                        }
+                    }
+                }
+                if(count > 0) {
+                    Compare.checkFieldsOptional2.put(service2.get(field).hashCode(), ResultCompare.EQUAL);
+                }
+                else {
+                    Compare.checkFieldsOptional2.put(service2.get(field).hashCode(), ResultCompare.NOTEQUAL);
+                }
+            }
+        }
+
+        System.out.println("test1");
+        for(Map.Entry<Integer, ResultCompare> map : Compare.checkFieldsOptional1.entrySet()) {
+            System.out.println(map.getKey() + ":" + map.getValue());
+        }
+
+        System.out.println("test2");
+        for(Map.Entry<Integer, ResultCompare> map : Compare.checkFieldsOptional2.entrySet()) {
+            System.out.println(map.getKey() + ":" + map.getValue());
+        }
+    }
+
 }

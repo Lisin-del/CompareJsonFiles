@@ -3,12 +3,15 @@ package ru.compareJ.servingwebcontent;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 
 public class Compare {
     public static HashMap<Integer, ResultCompare> resultCompareFiles = new HashMap<>();
-    public static HashMap<Integer, HashMap<String, ResultCompare>> checkNoFields = new HashMap<>();
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsMandatory = new HashMap<>();
+    public static HashMap<Integer, ResultCompare> checkFieldsOptional1 = new HashMap<>();
+    public static HashMap<Integer, ResultCompare> checkFieldsOptional2 = new HashMap<>();
 
     private CompareMetadata compareMetadata = new CompareMetadata();
     private CompareServices compareServices = new CompareServices();
@@ -24,7 +27,9 @@ public class Compare {
 
     public void compareFiles() {
 
-        checkNoFields.clear();
+        checkFieldsOptional1.clear();
+        checkFieldsOptional2.clear();
+        checkFieldsMandatory.clear();
         resultCompareFiles.clear();
 
         if(validatorJson.validationObjectJson(node1) & validatorJson.validationObjectJson(node2)) {
@@ -51,6 +56,18 @@ public class Compare {
         else {
             resultCompareFiles.put(1, ResultCompare.WRONGSTRUCTURE);
         }
+
+//        for(Map.Entry<Integer, HashMap<String, ResultCompare>> map : checkFieldsOptional1.entrySet()) {
+//            System.out.println(map.getKey() + ":" + map.getValue());
+//        }
+//        System.out.println("=================");
+//        for(Map.Entry<Integer, HashMap<String, ResultCompare>> map : checkFieldsOptional2.entrySet()) {
+//            System.out.println(map.getKey() + ":" + map.getValue());
+//        }
+
+
+
+
     }
 
 
