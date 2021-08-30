@@ -169,11 +169,10 @@
                 <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
 
                     <div class = "space" th:each = "service : ${node1.get('services')}">{
+
                         <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOTEQUAL}">
                             <th:block th:each = "field : ${service.fields()}">
-                                <th:block th:each = "res : ${resCom}">
-                                    <p class = "space red" th:if = "${res.getKey() != field.getValue().hashCode()}" th:text = "${field}"/>
-                                </th:block>
+                                <p class = "space red" th:text = "${field}"/>
                             </th:block>
 
                             <th:block th:each = "noField : ${checkFieldsMandatory}">
@@ -183,12 +182,16 @@
                             </th:block>
                         </div>
 
+
                         <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == EQUAL}">
                             <th:block th:each = "field : ${service.fields()}">
                                 <p class = "space" th:each = "mandField : ${mandatoryFieldsServices}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
                                 <th:block th:each = "checkOptional : ${checkFieldsOptional1}">
-                                    <p class = "space red" th:if = "${checkOptional.getKey() == field.getValue().hashCode() and checkOptional.getValue() == NOTEQUAL}" th:text = "${field}"/>
-                                    <p class = "space" th:if = "${checkOptional.getKey() == field.getValue().hashCode() and checkOptional.getValue() == EQUAL}" th:text = "${field}"/>
+                                    <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
                                 </th:block>
                             </th:block>
 
@@ -403,8 +406,10 @@
                             <th:block th:each = "field : ${service.fields()}">
                                 <p class = "space" th:each = "mandField : ${mandatoryFieldsServices}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
                                 <th:block th:each = "checkOptional : ${checkFieldsOptional2}">
-                                    <p class = "space green" th:if = "${checkOptional.getKey() == field.getValue().hashCode() and checkOptional.getValue() == NOTEQUAL}" th:text = "${field}"/>
-                                    <p class = "space" th:if = "${checkOptional.getKey() == field.getValue().hashCode() and checkOptional.getValue() == EQUAL}" th:text = "${field}"/>
+                                    <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
                                 </th:block>
 
 

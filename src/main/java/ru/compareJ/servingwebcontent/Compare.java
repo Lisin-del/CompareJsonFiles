@@ -10,8 +10,9 @@ import java.util.Map;
 public class Compare {
     public static HashMap<Integer, ResultCompare> resultCompareFiles = new HashMap<>();
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsMandatory = new HashMap<>();
-    public static HashMap<Integer, ResultCompare> checkFieldsOptional1 = new HashMap<>();
-    public static HashMap<Integer, ResultCompare> checkFieldsOptional2 = new HashMap<>();
+
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptional1 = new HashMap<>();
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptional2 = new HashMap<>();
 
     private CompareMetadata compareMetadata = new CompareMetadata();
     private CompareServices compareServices = new CompareServices();
@@ -57,13 +58,15 @@ public class Compare {
             resultCompareFiles.put(1, ResultCompare.WRONGSTRUCTURE);
         }
 
-//        for(Map.Entry<Integer, HashMap<String, ResultCompare>> map : checkFieldsOptional1.entrySet()) {
-//            System.out.println(map.getKey() + ":" + map.getValue());
-//        }
-//        System.out.println("=================");
-//        for(Map.Entry<Integer, HashMap<String, ResultCompare>> map : checkFieldsOptional2.entrySet()) {
-//            System.out.println(map.getKey() + ":" + map.getValue());
-//        }
+        for(Map.Entry<Integer, HashMap<String, ResultCompare>> map : checkFieldsOptional1.entrySet()) {
+            System.out.println(map.getKey() + ":" + map.getValue());
+        }
+        System.out.println("##########");
+
+        for(Map.Entry<Integer, HashMap<String, ResultCompare>> map : checkFieldsOptional2.entrySet()) {
+            System.out.println(map.getKey() + ":" + map.getValue());
+        }
+
 
 
 
