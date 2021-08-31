@@ -207,6 +207,24 @@
                         </div>
                     }</div>
                 ]</div>
+
+
+                <!--check artifacts-->
+                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('artifacts').hashCode() and resCom.value == NOTEQUAL}">"artifacts": [
+
+                    <div class = "space" th:each = "artifact : ${node1.get('artifacts')}">{
+
+
+
+
+
+
+                    }</div>
+
+
+                ]</div>
+
+
             </div>
 
 

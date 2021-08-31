@@ -3,6 +3,9 @@ package ru.compareJ.servingwebcontent;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class CompareArtifacts {
     //the mandatory fields for the mvn for the artifacts
@@ -55,13 +58,55 @@ public class CompareArtifacts {
             Compare.resultCompareFiles.put(node1.get("artifacts").hashCode(), ResultCompare.NOTEQUAL);
             Compare.resultCompareFiles.put(node2.get("artifacts").hashCode(), ResultCompare.NOTEQUAL);
 
-            //json file #1
-            for(JsonNode artifact1 : node1.get("artifacts")) {
-                int count = 0;
-                for(JsonNode artifact2 : node2.get("artifacts")) {
-                    if(artifact1.hashCode() == artifact2.hashCode()) {
-                        ++count;
+            compare(node1, node2);
+            compare(node2, node1);
+
+
+        }
+    }
+
+    private void compare(JsonNode node1, JsonNode node2) {
+        for(JsonNode artifact1 : node1) {
+            int count = 0;
+
+            Iterator<Map.Entry<String, JsonNode>> iterator1 = artifact1.fields();
+            HashMap<String, JsonNode> fieldsCompare1 = new HashMap<>();
+
+            while(iterator1.hasNext()) {
+                Map.Entry<String, JsonNode> field = iterator1.next();
+
+                for(String mandatoryField : mandatoryFieldsArtifacts) {
+                    if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
+                        fieldsCompare1.put(field.getKey(), field.getValue());
                     }
+                    else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
+                        if(field.getValue().get(mandatoryField) != null) {
+                            fieldsCompare1.put(mandatoryField, field.getValue().get(mandatoryField));
+                        }
+                    }
+                }
+            }
+
+            for(JsonNode artifact2 : node2) {
+                Iterator<Map.Entry<String, JsonNode>> iterator2 = artifact2.fields();
+                HashMap<String, JsonNode> fieldsCompare2 = new HashMap<>();
+
+                while(iterator2.hasNext()) {
+                    Map.Entry<String, JsonNode> field = iterator2.next();
+
+                    for(String mandatoryField : mandatoryFieldsArtifacts) {
+                        if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
+                            fieldsCompare2.put(field.getKey(), field.getValue());
+                        }
+                        else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
+                            if(field.getValue().get(mandatoryField) != null) {
+                                fieldsCompare2.put(mandatoryField, field.getValue().get(mandatoryField));
+                            }
+                        }
+                    }
+                }
+                if(fieldsCompare1.equals(fieldsCompare2)) {
+                    ++count;
                 }
                 if(count > 0) {
                     Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
@@ -69,23 +114,10 @@ public class CompareArtifacts {
                 else {
                     Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
                 }
+
+
             }
 
-            //json file #2
-            for(JsonNode artifact2 : node2.get("artifacts")) {
-                int count = 0;
-                for(JsonNode artifact1 : node1.get("artifacts")) {
-                    if(artifact2.hashCode() == artifact1.hashCode()) {
-                        ++count;
-                    }
-                }
-                if(count > 0) {
-                    Compare.resultCompareFiles.put(artifact2.hashCode(), ResultCompare.EQUAL);
-                }
-                else {
-                    Compare.resultCompareFiles.put(artifact2.hashCode(), ResultCompare.NOTEQUAL);
-                }
-            }
 
 
         }

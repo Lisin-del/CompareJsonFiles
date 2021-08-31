@@ -51,21 +51,59 @@ public class CheckMandatoryFieldsMvnArt {
         //json file #1
         for(JsonNode artifact : node1.get("artifacts")) {
             HashMap<String, ResultCompare> noFieldsArtifacts = new HashMap<>();
-            if(artifact.get("mvn") == null) {
-                noFieldsArtifacts.put("mvn", ResultCompare.NOTEXIST);
-                Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+
+            for(String fieldName : mandatoryFieldsArtifacts) {
+                if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && fieldName.equals("mvn") && artifact.get(fieldName) == null) {
+                    noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
+                    Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+                }
+                else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && fieldName.equals("mvn") && artifact.get(fieldName) != null) {
+                    checkAvailabilityFieldsArtifactsMvn(artifact.get(fieldName));
+                }
+                else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && !fieldName.equals("mvn") && artifact.get(fieldName) == null) {
+                    noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
+                    Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+                }
+                else if(fieldName.equals("sha1") || fieldName.equals("sha256")) {
+                    if(artifact.get("hashes") != null) {
+                        if(artifact.get("hashes").get(fieldName) == null) {
+                            noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
+                            Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+                        }
+                    }
+                }
             }
-            else if(artifact.get("mvn") != null) {
-                //call the method checkAvailabilityFieldsMvn
-                checkAvailabilityFieldsArtifactsMvn(artifact);
-            }
-
-
-
 
         }
 
         //json file #2
+        for(JsonNode artifact : node2.get("artifacts")) {
+            HashMap<String, ResultCompare> noFieldsArtifacts = new HashMap<>();
+
+            for(String fieldName : mandatoryFieldsArtifacts) {
+                if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && fieldName.equals("mvn") && artifact.get(fieldName) == null) {
+                    noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
+                    Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+                }
+                else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && fieldName.equals("mvn") && artifact.get(fieldName) != null) {
+                    checkAvailabilityFieldsArtifactsMvn(artifact.get(fieldName));
+                }
+                else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && !fieldName.equals("mvn") && artifact.get(fieldName) == null) {
+                    noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
+                    Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+                }
+                else if(fieldName.equals("sha1") || fieldName.equals("sha256")) {
+                    if(artifact.get("hashes") != null) {
+                        if(artifact.get("hashes").get(fieldName) == null) {
+                            noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
+                            Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+                        }
+                    }
+                }
+            }
+
+        }
+
     }
 
     private void checkAvailabilityFieldsArtifactsMvn(JsonNode artifact) {
@@ -81,6 +119,7 @@ public class CheckMandatoryFieldsMvnArt {
                     if(mvn.get("hashes") != null) {
                         if(mvn.get("hashes").get(nameField) == null) {
                             noFieldsMvn.put(nameField, ResultCompare.NOTEXIST);
+                            Compare.checkFieldsMandatoryArtifactsMvn.put(mvn.hashCode(), noFieldsMvn);
                         }
                     }
                 }
