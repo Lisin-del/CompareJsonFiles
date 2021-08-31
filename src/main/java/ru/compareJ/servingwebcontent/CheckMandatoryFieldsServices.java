@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
-public class CheckFieldsServices {
+public class CheckMandatoryFieldsServices {
     private ArrayList<String> fieldsServices = new ArrayList<>();
     {
         fieldsServices.add("service_name");
@@ -29,13 +27,13 @@ public class CheckFieldsServices {
                 if(!field1.equals("sha1") && !field1.equals("sha256") && topObj.get(field1) == null) {
 
                     noFields1.put(field1, ResultCompare.NOTEXIST);
-                    Compare.checkFieldsMandatory.put(topObj.hashCode(), noFields1);
+                    Compare.checkFieldsMandatoryServices.put(topObj.hashCode(), noFields1);
                 }
                 else if(field1.equals("sha1") || field1.equals("sha256")) {
                     if(topObj.get("hashes") != null) {
                         if(topObj.get("hashes").get(field1) == null) {
                             noFields1.put(field1, ResultCompare.NOTEXIST);
-                            Compare.checkFieldsMandatory.put(topObj.hashCode(), noFields1);
+                            Compare.checkFieldsMandatoryServices.put(topObj.hashCode(), noFields1);
                         }
                     }
                 }
@@ -49,13 +47,13 @@ public class CheckFieldsServices {
             for(String field2 : fieldsServices) {
                 if(!field2.equals("sha1") && !field2.equals("sha256") && topObj.get(field2) == null) {
                     noFields2.put(field2, ResultCompare.NOTEXIST);
-                    Compare.checkFieldsMandatory.put(topObj.hashCode(), noFields2);
+                    Compare.checkFieldsMandatoryServices.put(topObj.hashCode(), noFields2);
                 }
                 else if(field2.equals("sha1") || field2.equals("sha256")) {
                     if(topObj.get("hashes") != null) {
                         if(topObj.get("hashes").get(field2) == null) {
                             noFields2.put(field2, ResultCompare.NOTEXIST);
-                            Compare.checkFieldsMandatory.put(topObj.hashCode(), noFields2);
+                            Compare.checkFieldsMandatoryServices.put(topObj.hashCode(), noFields2);
                         }
                     }
                 }

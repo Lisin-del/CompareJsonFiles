@@ -34,8 +34,8 @@ public class CompareServices {
 
         if(node1.get("services").hashCode() == node2.get("services").hashCode()) {
             int hash = node1.get("services").hashCode();
-
             Compare.resultCompareFiles.put(hash, ResultCompare.EQUAL);
+
             for(JsonNode node : node1.get("services")) {
                 Compare.resultCompareFiles.put(node.hashCode(), ResultCompare.EQUAL);
             }
@@ -199,10 +199,16 @@ public class CompareServices {
                             compareOpt.put(name, ResultCompare.NOTEQUAL);
                         }
                     }
+                    else if(service1.get(name) == null) {
+                        compareOpt.put(name, ResultCompare.NOTEQUAL);
+                    }
+                    else if(service2.get(name) == null) {
+                        compareOpt.put(name, ResultCompare.NOTEQUAL);
+                    }
                 }
 
             }
-            Compare.checkFieldsOptional1.put(service1.hashCode(), compareOpt);
+            Compare.checkFieldsOptionalServices1.put(service1.hashCode(), compareOpt);
         }
     }
 
@@ -227,10 +233,16 @@ public class CompareServices {
                             compareOpt.put(name, ResultCompare.NOTEQUAL);
                         }
                     }
+                    else if(service2.get(name) == null) {
+                        compareOpt.put(name, ResultCompare.NOTEQUAL);
+                    }
+                    else if(service1.get(name) == null) {
+                        compareOpt.put(name, ResultCompare.NOTEQUAL);
+                    }
                 }
 
             }
-            Compare.checkFieldsOptional2.put(service2.hashCode(), compareOpt);
+            Compare.checkFieldsOptionalServices2.put(service2.hashCode(), compareOpt);
         }
     }
 

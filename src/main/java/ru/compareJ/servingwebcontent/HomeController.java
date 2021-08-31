@@ -4,15 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -88,10 +85,11 @@ public class HomeController {
         model.addAttribute("node2", compareFiles.getNode2());
         model.addAttribute("result", Compare.resultCompareFiles);
         model.addAttribute("variable", var);
-        model.addAttribute("checkFieldsMandatory", Compare.checkFieldsMandatory);
+        model.addAttribute("checkFieldsMandatoryServices", Compare.checkFieldsMandatoryServices);
         model.addAttribute("mandatoryFieldsServices", CompareServices.mandatoryFieldsServices);
-        model.addAttribute("checkFieldsOptional1", Compare.checkFieldsOptional1);
-        model.addAttribute("checkFieldsOptional2", Compare.checkFieldsOptional2);
+        model.addAttribute("checkFieldsOptionalServices1", Compare.checkFieldsOptionalServices1);
+        model.addAttribute("checkFieldsOptionalServices2", Compare.checkFieldsOptionalServices2);
+        model.addAttribute("checkFieldsMandatoryArtifactsMvn", Compare.checkFieldsMandatoryArtifactsMvn);
 
         for(ResultCompare resultCompare : ResultCompare.values()) {
             model.addAttribute(resultCompare.toString(), resultCompare);
