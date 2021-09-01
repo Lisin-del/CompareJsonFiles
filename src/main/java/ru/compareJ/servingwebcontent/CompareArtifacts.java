@@ -31,7 +31,7 @@ public class CompareArtifacts {
     //the mandatory fields for the artifacts
     private ArrayList<String> mandatoryFieldsArtifacts = new ArrayList<>();
     {
-
+        //mandatoryFieldsArtifacts.add("mvn");
         mandatoryFieldsArtifacts.add("target_repository");
         mandatoryFieldsArtifacts.add("hashes");
         mandatoryFieldsArtifacts.add("sha1");
@@ -76,7 +76,7 @@ public class CompareArtifacts {
                 Map.Entry<String, JsonNode> field = iterator1.next();
 
                 for(String mandatoryField : mandatoryFieldsArtifacts) {
-                    if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && !mandatoryField.equals("mvn") && mandatoryField.equals(field.getKey())) {
+                    if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
                         fieldsCompare1.put(field.getKey(), field.getValue());
                     }
                     else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
@@ -109,14 +109,38 @@ public class CompareArtifacts {
                     ++count;
                 }
                 if(count > 0) {
-                    Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
-
                     if(artifact1.get("mvn") != null && artifact2.get("mvn") != null) {
-                        compareMvn(artifact1, artifact2);
+                        if(artifact1.get("mvn").hashCode() == artifact2.get("mvn").hashCode()) {
+                            Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
+                            Compare.resultCompareFiles.put(artifact1.get("mvn").hashCode(), ResultCompare.EQUAL);
+                        }
+                        else {
+                            Compare.resultCompareFiles.put(artifact1.get("mvn").hashCode(), ResultCompare.NOTEQUAL);
+                            Compare.resultCompareFiles.put(artifact2.get("mvn").hashCode(), ResultCompare.NOTEQUAL);
+                            Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
+
+                            compareMvn(artifact1, artifact2);
+                        }
                     }
+                    else {
+                        Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
+                    }
+
                 }
                 else {
                     Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
+
+                    if(artifact1.get("mvn") != null && artifact2.get("mvn") != null) {
+                        if(artifact1.get("mvn").hashCode() == artifact2.get("mvn").hashCode()) {
+                            Compare.resultCompareFiles.put(artifact1.get("mvn").hashCode(), ResultCompare.EQUAL);
+                        }
+                        else {
+                            Compare.resultCompareFiles.put(artifact1.get("mvn").hashCode(), ResultCompare.NOTEQUAL);
+                            Compare.resultCompareFiles.put(artifact2.get("mvn").hashCode(), ResultCompare.NOTEQUAL);
+
+                            compareMvn(artifact1, artifact2);
+                        }
+                    }
                 }
             }
         }
@@ -169,11 +193,12 @@ public class CompareArtifacts {
                 }
                 if(count > 0) {
                     Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.EQUAL);
-                    Compare.resultCompareFiles.put(mvnArtifact1.hashCode(), ResultCompare.EQUAL);
+                    Compare.resultCompareFiles.put(mvnArtifact1.get("mvn").hashCode(), ResultCompare.EQUAL);
                 }
                 else {
                     Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.NOTEQUAL);
-                    Compare.resultCompareFiles.put(mvnArtifact1.hashCode(), ResultCompare.NOTEQUAL);
+                    Compare.resultCompareFiles.put(mvnArtifact1.get("mvn").hashCode(), ResultCompare.NOTEQUAL);
+
                 }
             }
 

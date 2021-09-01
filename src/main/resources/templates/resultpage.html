@@ -220,9 +220,23 @@
                                 <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
                                     <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
 
-                                        <div th:each = "fieldTopMvn : ${fieldMvn.fields()}">
-                                            <p class = "space red" th:text = "${fieldTopMvn}"/>
+                                        <div th:each = "res : ${result}" th:if = "${res.getKey() == field.getValue().hashCode() and res.getValue() == NOTEQUAL}">
+                                            <div th:each = "fieldTopMvn : ${fieldMvn.fields()}">
+                                                <p class = "space red" th:each = "res1 : ${result}" th:if = "${res1.getKey() == fieldMvn.hashCode() and res1.getValue() == NOTEQUAL}" th:text = "${fieldTopMvn}"/>
+                                            </div>
+
+                                            <div th:each = "fieldTopMvn : ${fieldMvn.fields()}">
+                                                <p class = "space" th:each = "res1 : ${result}" th:if = "${res1.getKey() == fieldMvn.hashCode() and res1.getValue() == EQUAL}" th:text = "${fieldTopMvn}"/>
+                                            </div>
                                         </div>
+
+                                        <div th:each = "res : ${result}" th:if = "${res.getKey() == field.getValue().hashCode() and res.getValue() == EQUAL}">
+                                            <div th:each = "fieldTopMvn : ${fieldMvn.fields()}">
+                                                <p class = "space " th:text = "${fieldTopMvn}"/>
+                                            </div>
+                                        </div>
+
+
 
                                         <!--output the missing mandatory fields-->
                                         <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
@@ -240,11 +254,7 @@
                             </th:block>
                         }</div>
 
-                        <th:block th:each = "noField : ${checkFieldsMandatoryArtifacts}">
-                            <th:block th:each = "noField2 : ${noField.getValue()}">
-                                <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                            </th:block>
-                        </th:block>
+
                     </div>
 
 
@@ -457,8 +467,21 @@
 
                                 <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
                                     <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
-                                        <div th:each = "fieldTopMvn : ${fieldMvn.fields()}">
-                                            <p class = "space green" th:text = "${fieldTopMvn}"/>
+
+                                        <div th:each = "res : ${result}" th:if = "${res.getKey() == field.getValue().hashCode() and res.getValue() == NOTEQUAL}">
+                                            <div th:each = "fieldTopMvn : ${fieldMvn.fields()}">
+                                                <p class = "space green" th:each = "res1 : ${result}" th:if = "${res1.getKey() == fieldMvn.hashCode() and res1.getValue() == NOTEQUAL}" th:text = "${fieldTopMvn}"/>
+                                            </div>
+
+                                            <div th:each = "fieldTopMvn : ${fieldMvn.fields()}">
+                                                <p class = "space" th:each = "res1 : ${result}" th:if = "${res1.getKey() == fieldMvn.hashCode() and res1.getValue() == EQUAL}" th:text = "${fieldTopMvn}"/>
+                                            </div>
+                                        </div>
+
+                                        <div th:each = "res : ${result}" th:if = "${res.getKey() == field.getValue().hashCode() and res.getValue() == EQUAL}">
+                                            <div th:each = "fieldTopMvn : ${fieldMvn.fields()}">
+                                                <p class = "space " th:text = "${fieldTopMvn}"/>
+                                            </div>
                                         </div>
 
                                         <!--output the missing mandatory fields-->
@@ -471,43 +494,16 @@
                                     ]</div>
 
                                 <div class = "space" th:if = ${!field.getKey().equals('mvn')}>
-                                    <p class = "red" th:text = "${field}"/>
+                                    <p class = "green" th:text = "${field}"/>
                                 </div>
 
-                                <!--output the missing mandatory fields-->
-                                <!--                            <th:block th:each = "noField : ${checkFieldsMandatoryArtifacts}">-->
-                                <!--                                <th:block th:each = "noField2 : ${noField.getValue()}">-->
-                                <!--                                    <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>-->
-                                <!--                                </th:block>-->
-                                <!--                            </th:block>-->
-
-
-
-
-
                             </th:block>
-
-
                         </div>
-
-
-
-
-
-                        }</div>
-
-
-                    ]</div>
-
-
+                    }</div>
+                ]</div>
             </div>
-
-
-
-
-            </div>
-
         </div>
+
     </div>
 </body>
 </html>
