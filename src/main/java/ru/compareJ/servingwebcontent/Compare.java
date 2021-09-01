@@ -23,6 +23,7 @@ public class Compare {
     //check the mandatory fields for the mvn for the artifacts
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsMandatoryArtifacts = new HashMap<>();
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsMandatoryArtifactsMvn = new HashMap<>();
+    //===ARTIFACTS END===
 
 
 
@@ -31,6 +32,7 @@ public class Compare {
     private CompareArtifacts compareArtifacts = new CompareArtifacts();
 
     private CheckMandatoryFieldsServices checkMandatoryFieldsServices = new CheckMandatoryFieldsServices();
+    private CheckMandatoryFieldsArt checkMandatoryFieldsArt = new CheckMandatoryFieldsArt();
 
 
     private JsonNode node1;
@@ -43,6 +45,8 @@ public class Compare {
         checkFieldsOptionalServices1.clear();
         checkFieldsOptionalServices2.clear();
         checkFieldsMandatoryServices.clear();
+        checkFieldsMandatoryArtifacts.clear();
+        checkFieldsMandatoryArtifactsMvn.clear();
         resultCompareFiles.clear();
 
         if(validatorJson.validationObjectJson(node1) & validatorJson.validationObjectJson(node2)) {
@@ -64,6 +68,8 @@ public class Compare {
                 compareServices.servicesCompare(node1, node2);
 
                 //compare artifacts
+                checkMandatoryFieldsArt.checkAvailabilityFieldsArtifacts(node1, node2);
+                compareArtifacts.artifactsCompare(node1, node2);
 
             }
         }

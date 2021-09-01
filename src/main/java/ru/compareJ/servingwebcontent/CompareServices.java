@@ -92,15 +92,11 @@ public class CompareServices {
                     //check equal mandatory fields
                     if(fieldsNode1.equals(fieldsNode2)) {
                         ++count;
-
                     }
-
                     if(count > 0) {
-                        int h1 = service1.hashCode();
                         Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.EQUAL);
                     }
                     else {
-                        int h1 = service1.hashCode();
                         Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.NOTEQUAL);
                     }
 
@@ -139,8 +135,6 @@ public class CompareServices {
                     HashMap<String, JsonNode> fieldsNode1 = new HashMap<>();
                     Iterator<Map.Entry<String, JsonNode>> iterator1 = service1.fields();
 
-
-
                     while(iterator1.hasNext()) {
                         Map.Entry<String, JsonNode> field = iterator1.next();
                         for(String mandatoryField : mandatoryFieldsServices) {
@@ -158,7 +152,6 @@ public class CompareServices {
                     //check equal mandatory fields
                     if(fieldsNode2.equals(fieldsNode1)) {
                         ++count;
-
                     }
                     if(count > 0) {
                         int h2 = service2.hashCode();

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CheckMandatoryFieldsMvnArt {
+public class CheckMandatoryFieldsArt {
     //the mandatory fields for the mvn for the artifacts
     private ArrayList<String> mandatoryFieldsArtifactsMvn = new ArrayList<>();
     {
@@ -60,11 +60,17 @@ public class CheckMandatoryFieldsMvnArt {
                 else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && fieldName.equals("mvn") && artifact.get(fieldName) != null) {
                     checkAvailabilityFieldsArtifactsMvn(artifact.get(fieldName));
                 }
-                else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && !fieldName.equals("mvn") && artifact.get(fieldName) == null) {
+                else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && !fieldName.equals("mvn") && !fieldName.equals("file")  && artifact.get(fieldName) == null) {
                     noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
                     Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
                 }
-                else if(fieldName.equals("sha1") || fieldName.equals("sha256")) {
+                else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && !fieldName.equals("mvn") && fieldName.equals("file") || fieldName.equals("hashes") && artifact.get("mvn") == null) {
+                    if(artifact.get(fieldName) == null) {
+                        noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
+                        Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+                    }
+                }
+                else if(fieldName.equals("sha1") || fieldName.equals("sha256") && artifact.get("mvn") == null) {
                     if(artifact.get("hashes") != null) {
                         if(artifact.get("hashes").get(fieldName) == null) {
                             noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
@@ -88,11 +94,17 @@ public class CheckMandatoryFieldsMvnArt {
                 else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && fieldName.equals("mvn") && artifact.get(fieldName) != null) {
                     checkAvailabilityFieldsArtifactsMvn(artifact.get(fieldName));
                 }
-                else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && !fieldName.equals("mvn") && artifact.get(fieldName) == null) {
+                else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && !fieldName.equals("mvn") && !fieldName.equals("file")  && artifact.get(fieldName) == null) {
                     noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
                     Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
                 }
-                else if(fieldName.equals("sha1") || fieldName.equals("sha256")) {
+                else if(!fieldName.equals("sha1") && !fieldName.equals("sha256") && !fieldName.equals("mvn") && fieldName.equals("file") || fieldName.equals("hashes") && artifact.get("mvn") == null) {
+                    if(artifact.get(fieldName) == null) {
+                        noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
+                        Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+                    }
+                }
+                else if(fieldName.equals("sha1") || fieldName.equals("sha256") && artifact.get("mvn") == null) {
                     if(artifact.get("hashes") != null) {
                         if(artifact.get("hashes").get(fieldName) == null) {
                             noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
