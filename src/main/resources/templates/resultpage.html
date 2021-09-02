@@ -217,6 +217,7 @@
                         <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == NOTEQUAL}">{
                             <th:block th:each = "field : ${artifact.fields()}">
 
+                                <!--mvn-->
                                 <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
                                     <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
 
@@ -238,11 +239,17 @@
                                 </div>
 
                             </th:block>
+
+                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
+                                <p class = "space red" th:text = "${field}"/>
+                            </th:block>
                         }</div>
 
+                        <!--top object equal-->
                         <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == EQUAL}">{
                             <th:block th:each = "field : ${artifact.fields()}">
 
+                                <!--mvn-->
                                 <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
                                     <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
 
@@ -260,8 +267,19 @@
                                     ]</div>
 
                                 <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
-                                    <p class = "" th:text = "${field}"/>
+                                    <p th:text = "${field}"/>
                                 </div>
+                            </th:block>
+
+                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
+                                <p class = "space" th:text = "${field}"/>
+                            </th:block>
+
+                            <!--output the missing mandatory fields-->
+                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                                <th:block th:each = "noField2 : ${noField.getValue()}">
+                                    <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                </th:block>
                             </th:block>
                         }</div>
 
@@ -475,6 +493,7 @@
                         <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == NOTEQUAL}">{
                             <th:block th:each = "field : ${artifact.fields()}">
 
+                                <!--mvn-->
                                 <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
                                     <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
 
@@ -491,16 +510,28 @@
                                     }</div>
                                 ]</div>
 
-                                <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifa   ct.get('mvn') != null}">
+                                <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
                                     <p class = "green" th:text = "${field}"/>
                                 </div>
+                            </th:block>
 
+                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
+                                <p class = "space green" th:text = "${field}"/>
+                            </th:block>
+
+                            <!--output the missing mandatory fields-->
+                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                                <th:block th:each = "noField2 : ${noField.getValue()}">
+                                    <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                </th:block>
                             </th:block>
                         }</div>
 
+                        <!--top object equal-->
                         <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == EQUAL}">{
                             <th:block th:each = "field : ${artifact.fields()}">
 
+                                <!--mvn-->
                                 <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
                                     <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
 
@@ -520,6 +551,10 @@
                                 <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
                                     <p class = "" th:text = "${field}"/>
                                 </div>
+                            </th:block>
+
+                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
+                                <p class = "space" th:text = "${field}"/>
                             </th:block>
                         }</div>
                     </div>
