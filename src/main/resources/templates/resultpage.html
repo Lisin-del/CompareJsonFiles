@@ -190,6 +190,11 @@
                             </th:block>
                         </div>
                     }</div>
+
+                    <div th:if = "${node2.get('services').size() > node1.get('services').size()}" th:each = "empty : ${fieldsEmptyServices}">
+                        <br>
+                    </div>
+
                 ]</div>
 
                 <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">"services": [
@@ -428,6 +433,7 @@
                 }</div>
 
                 <!--check services-->
+
                 <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
 
                     <div class = "space" th:each = "service : ${node2.get('services')}">{
@@ -466,6 +472,10 @@
                             </th:block>
                         </div>
                     }</div>
+
+                    <div th:if = "${node1.get('services').size() > node2.get('services').size()}" th:each = "empty : ${fieldsEmptyServices}">
+                        <br>
+                    </div>
                 ]</div>
 
                 <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">"services": [

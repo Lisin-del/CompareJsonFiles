@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class CompareServices {
 
+
     public static ArrayList<String> mandatoryFieldsServices = new ArrayList<>();
     {
         mandatoryFieldsServices.add("service_name");
@@ -238,6 +239,4 @@ public class CompareServices {
             Compare.checkFieldsOptionalServices2.put(service2.hashCode(), compareOpt);
         }
     }
-
-
 }

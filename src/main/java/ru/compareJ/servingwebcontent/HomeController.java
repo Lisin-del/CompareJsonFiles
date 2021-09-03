@@ -98,6 +98,6 @@ public class HomeController {
 
         compareFiles.compareFiles();
 
-        return "resultpage";
+        return "resultComparePage";
     }
 }

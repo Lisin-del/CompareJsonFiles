@@ -59,15 +59,21 @@ public class CheckMandatoryFieldsArt {
         for(JsonNode artifact : node1.get("artifacts")) {
             HashMap<String, ResultCompare> noFieldsArtifacts = new HashMap<>();
 
-            for(String fieldName : mandatoryFieldsArtifacts1) {
-                if(artifact.get(fieldName) == null) {
-                    noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
-                    Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
-                }
-                else if(fieldName.equals("mvn") && artifact.get(fieldName) != null) {
-                    checkAvailabilityFieldsArtifactsMvn(artifact.get(fieldName));
+            if(artifact.get("mvn") != null || artifact.get("target_repository") != null) {
+                if(artifact.size() == 2 || artifact.size() == 1) {
+                    for(String fieldName : mandatoryFieldsArtifacts1) {
+                        if(artifact.get(fieldName) == null) {
+                            noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
+                            Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+                        }
+                        else if(fieldName.equals("mvn") && artifact.get(fieldName) != null) {
+                            checkAvailabilityFieldsArtifactsMvn(artifact.get(fieldName));
+                        }
+                    }
                 }
             }
+
+
         }
 
         for(JsonNode artifact : node1.get("artifacts")) {
@@ -80,7 +86,7 @@ public class CheckMandatoryFieldsArt {
                 }
                 else if(artifact.get("mvn") == null && fieldName.equals("sha1") || fieldName.equals("sha256")) {
                     if(artifact.get("hashes") != null) {
-                        if(artifact.get(fieldName) == null) {
+                        if(artifact.get("hashes").get(fieldName) == null) {
                             noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
                             Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
                         }
@@ -93,13 +99,17 @@ public class CheckMandatoryFieldsArt {
         for(JsonNode artifact : node2.get("artifacts")) {
             HashMap<String, ResultCompare> noFieldsArtifacts = new HashMap<>();
 
-            for(String fieldName : mandatoryFieldsArtifacts1) {
-                if(artifact.get(fieldName) == null) {
-                    noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
-                    Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
-                }
-                else if(fieldName.equals("mvn") && artifact.get(fieldName) != null) {
-                    checkAvailabilityFieldsArtifactsMvn(artifact.get(fieldName));
+            if(artifact.get("mvn") != null || artifact.get("target_repository") != null) {
+                if(artifact.size() == 2 || artifact.size() == 1) {
+                    for(String fieldName : mandatoryFieldsArtifacts1) {
+                        if(artifact.get(fieldName) == null) {
+                            noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
+                            Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
+                        }
+                        else if(fieldName.equals("mvn") && artifact.get(fieldName) != null) {
+                            checkAvailabilityFieldsArtifactsMvn(artifact.get(fieldName));
+                        }
+                    }
                 }
             }
         }
@@ -114,7 +124,7 @@ public class CheckMandatoryFieldsArt {
                 }
                 else if(artifact.get("mvn") == null && fieldName.equals("sha1") || fieldName.equals("sha256")) {
                     if(artifact.get("hashes") != null) {
-                        if(artifact.get(fieldName) == null) {
+                        if(artifact.get("hashes").get(fieldName) == null) {
                             noFieldsArtifacts.put(fieldName, ResultCompare.NOTEXIST);
                             Compare.checkFieldsMandatoryArtifacts.put(artifact.hashCode(), noFieldsArtifacts);
                         }
