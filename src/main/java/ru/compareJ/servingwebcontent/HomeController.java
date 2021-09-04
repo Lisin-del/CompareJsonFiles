@@ -91,6 +91,9 @@ public class HomeController {
         model.addAttribute("checkFieldsOptionalServices2", Compare.checkFieldsOptionalServices2);
         model.addAttribute("checkFieldsMandatoryArtifacts", Compare.checkFieldsMandatoryArtifacts);
         model.addAttribute("checkFieldsMandatoryArtifactsMvn", Compare.checkFieldsMandatoryArtifactsMvn);
+        model.addAttribute("checkFieldsOptionalArtifacts1", Compare.checkFieldsOptionalArtifacts1);
+        model.addAttribute("checkFieldsOptionalArtifacts2", Compare.checkFieldsOptionalArtifacts2);
+        model.addAttribute("mandatoryFieldsArtifacts", CompareArtifacts.mandatoryFieldsArtifacts);
 
         for(ResultCompare resultCompare : ResultCompare.values()) {
             model.addAttribute(resultCompare.toString(), resultCompare);

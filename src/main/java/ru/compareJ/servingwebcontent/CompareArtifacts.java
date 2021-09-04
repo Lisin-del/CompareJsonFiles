@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+
 public class CompareArtifacts {
     //the mandatory fields for the mvn for the artifacts
     private ArrayList<String> mandatoryFieldsArtifactsMvn = new ArrayList<>();
@@ -29,7 +32,7 @@ public class CompareArtifacts {
     }
 
     //the mandatory fields for the artifacts
-    private ArrayList<String> mandatoryFieldsArtifacts = new ArrayList<>();
+    public static ArrayList<String> mandatoryFieldsArtifacts = new ArrayList<>();
     {
         mandatoryFieldsArtifacts.add("mvn");
         mandatoryFieldsArtifacts.add("target_repository");
@@ -63,6 +66,8 @@ public class CompareArtifacts {
 
 
         }
+        compareOptionalFields1(node1, node2);
+        compareOptionalFields2(node2, node1);
     }
 
     private void compare(JsonNode node1, JsonNode node2) {
@@ -77,7 +82,19 @@ public class CompareArtifacts {
 
                 for(String mandatoryField : mandatoryFieldsArtifacts) {
                     if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
-                        fieldsCompare1.put(field.getKey(), field.getValue());
+
+                        if(mandatoryField.equals("file") && field.getValue().size() == 1) {
+                            fieldsCompare1.put(field.getKey(), field.getValue());
+                        }
+                        else if(mandatoryField.equals("file") && field.getValue().size() > 1){
+                            String randomName = RandomStringUtils.random(5);
+                            fieldsCompare1.put(randomName, field.getValue());
+                        }
+
+                        if(!mandatoryField.equals("file")) {
+                            fieldsCompare1.put(field.getKey(), field.getValue());
+                        }
+
                     }
                     else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
                         if(field.getValue().get(mandatoryField) != null) {
@@ -96,7 +113,18 @@ public class CompareArtifacts {
 
                     for(String mandatoryField : mandatoryFieldsArtifacts) {
                         if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
-                            fieldsCompare2.put(field.getKey(), field.getValue());
+
+                            if(mandatoryField.equals("file") && field.getValue().size() == 1) {
+                                fieldsCompare2.put(field.getKey(), field.getValue());
+                            }
+                            else if(mandatoryField.equals("file") && field.getValue().size() > 1) {
+                                String randomName = RandomStringUtils.random(5);
+                                fieldsCompare2.put(randomName, field.getValue());
+                            }
+
+                            if(!mandatoryField.equals("file")) {
+                                fieldsCompare2.put(field.getKey(), field.getValue());
+                            }
                         }
                         else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
                             if(field.getValue().get(mandatoryField) != null) {
@@ -179,6 +207,60 @@ public class CompareArtifacts {
             }
 
 
+        }
+    }
+
+    //compare optional fields node #1
+    public void compareOptionalFields1(JsonNode node1, JsonNode node2) {
+        for(JsonNode artifact1 : node1.get("artifacts")) {
+            HashMap<String, ResultCompare> compareOpt = new HashMap<>();
+
+            for(JsonNode artifact2 : node2.get("artifacts")) {
+
+                for(String fieldName : optionalFieldsArtifacts) {
+                    if(artifact1.get(fieldName) != null && artifact2.get(fieldName) != null &&
+                            Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.EQUAL && Compare.resultCompareFiles.get(artifact2.hashCode()) == ResultCompare.EQUAL) {
+
+                        if(artifact1.get(fieldName).equals(artifact2.get(fieldName)) && compareOpt.get(fieldName) == null) {
+                            compareOpt.put(fieldName, ResultCompare.EQUAL);
+                        }
+                        else if(artifact1.get(fieldName).equals(artifact2.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
+                            compareOpt.put(fieldName, ResultCompare.EQUAL);
+                        }
+                        else if(!artifact1.get(fieldName).equals(artifact2.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
+                            compareOpt.put(fieldName, ResultCompare.NOTEQUAL);
+                        }
+                    }
+                }
+            }
+            Compare.checkFieldsOptionalArtifacts1.put(artifact1.hashCode(), compareOpt);
+        }
+    }
+
+    //compare optional fields node #2
+    public void compareOptionalFields2(JsonNode node2, JsonNode node1) {
+        for(JsonNode artifact2 : node2.get("artifacts")) {
+            HashMap<String, ResultCompare> compareOpt = new HashMap<>();
+
+            for(JsonNode artifact1 : node1.get("artifacts")) {
+
+                for(String fieldName : optionalFieldsArtifacts) {
+                    if(artifact2.get(fieldName) != null && artifact1.get(fieldName) != null &&
+                            Compare.resultCompareFiles.get(artifact2.hashCode()) == ResultCompare.EQUAL && Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.EQUAL) {
+
+                        if(artifact2.get(fieldName).equals(artifact1.get(fieldName)) && compareOpt.get(fieldName) == null) {
+                            compareOpt.put(fieldName, ResultCompare.EQUAL);
+                        }
+                        else if(artifact2.get(fieldName).equals(artifact1.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
+                            compareOpt.put(fieldName, ResultCompare.EQUAL);
+                        }
+                        else if(!artifact2.get(fieldName).equals(artifact1.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
+                            compareOpt.put(fieldName, ResultCompare.NOTEQUAL);
+                        }
+                    }
+                }
+            }
+            Compare.checkFieldsOptionalArtifacts2.put(artifact2.hashCode(), compareOpt);
         }
     }
 }

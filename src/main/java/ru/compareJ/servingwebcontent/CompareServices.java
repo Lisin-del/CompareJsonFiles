@@ -172,6 +172,7 @@ public class CompareServices {
 
     }
 
+    //compare optional fields services 1 node
     private void optionalCompare1(JsonNode node1, JsonNode node2) {
         for(JsonNode service1 : node1.get("services")) {
             HashMap<String, ResultCompare> compareOpt = new HashMap<>();
@@ -206,6 +207,7 @@ public class CompareServices {
         }
     }
 
+    //compare optional fields services 2 node
     private void optionalCompare2(JsonNode node2, JsonNode node1) {
         for(JsonNode service2 : node2.get("services")) {
             HashMap<String, ResultCompare> compareOpt = new HashMap<>();

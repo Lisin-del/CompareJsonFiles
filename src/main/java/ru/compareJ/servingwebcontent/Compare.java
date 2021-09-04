@@ -24,6 +24,10 @@ public class Compare {
     //check the mandatory fields for the mvn for the artifacts
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsMandatoryArtifacts = new HashMap<>();
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsMandatoryArtifactsMvn = new HashMap<>();
+
+    //check the optional fields fot the artifacts
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalArtifacts1 = new HashMap<>();
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalArtifacts2 = new HashMap<>();
     //===ARTIFACTS END===
 
 
