@@ -94,6 +94,10 @@ public class HomeController {
         model.addAttribute("checkFieldsOptionalArtifacts1", Compare.checkFieldsOptionalArtifacts1);
         model.addAttribute("checkFieldsOptionalArtifacts2", Compare.checkFieldsOptionalArtifacts2);
         model.addAttribute("mandatoryFieldsArtifacts", CompareArtifacts.mandatoryFieldsArtifacts);
+        model.addAttribute("checkFieldsMandatoryScript", Compare.checkFieldsMandatoryScript);
+        model.addAttribute("mandatoryFieldsScript", CompareScript.mandatoryFieldsScript);
+        model.addAttribute("checkFieldsOptionalScript1", Compare.checkFieldsOptionalScript1);
+        model.addAttribute("checkFieldsOptionalScript2", Compare.checkFieldsOptionalScript2);
 
         for(ResultCompare resultCompare : ResultCompare.values()) {
             model.addAttribute(resultCompare.toString(), resultCompare);

@@ -696,8 +696,122 @@
     </tr>
 
     <tr>
-        <td>Mark</td>
-        <td>Otto</td>
+        <td>
+            <!--check script-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('script').hashCode() and resCom.value == NOTEQUAL}">"script": [
+                <div class = "space" th:each = "script : ${node1.get('script')}">{
+                    <!--top object not equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == NOTEQUAL}">
+                        <th:block th:each = "field : ${script.fields()}">
+                            <p class = "space red" th:text = "${field}"/>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+
+                    <!--top object equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == EQUAL}">
+                        <th:block th:each = "field : ${script.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsScript}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <!--compare optional fields-->
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalScript1}">
+                                <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('script').hashCode() and resCom.value == EQUAL}">"script": [
+                <div class = "space" th:each = "script : ${node1.get('script')}">{
+                    <th:block th:each = "field : ${script.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <!--output the missing mandatory fields-->
+                    <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                            <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        </th:block>
+                    </th:block>
+                }</div>
+            ]</div>
+        </td>
+
+
+        <td>
+            <!--check script-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('script').hashCode() and resCom.value == NOTEQUAL}">"script": [
+                <div class = "space" th:each = "script : ${node2.get('script')}">{
+                    <!--top object not equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == NOTEQUAL}">
+                        <th:block th:each = "field : ${script.fields()}">
+                            <p class = "space green" th:text = "${field}"/>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+
+                    <!--top object equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == EQUAL}">
+                        <th:block th:each = "field : ${script.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsScript}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <!--compare optional fields-->
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalScript2}">
+                                <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('script').hashCode() and resCom.value == EQUAL}">"script": [
+                <div class = "space" th:each = "script : ${node2.get('script')}">{
+                    <th:block th:each = "field : ${script.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <!--output the missing mandatory fields-->
+                    <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                            <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        </th:block>
+                    </th:block>
+                }</div>
+            ]</div>
+        </td>
     </tr>
 
     <tr>

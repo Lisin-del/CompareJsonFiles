@@ -30,14 +30,24 @@ public class Compare {
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalArtifacts2 = new HashMap<>();
     //===ARTIFACTS END===
 
+    //===SCRIPT===
+    //check the mandatory fields for the script
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsMandatoryScript = new HashMap<>();
+
+    //check the optional fields for the script
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalScript1 = new HashMap<>();
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalScript2 = new HashMap<>();
+
 
 
     private CompareMetadata compareMetadata = new CompareMetadata();
     private CompareServices compareServices = new CompareServices();
     private CompareArtifacts compareArtifacts = new CompareArtifacts();
+    private CompareScript compareScript = new CompareScript();
 
     private CheckMandatoryFieldsServices checkMandatoryFieldsServices = new CheckMandatoryFieldsServices();
     private CheckMandatoryFieldsArt checkMandatoryFieldsArt = new CheckMandatoryFieldsArt();
+    private CheckMandatoryFieldsScript checkMandatoryFieldsScript = new CheckMandatoryFieldsScript();
 
 
     private JsonNode node1;
@@ -75,6 +85,11 @@ public class Compare {
                 //compare artifacts
                 checkMandatoryFieldsArt.checkAvailabilityFieldsArtifacts(node1, node2);
                 compareArtifacts.artifactsCompare(node1, node2);
+
+                //compare script
+                checkMandatoryFieldsScript.checkAvailabilityFieldsScript(node1, node2);
+                compareScript.scriptCompare(node1, node2);
+
 
             }
         }
