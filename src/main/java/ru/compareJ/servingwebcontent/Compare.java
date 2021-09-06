@@ -37,17 +37,28 @@ public class Compare {
     //check the optional fields for the script
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalScript1 = new HashMap<>();
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalScript2 = new HashMap<>();
+    //===SCRIPT END===
 
+    //===RPM===
+    //check the mandatory fields for the script
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsMandatoryRpm = new HashMap<>();
+
+    //check the optional fields for the rpm
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalRpm1 = new HashMap<>();
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalRpm2 = new HashMap<>();
+    //===RPM END===
 
 
     private CompareMetadata compareMetadata = new CompareMetadata();
     private CompareServices compareServices = new CompareServices();
     private CompareArtifacts compareArtifacts = new CompareArtifacts();
     private CompareScript compareScript = new CompareScript();
+    private CompareRpm compareRpm = new CompareRpm();
 
     private CheckMandatoryFieldsServices checkMandatoryFieldsServices = new CheckMandatoryFieldsServices();
     private CheckMandatoryFieldsArt checkMandatoryFieldsArt = new CheckMandatoryFieldsArt();
     private CheckMandatoryFieldsScript checkMandatoryFieldsScript = new CheckMandatoryFieldsScript();
+    private CheckMandatoryFieldsRpm checkMandatoryFieldsRpm = new CheckMandatoryFieldsRpm();
 
 
     private JsonNode node1;
@@ -89,6 +100,10 @@ public class Compare {
                 //compare script
                 checkMandatoryFieldsScript.checkAvailabilityFieldsScript(node1, node2);
                 compareScript.scriptCompare(node1, node2);
+
+                //compare rpm
+                checkMandatoryFieldsRpm.checkAvailabilityFieldsRpm(node1, node2);
+                compareRpm.rpmCompare(node1, node2);
 
 
             }

@@ -84,20 +84,27 @@ public class HomeController {
         model.addAttribute("node1", compareFiles.getNode1());
         model.addAttribute("node2", compareFiles.getNode2());
         model.addAttribute("result", Compare.resultCompareFiles);
-        model.addAttribute("variable", var);
+
         model.addAttribute("checkFieldsMandatoryServices", Compare.checkFieldsMandatoryServices);
         model.addAttribute("mandatoryFieldsServices", CompareServices.mandatoryFieldsServices);
         model.addAttribute("checkFieldsOptionalServices1", Compare.checkFieldsOptionalServices1);
         model.addAttribute("checkFieldsOptionalServices2", Compare.checkFieldsOptionalServices2);
+
         model.addAttribute("checkFieldsMandatoryArtifacts", Compare.checkFieldsMandatoryArtifacts);
         model.addAttribute("checkFieldsMandatoryArtifactsMvn", Compare.checkFieldsMandatoryArtifactsMvn);
         model.addAttribute("checkFieldsOptionalArtifacts1", Compare.checkFieldsOptionalArtifacts1);
         model.addAttribute("checkFieldsOptionalArtifacts2", Compare.checkFieldsOptionalArtifacts2);
         model.addAttribute("mandatoryFieldsArtifacts", CompareArtifacts.mandatoryFieldsArtifacts);
+
         model.addAttribute("checkFieldsMandatoryScript", Compare.checkFieldsMandatoryScript);
         model.addAttribute("mandatoryFieldsScript", CompareScript.mandatoryFieldsScript);
         model.addAttribute("checkFieldsOptionalScript1", Compare.checkFieldsOptionalScript1);
         model.addAttribute("checkFieldsOptionalScript2", Compare.checkFieldsOptionalScript2);
+
+        model.addAttribute("mandatoryFieldsRpm", CompareRpm.mandatoryFieldsRpm);
+        model.addAttribute("checkFieldsMandatoryRpm", Compare.checkFieldsMandatoryRpm);
+        model.addAttribute("checkFieldsOptionalRpm1", Compare.checkFieldsOptionalRpm1);
+        model.addAttribute("checkFieldsOptionalRpm2", Compare.checkFieldsOptionalRpm2);
 
         for(ResultCompare resultCompare : ResultCompare.values()) {
             model.addAttribute(resultCompare.toString(), resultCompare);

@@ -98,7 +98,7 @@ public class CompareScript {
         }
     }
 
-    //compare optional fields node #1
+    //compare optional fields file #1
     public void compareOptionalFields1(JsonNode node1, JsonNode node2) {
         for(JsonNode script1 : node1.get("script")) {
             HashMap<String, ResultCompare> compareOpt = new HashMap<>();
@@ -125,6 +125,7 @@ public class CompareScript {
         }
     }
 
+    //compare optional fields file #2
     public void compareOptionalFields2(JsonNode node1, JsonNode node2) {
         for(JsonNode script2 : node1.get("script")) {
             HashMap<String, ResultCompare> compareOpt = new HashMap<>();

@@ -759,6 +759,7 @@
             <!--check script-->
             <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('script').hashCode() and resCom.value == NOTEQUAL}">"script": [
                 <div class = "space" th:each = "script : ${node2.get('script')}">{
+                    
                     <!--top object not equal-->
                     <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == NOTEQUAL}">
                         <th:block th:each = "field : ${script.fields()}">
@@ -815,8 +816,92 @@
     </tr>
 
     <tr>
-        <td>Jacob</td>
-        <td>Thornton</td>
+        <td>
+            <!--check rpm-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('rpm').hashCode() and resCom.value == NOTEQUAL}">"rpm": [
+                <div th:each = "rpm : ${node1.get('rpm')}">{
+                    
+                    <!--top object not equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == NOTEQUAL}">
+                        <th:block th:each = "field : ${rpm.fields()}">
+                            <p class = "space red" th:text = "${field}"/>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+
+                    <!--top object equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == EQUAL}">
+                        <th:block th:each = "field : ${rpm.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsRpm}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <!--compare optional fields-->
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalRpm1}">
+                                <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+        </td>
+        <td>
+            <!--check rpm-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('rpm').hashCode() and resCom.value == NOTEQUAL}">"rpm": [
+                <div th:each = "rpm : ${node2.get('rpm')}">{
+                    
+                    <!--top object not equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == NOTEQUAL}">
+                        <th:block th:each = "field : ${rpm.fields()}">
+                            <p class = "space green" th:text = "${field}"/>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+
+                    <!--top object equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == EQUAL}">
+                        <th:block th:each = "field : ${rpm.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsRpm}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <!--compare optional fields-->
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalRpm2}">
+                                <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+        </td>
     </tr>
 
     <tr>
