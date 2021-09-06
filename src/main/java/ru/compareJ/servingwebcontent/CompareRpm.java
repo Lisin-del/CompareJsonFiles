@@ -23,22 +23,25 @@ public class CompareRpm {
     }
 
     public void rpmCompare(JsonNode node1, JsonNode node2) {
-        if(node1.get("rpm").hashCode() == node2.get("rpm").hashCode()) {
-            Compare.resultCompareFiles.put(node1.get("rpm").hashCode(), ResultCompare.EQUAL);
+        if(node1.get("rpm") != null && node2.get("rpm") != null) {
+            if(node1.get("rpm").hashCode() == node2.get("rpm").hashCode()) {
+                Compare.resultCompareFiles.put(node1.get("rpm").hashCode(), ResultCompare.EQUAL);
 
-            for(JsonNode rpm : node1.get("rpm")) {
-                Compare.resultCompareFiles.put(rpm.hashCode(), ResultCompare.EQUAL);
+                for(JsonNode rpm : node1.get("rpm")) {
+                    Compare.resultCompareFiles.put(rpm.hashCode(), ResultCompare.EQUAL);
+                }
             }
-        }
-        else {
-            Compare.resultCompareFiles.put(node1.get("rpm").hashCode(), ResultCompare.NOTEQUAL);
-            Compare.resultCompareFiles.put(node2.get("rpm").hashCode(), ResultCompare.NOTEQUAL);
+            else {
+                Compare.resultCompareFiles.put(node1.get("rpm").hashCode(), ResultCompare.NOTEQUAL);
+                Compare.resultCompareFiles.put(node2.get("rpm").hashCode(), ResultCompare.NOTEQUAL);
 
-            compare(node1.get("rpm"), node2.get("rpm"));
-            compare(node2.get("rpm"), node1.get("rpm"));
+                compare(node1.get("rpm"), node2.get("rpm"));
+                compare(node2.get("rpm"), node1.get("rpm"));
+            }
+            compareOptionalFields1(node1, node2);
+            compareOptionalFields2(node2, node1);
         }
-        compareOptionalFields1(node1, node2);
-        compareOptionalFields2(node2, node1);
+
     }
 
     private void compare(JsonNode node1, JsonNode node2) {

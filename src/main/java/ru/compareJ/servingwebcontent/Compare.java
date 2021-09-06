@@ -54,6 +54,7 @@ public class Compare {
     private CompareArtifacts compareArtifacts = new CompareArtifacts();
     private CompareScript compareScript = new CompareScript();
     private CompareRpm compareRpm = new CompareRpm();
+    private CompareParameters compareParam = new CompareParameters();
 
     private CheckMandatoryFieldsServices checkMandatoryFieldsServices = new CheckMandatoryFieldsServices();
     private CheckMandatoryFieldsArt checkMandatoryFieldsArt = new CheckMandatoryFieldsArt();
@@ -71,8 +72,16 @@ public class Compare {
         checkFieldsOptionalServices1.clear();
         checkFieldsOptionalServices2.clear();
         checkFieldsMandatoryServices.clear();
+
         checkFieldsMandatoryArtifacts.clear();
         checkFieldsMandatoryArtifactsMvn.clear();
+        checkFieldsOptionalArtifacts1.clear();
+        checkFieldsOptionalArtifacts2.clear();
+
+        checkFieldsMandatoryRpm.clear();
+        checkFieldsOptionalRpm1.clear();
+        checkFieldsOptionalRpm2.clear();
+
         resultCompareFiles.clear();
 
         if(validatorJson.validationObjectJson(node1) & validatorJson.validationObjectJson(node2)) {
@@ -105,6 +114,8 @@ public class Compare {
                 checkMandatoryFieldsRpm.checkAvailabilityFieldsRpm(node1, node2);
                 compareRpm.rpmCompare(node1, node2);
 
+                //compare parameters
+                compareParam.parametersCompare(node1, node2);
 
             }
         }

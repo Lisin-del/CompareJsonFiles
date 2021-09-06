@@ -858,6 +858,22 @@
                     </div>
                 }</div>
             ]</div>
+
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('rpm').hashCode() and resCom.value == EQUAL}">"rpm": [
+                <div class = "space" th:each = "rpm : ${node1.get('rpm')}">{
+                    <th:block th:each = "field : ${rpm.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <!--output the missing mandatory fields-->
+                    <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                            <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        </th:block>
+                    </th:block>
+                }</div>
+            ]</div>
+
         </td>
         <td>
             <!--check rpm-->
@@ -899,6 +915,21 @@
                             </th:block>
                         </th:block>
                     </div>
+                }</div>
+            ]</div>
+
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('rpm').hashCode() and resCom.value == EQUAL}">"rpm": [
+                <div class = "space" th:each = "rpm : ${node2.get('rpm')}">{
+                    <th:block th:each = "field : ${rpm.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <!--output the missing mandatory fields-->
+                    <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                            <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        </th:block>
+                    </th:block>
                 }</div>
             ]</div>
         </td>

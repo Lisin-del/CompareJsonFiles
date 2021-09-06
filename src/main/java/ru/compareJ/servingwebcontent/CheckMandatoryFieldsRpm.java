@@ -17,39 +17,42 @@ public class CheckMandatoryFieldsRpm {
 
     public void checkAvailabilityFieldsRpm(JsonNode node1, JsonNode node2) {
         //file #1 script
-        for(JsonNode rpm1 : node1.get("rpm")) {
-            HashMap<String, ResultCompare> noFields1 = new HashMap<>();
+        if(node1.get("rpm") != null && node2.get("rpm") != null) {
 
-            for(String fieldName1 : mandatoryFieldsRpm) {
-                if(!fieldName1.equals("sha1") && !fieldName1.equals("sha256") && rpm1.get(fieldName1) == null) {
-                    noFields1.put(fieldName1, ResultCompare.NOTEXIST);
-                    Compare.checkFieldsMandatoryRpm.put(rpm1.hashCode(), noFields1);
-                }
-                else if(fieldName1.equals("sha1") || fieldName1.equals("sha256")) {
-                    if(rpm1.get("hashes") != null) {
-                        if(rpm1.get("hashes").get(fieldName1) == null) {
-                            noFields1.put(fieldName1, ResultCompare.NOTEXIST);
-                            Compare.checkFieldsMandatoryRpm.put(rpm1.hashCode(), noFields1);
+            for(JsonNode rpm1 : node1.get("rpm")) {
+                HashMap<String, ResultCompare> noFields1 = new HashMap<>();
+
+                for(String fieldName1 : mandatoryFieldsRpm) {
+                    if(!fieldName1.equals("sha1") && !fieldName1.equals("sha256") && rpm1.get(fieldName1) == null) {
+                        noFields1.put(fieldName1, ResultCompare.NOTEXIST);
+                        Compare.checkFieldsMandatoryRpm.put(rpm1.hashCode(), noFields1);
+                    }
+                    else if(fieldName1.equals("sha1") || fieldName1.equals("sha256")) {
+                        if(rpm1.get("hashes") != null) {
+                            if(rpm1.get("hashes").get(fieldName1) == null) {
+                                noFields1.put(fieldName1, ResultCompare.NOTEXIST);
+                                Compare.checkFieldsMandatoryRpm.put(rpm1.hashCode(), noFields1);
+                            }
                         }
                     }
                 }
             }
-        }
 
-        //file #2 script
-        for(JsonNode rpm2 : node2.get("rpm")) {
-            HashMap<String, ResultCompare> noFields2 = new HashMap<>();
+            //file #2 script
+            for(JsonNode rpm2 : node2.get("rpm")) {
+                HashMap<String, ResultCompare> noFields2 = new HashMap<>();
 
-            for(String fieldName2 : mandatoryFieldsRpm) {
-                if(!fieldName2.equals("sha1") && !fieldName2.equals("sha256") && rpm2.get(fieldName2) == null) {
-                    noFields2.put(fieldName2, ResultCompare.NOTEXIST);
-                    Compare.checkFieldsMandatoryRpm.put(rpm2.hashCode(), noFields2);
-                }
-                else if(fieldName2.equals("sha1") || fieldName2.equals("sha256")) {
-                    if(rpm2.get("hashes") != null) {
-                        if(rpm2.get("hashes").get(fieldName2) == null) {
-                            noFields2.put(fieldName2, ResultCompare.NOTEXIST);
-                            Compare.checkFieldsMandatoryRpm.put(rpm2.hashCode(), noFields2);
+                for(String fieldName2 : mandatoryFieldsRpm) {
+                    if(!fieldName2.equals("sha1") && !fieldName2.equals("sha256") && rpm2.get(fieldName2) == null) {
+                        noFields2.put(fieldName2, ResultCompare.NOTEXIST);
+                        Compare.checkFieldsMandatoryRpm.put(rpm2.hashCode(), noFields2);
+                    }
+                    else if(fieldName2.equals("sha1") || fieldName2.equals("sha256")) {
+                        if(rpm2.get("hashes") != null) {
+                            if(rpm2.get("hashes").get(fieldName2) == null) {
+                                noFields2.put(fieldName2, ResultCompare.NOTEXIST);
+                                Compare.checkFieldsMandatoryRpm.put(rpm2.hashCode(), noFields2);
+                            }
                         }
                     }
                 }
