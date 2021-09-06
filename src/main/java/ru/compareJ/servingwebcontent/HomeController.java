@@ -21,8 +21,6 @@ public class HomeController {
     public String greeting(Model model) {
         deleteAllFilesFolder("./src/main/resources/uploadFiles/");
         model.addAttribute("title", "Home page");
-        model.addAttribute("node1", compareFiles.getNode1());
-        model.addAttribute("node2", compareFiles.getNode2());
         return "homepage";
     }
 
@@ -79,7 +77,6 @@ public class HomeController {
 
     @GetMapping("/result")
     public String result(Model model) {
-        int var = 0;
         model.addAttribute("title", "Result page");
         model.addAttribute("node1", compareFiles.getNode1());
         model.addAttribute("node2", compareFiles.getNode2());
