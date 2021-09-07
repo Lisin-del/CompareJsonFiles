@@ -8,21 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class CompareParameters {
-    public static ArrayList<String> mandatoryFieldsParam = new ArrayList<>();
-    {
-        mandatoryFieldsParam.add("some-param");
-        mandatoryFieldsParam.add("service_name_1");
-        mandatoryFieldsParam.add("some-third-param");
-        mandatoryFieldsParam.add("service_name_2");
-        mandatoryFieldsParam.add("some-third-param-2");
-
-    }
-
-    private ArrayList<String> optionalFieldsParam = new ArrayList<>();
-    {
-        optionalFieldsParam.add("common");
-        optionalFieldsParam.add("services");
-    }
 
     public void parametersCompare(JsonNode node1, JsonNode node2) {
         if(node1.get("parameters").hashCode() == node2.get("parameters").hashCode()) {
@@ -33,65 +18,56 @@ public class CompareParameters {
             Compare.resultCompareFiles.put(node2.get("parameters").hashCode(), ResultCompare.NOTEQUAL);
 
             compare(node1, node2);
-
         }
 
     }
 
     private void compare(JsonNode node1, JsonNode node2) {
-        //json file #1
-        Iterator<Map.Entry<String, JsonNode>> iterator1 = node1.get("parameters").fields();
-        HashMap<String, JsonNode> fieldsCompare1 = new HashMap<>();
 
-        while(iterator1.hasNext()) {
-            Map.Entry<String, JsonNode> fieldOptional = iterator1.next();
+        if(node1.get("parameters").get("common") != null && node2.get("parameters").get("common") != null) {
+            if(node1.get("parameters").get("common").hashCode() == node2.get("parameters").get("common").hashCode()) {
+                Compare.resultCompareFiles.put(node1.get("parameters").get("common").hashCode(), ResultCompare.EQUAL);
+            }
+            else {
+                Compare.resultCompareFiles.put(node1.get("parameters").get("common").hashCode(), ResultCompare.NOTEQUAL);
+                Compare.resultCompareFiles.put(node2.get("parameters").get("common").hashCode(), ResultCompare.NOTEQUAL);
 
-            for(String optionalField : optionalFieldsParam) {
-                if(fieldOptional.getKey().equals(optionalField)) {
-                    Iterator<Map.Entry<String, JsonNode>> iterator2 = fieldOptional.getValue().fields();
+                Iterator<Map.Entry<String, JsonNode>> iterator = node1.get("parameters").get("common").fields();
 
-                    while(iterator2.hasNext()) {
-                        Map.Entry<String, JsonNode> fieldMandatory = iterator2.next();
+                while(iterator.hasNext()) {
+                    Map.Entry<String, JsonNode> field = iterator.next();
 
-                        for(String mandatoryField : mandatoryFieldsParam) {
-                            if(fieldMandatory.getKey().equals(mandatoryField)) {
-                                fieldsCompare1.put(fieldMandatory.getKey(), fieldMandatory.getValue());
-                            }
+                    if(node2.get("parameters").get("common").get(field.getKey()) != null) {
+                        if(field.getValue().hashCode() == node2.get("parameters").get("common").get(field.getKey()).hashCode()) {
+                            Compare.resultCompareFiles.put(field.getValue().hashCode(), ResultCompare.EQUAL);
+                        }
+                        else {
+                            Compare.resultCompareFiles.put(field.getValue().hashCode(), ResultCompare.NOTEQUAL);
+                            Compare.resultCompareFiles.put(node2.get("parameters").get("common").get(field.getKey()).hashCode(), ResultCompare.NOTEQUAL);
                         }
                     }
                 }
             }
         }
 
-        //json file #2
-        Iterator<Map.Entry<String, JsonNode>> iterator2 = node2.get("parameters").fields();
-        HashMap<String, JsonNode> fieldsCompare2 = new HashMap<>();
+        if(node1.get("parameters").get("services") != null && node2.get("parameters").get("services") != null) {
+            Iterator<Map.Entry<String, JsonNode>> iterator = node1.get("parameters").get("services").fields();
 
-        while(iterator1.hasNext()) {
-            Map.Entry<String, JsonNode> fieldOptional = iterator2.next();
+            while(iterator.hasNext()) {
+                Map.Entry<String, JsonNode> service = iterator.next();
 
-            for(String optionalField : optionalFieldsParam) {
-                if(fieldOptional.getKey().equals(optionalField)) {
-                    Iterator<Map.Entry<String, JsonNode>> iterator3 = fieldOptional.getValue().fields();
-
-                    while(iterator2.hasNext()) {
-                        Map.Entry<String, JsonNode> fieldMandatory = iterator3.next();
-
-                        for(String mandatoryField : mandatoryFieldsParam) {
-                            if(fieldMandatory.getKey().equals(mandatoryField)) {
-                                fieldsCompare2.put(fieldMandatory.getKey(), fieldMandatory.getValue());
-                            }
-                        }
+                if(node2.get("parameters").get("services").get(service.getKey()) != null) {
+                    if(service.getValue().hashCode() == node2.get("parameters").get("services").get(service.getKey()).hashCode()) {
+                        int h1 = service.getValue().hashCode();
+                        int h2 = node2.get("parameters").get("services").get(service.getKey()).hashCode();
+                        Compare.resultCompareFiles.put(service.getValue().hashCode(), ResultCompare.EQUAL);
+                    }
+                    else {
+                        Compare.resultCompareFiles.put(service.getValue().hashCode(), ResultCompare.NOTEQUAL);
+                        Compare.resultCompareFiles.put(node2.get("parameters").get("services").get(service.getKey()).hashCode(), ResultCompare.NOTEQUAL);
                     }
                 }
             }
-        }
-
-        if(fieldsCompare1.equals(fieldsCompare2)) {
-            int i = 0;
-        }
-        else {
-            int i = 1;
         }
     }
 }

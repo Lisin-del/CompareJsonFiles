@@ -936,8 +936,98 @@
     </tr>
 
     <tr>
-        <td>Larry</td>
-        <td>the Bird</td>
+        <td>
+            <!--check parameters-->
+            <!--equal-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('parameters').hashCode() and resCom.value == EQUAL}">"parameters": {
+
+                <div th:each = "parameter : ${node1.get('parameters').fields()}">
+                    <div class = "space" th:if = "${parameter.getKey().equals('common')}">"common": {
+                        <p class = "space" th:each = "fieldCommon : ${parameter.getValue().fields()}" th:text = "${fieldCommon}"/>
+                    }</div>
+
+                    <div class = "space" th:if = "${parameter.getKey().equals('services')}">"services": {
+
+                        <div class = "space" th:each = "fieldServices : ${parameter.getValue().fields()}" >
+                            <span th:text = "${fieldServices.getKey()}" /><div class = "space" th:each = "ff : ${fieldServices.getValue().fields()}">{
+                                <p class = "space" th:text = "${ff}" />
+                            }
+                            </div>
+                        </div>
+                    }</div>
+
+                </div>
+            }</div>
+
+            <!--not equal-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('parameters').hashCode() and resCom.value == NOTEQUAL}">"parameters": {
+                <div th:each = "parameter : ${node1.get('parameters').fields()}">
+                    <!--common not equal-->
+                    <div class = "space" th:each = "res1 : ${result}" th:if = "${parameter.getKey().equals('common') and parameter.getValue().hashCode() == res1.getKey() and res1.getValue() == NOTEQUAL}" >"common": {
+                           <p class = "space red" th:each = "fieldCommon : ${parameter.getValue().fields()}" th:text = "${fieldCommon}"/>
+                    }</div>
+
+                    <!--common equal-->
+                    <div class = "space" th:each = "res1 : ${result}" th:if = "${parameter.getKey().equals('common') and parameter.getValue().hashCode() == res1.getKey() and res1.getValue() == EQUAL}" >"common": {
+                           <p class = "space" th:each = "fieldCommon : ${parameter.getValue().fields()}" th:text = "${fieldCommon}"/>
+                    }</div>
+
+
+                    <!--services not equal-->
+                    <div class = "space" th:if = "${parameter.getKey().equals('services')}" th:each = "res1 : ${result}">"services": {
+
+                        <div class = "space" th:each = "fieldServices : ${parameter.getValue().fields()}" th:if = "${res1.getKey() == fieldServices.hashCode() and res1.getValue() == NOTEQUAL}">
+                            <span class = "red" th:text = "${fieldServices.getKey()}" /><div class = "space" th:each = "ff : ${fieldServices.getValue().fields()}">{
+                                <p class = "space red" th:text = "${ff}" />
+                            }
+                            </div>
+                        </div>
+                    }</div>
+
+                    <!--services equal-->
+                    <div class = "space" th:if = "${parameter.getKey().equals('services')}" th:each = "res1 : ${result}">"services": {
+
+                        <div class = "space" th:each = "fieldServices : ${parameter.getValue().fields()}" th:if = "${res1.getKey() == fieldServices.hashCode() and res1.getValue() == EQUAL}">
+                            <span th:text = "${fieldServices.getKey()}" /><div class = "space" th:each = "ff : ${fieldServices.getValue().fields()}">{
+                                <p class = "space" th:text = "${ff}" />
+                            }
+                            </div>
+                        </div>
+                    }</div>
+
+
+                    
+                </div>
+
+
+            }</div>
+            
+        </td>
+
+
+
+        <td>
+            <!--check parameters-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('parameters').hashCode() and resCom.value == EQUAL}">"parameters": {
+
+                <div th:each = "parameter : ${node2.get('parameters').fields()}">
+                    <div class = "space" th:if = "${parameter.getKey().equals('common')}">"common": {
+                        <p class = "space" th:each = "fieldCommon : ${parameter.getValue().fields()}" th:text = "${fieldCommon}"/>
+                    }</div>
+
+                    <div class = "space" th:if = "${parameter.getKey().equals('services')}">"services": {
+
+                        <div class = "space" th:each = "fieldServices : ${parameter.getValue().fields()}" >
+                            <span th:text = "${fieldServices.getKey()}" /><div class = "space" th:each = "ff : ${fieldServices.getValue().fields()}">{
+                                <p class = "space" th:text = "${ff}" />
+                            }
+                            </div>
+                        </div>
+                    }</div>
+
+                </div>
+            }</div>
+        </td>
     </tr>
     </tbody>
 </table>
