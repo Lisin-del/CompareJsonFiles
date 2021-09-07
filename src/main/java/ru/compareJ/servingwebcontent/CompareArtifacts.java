@@ -61,8 +61,14 @@ public class CompareArtifacts {
             Compare.resultCompareFiles.put(node1.get("artifacts").hashCode(), ResultCompare.NOTEQUAL);
             Compare.resultCompareFiles.put(node2.get("artifacts").hashCode(), ResultCompare.NOTEQUAL);
 
+            System.out.println("0 top object for the artifacts1: " + node1.get("artifacts").get(0).hashCode());
+            System.out.println("0 top object for the artifacts2: " + node2.get("artifacts").get(0).hashCode());
+
             compare(node1.get("artifacts"), node2.get("artifacts"));
             compare(node2.get("artifacts"), node1.get("artifacts"));
+
+            compareMvn(node1.get("artifacts"), node2.get("artifacts"));
+            compareMvn(node2.get("artifacts"), node1.get("artifacts"));
 
 
         }
@@ -92,7 +98,9 @@ public class CompareArtifacts {
                         }
 
                         if(!mandatoryField.equals("file")) {
-                            fieldsCompare1.put(field.getKey(), field.getValue());
+                            if(!field.getKey().equals("mvn")) {
+                                fieldsCompare1.put(field.getKey(), field.getValue());
+                            }
                         }
 
                     }
@@ -123,7 +131,9 @@ public class CompareArtifacts {
                             }
 
                             if(!mandatoryField.equals("file")) {
-                                fieldsCompare2.put(field.getKey(), field.getValue());
+                                if(!field.getKey().equals("mvn")) {
+                                    fieldsCompare2.put(field.getKey(), field.getValue());
+                                }
                             }
                         }
                         else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
@@ -147,67 +157,74 @@ public class CompareArtifacts {
     }
 
 
-    private void compareMvn(JsonNode mvnArtifact1, JsonNode mvnArtifact2) {
-        for(JsonNode mvn1 : mvnArtifact1.get("mvn")) {
-            int count = 0;
+    private void compareMvn(JsonNode node1, JsonNode node2) {
 
-            Iterator<Map.Entry<String, JsonNode>> iterator1 = mvn1.fields();
-            HashMap<String, JsonNode> fieldsCompare1 = new HashMap<>();
+        for(JsonNode artifact1 : node1) {
+            for(JsonNode artifact2 : node2) {
 
-            while(iterator1.hasNext()) {
-                Map.Entry<String, JsonNode> field = iterator1.next();
+                if(artifact1.get("mvn") != null && artifact2.get("mvn") != null) {
 
-                for(String mandatoryField : mandatoryFieldsArtifactsMvn) {
-                    if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
-                        fieldsCompare1.put(field.getKey(), field.getValue());
-                    }
-                    else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
-                        if(field.getValue().get(mandatoryField) != null) {
-                            fieldsCompare1.put(mandatoryField, field.getValue().get(mandatoryField));
+                    for(JsonNode mvn1 : artifact1.get("mvn")) {
+                        int count = 0;
+
+                        Iterator<Map.Entry<String, JsonNode>> iterator1 = mvn1.fields();
+                        HashMap<String, JsonNode> fieldsCompare1 = new HashMap<>();
+
+                        while(iterator1.hasNext()) {
+                            Map.Entry<String, JsonNode> field = iterator1.next();
+
+                            for(String mandatoryField : mandatoryFieldsArtifactsMvn) {
+                                if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
+                                    fieldsCompare1.put(field.getKey(), field.getValue());
+                                }
+                                else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
+                                    if(field.getValue().get(mandatoryField) != null) {
+                                        fieldsCompare1.put(mandatoryField, field.getValue().get(mandatoryField));
+                                    }
+                                }
+                            }
                         }
-                    }
-                }
-            }
 
-            for(JsonNode mvn2 : mvnArtifact2.get("mvn")) {
-                Iterator<Map.Entry<String, JsonNode>> iterator2 = mvn2.fields();
-                HashMap<String, JsonNode> fieldsCompare2 = new HashMap<>();
+                        for(JsonNode mvn2 : artifact2.get("mvn")) {
+                            Iterator<Map.Entry<String, JsonNode>> iterator2 = mvn2.fields();
+                            HashMap<String, JsonNode> fieldsCompare2 = new HashMap<>();
 
-                while(iterator2.hasNext()) {
-                    Map.Entry<String, JsonNode> field = iterator2.next();
+                            while(iterator2.hasNext()) {
+                                Map.Entry<String, JsonNode> field = iterator2.next();
 
-                    for(String mandatoryField : mandatoryFieldsArtifactsMvn) {
-                        if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
-                            fieldsCompare2.put(field.getKey(), field.getValue());
-                        }
-                        else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
-                            if(field.getValue().get(mandatoryField) != null) {
-                                fieldsCompare2.put(mandatoryField, field.getValue().get(mandatoryField));
+                                for(String mandatoryField : mandatoryFieldsArtifactsMvn) {
+                                    if(!mandatoryField.equals("sha1") && !mandatoryField.equals("sha256") && mandatoryField.equals(field.getKey())) {
+                                        fieldsCompare2.put(field.getKey(), field.getValue());
+                                    }
+                                    else if(mandatoryField.equals("sha1") || mandatoryField.equals("sha256")) {
+                                        if(field.getValue().get(mandatoryField) != null) {
+                                            fieldsCompare2.put(mandatoryField, field.getValue().get(mandatoryField));
+                                        }
+                                    }
+                                }
+                            }
+
+                            if(fieldsCompare1.equals(fieldsCompare2)) {
+                                ++count;
+                            }
+                            if(count > 0) {
+                                Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.EQUAL);
+                                Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
+                            }
+                            else {
+                                Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.NOTEQUAL);
+                                Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
                             }
                         }
                     }
                 }
-
-                if(fieldsCompare1.equals(fieldsCompare2)) {
-                    ++count;
-                }
-                if(count > 0) {
-                    int h = mvnArtifact1.hashCode();
-                    Compare.resultCompareFiles.put(mvnArtifact1.hashCode(), ResultCompare.EQUAL);
-                    Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.EQUAL);
-                    Compare.resultCompareFiles.put(mvnArtifact1.get("mvn").hashCode(), ResultCompare.EQUAL);
-                }
-                else {
-                    int h = mvnArtifact1.hashCode();
-                    Compare.resultCompareFiles.put(mvnArtifact1.hashCode(), ResultCompare.NOTEQUAL);
-                    Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.NOTEQUAL);
-                    Compare.resultCompareFiles.put(mvnArtifact1.get("mvn").hashCode(), ResultCompare.NOTEQUAL);
-
-                }
             }
-
-
         }
+
+
+
+
+
     }
 
     //compare optional fields node #1

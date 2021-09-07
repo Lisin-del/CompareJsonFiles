@@ -115,7 +115,7 @@ public class Compare {
                 compareRpm.rpmCompare(node1, node2);
 
                 //compare parameters
-                compareParam.parametersCompare(node1, node2);
+
 
             }
         }
