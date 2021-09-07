@@ -51,23 +51,47 @@ public class CompareParameters {
         }
 
         if(node1.get("parameters").get("services") != null && node2.get("parameters").get("services") != null) {
-            Iterator<Map.Entry<String, JsonNode>> iterator = node1.get("parameters").get("services").fields();
+            if(node1.get("parameters").get("services").hashCode() == node2.get("parameters").get("services").hashCode()) {
+                Compare.resultCompareFiles.put(node1.get("parameters").get("services").hashCode(), ResultCompare.EQUAL);
+            }
+            else {
+                Compare.resultCompareFiles.put(node1.get("parameters").get("services").hashCode(), ResultCompare.NOTEQUAL);
+                Compare.resultCompareFiles.put(node2.get("parameters").get("services").hashCode(), ResultCompare.NOTEQUAL);
 
-            while(iterator.hasNext()) {
-                Map.Entry<String, JsonNode> service = iterator.next();
+                Iterator<Map.Entry<String, JsonNode>> iterator = node1.get("parameters").get("services").fields();
 
-                if(node2.get("parameters").get("services").get(service.getKey()) != null) {
-                    if(service.getValue().hashCode() == node2.get("parameters").get("services").get(service.getKey()).hashCode()) {
-                        int h1 = service.getValue().hashCode();
-                        int h2 = node2.get("parameters").get("services").get(service.getKey()).hashCode();
-                        Compare.resultCompareFiles.put(service.getValue().hashCode(), ResultCompare.EQUAL);
-                    }
-                    else {
-                        Compare.resultCompareFiles.put(service.getValue().hashCode(), ResultCompare.NOTEQUAL);
-                        Compare.resultCompareFiles.put(node2.get("parameters").get("services").get(service.getKey()).hashCode(), ResultCompare.NOTEQUAL);
+                while(iterator.hasNext()) {
+                    Map.Entry<String, JsonNode> service = iterator.next();
+
+                    if(node2.get("parameters").get("services").get(service.getKey()) != null) {
+                        if(service.getValue().hashCode() == node2.get("parameters").get("services").get(service.getKey()).hashCode()) {
+                            Compare.resultCompareFiles.put(service.getValue().hashCode(), ResultCompare.EQUAL);
+                        }
+                        else {
+                            Compare.resultCompareFiles.put(service.getValue().hashCode(), ResultCompare.NOTEQUAL);
+                            Compare.resultCompareFiles.put(node2.get("parameters").get("services").get(service.getKey()).hashCode(), ResultCompare.NOTEQUAL);
+
+                            Iterator<Map.Entry<String, JsonNode>> iteratorServices = service.getValue().fields();
+
+                            while(iteratorServices.hasNext()) {
+                                Map.Entry<String, JsonNode> fieldServiceName = iteratorServices.next();
+
+                                if(node2.get("parameters").get("services").get(service.getKey()).get(fieldServiceName.getKey()) != null) {
+                                    if(fieldServiceName.getValue().hashCode() == node2.get("parameters").get("services").get(service.getKey()).get(fieldServiceName.getKey()).hashCode()) {
+                                        Compare.resultCompareFiles.put(fieldServiceName.getValue().hashCode(), ResultCompare.EQUAL);
+                                    }
+                                    else {
+                                        Compare.resultCompareFiles.put(fieldServiceName.getValue().hashCode(), ResultCompare.NOTEQUAL);
+                                        Compare.resultCompareFiles.put(node2.get("parameters").get("services").get(service.getKey()).get(fieldServiceName.getKey()).hashCode(), ResultCompare.NOTEQUAL);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
+
+
         }
     }
 }
