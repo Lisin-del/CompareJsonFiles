@@ -987,20 +987,35 @@
 
                     <!--services not equal-->
                     <th:block th:if = "${parameter.getKey().equals('services')}" th:each = "resultServices : ${result}">
+
                         <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == NOTEQUAL}">"services": {
+                            
                             <div class = "space" th:each = "fieldService : ${parameter.getValue().fields()}"><span th:text = "${fieldService.getKey()}"/>: {
+                                <th:block th:each = "resfS1 : ${result}" th:if = "${fieldService.getValue().hashCode() == resfS1.getKey() and resfS1.getValue() == EQUAL}">
+                                    <div th:each = "fieldServiceNameEq : ${fieldService.getValue().fields()}">
+                                        <p class = "space" th:text = "${fieldServiceNameEq}"/>
+                                    </div>
+                                </th:block>
+
+
                                 <div th:each = "fieldServiceName : ${fieldService.getValue().fields()}">
-                                    <p class = "space" th:each = "resFieldServ : ${result}" th:if = "${fieldServiceName.getValue().hashCode() == resFieldServ.getKey() and resFieldServ.getValue() == EQUAL}" th:text = "${fieldServiceName}"/>
-                                    
                                     <p class = "space red" th:each = "resFieldServ : ${result}" th:if = "${fieldServiceName.getValue().hashCode() == resFieldServ.getKey() and resFieldServ.getValue() == NOTEQUAL}" th:text = "${fieldServiceName}"/>
-
-                                    
                                 </div>
-
-                                
                             }</div>
                         }</div>
-                        
+                    </th:block>
+
+                    <!--services equal-->
+                    <th:block th:if = "${parameter.getKey().equals('services')}" th:each = "resultServices : ${result}">
+
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == EQUAL}">"services": {
+                            <div class = "space" th:each = "fieldServices : ${parameter.getValue().fields()}" >
+                                <span th:text = "${fieldServices.getKey()}" /><div class = "space" th:each = "ff : ${fieldServices.getValue().fields()}">{
+                                    <p class = "space" th:text = "${ff}" />
+                                }</div>
+                            </div>
+                            
+                        }</div>
                     </th:block>
 
 
@@ -1057,6 +1072,40 @@
                                 <p class = "space" th:text = "${fieldCommon}"/>
                             
                             </div>
+                        }</div>
+                    </th:block>
+
+
+                    <!--services not equal-->
+                    <th:block th:if = "${parameter.getKey().equals('services')}" th:each = "resultServices : ${result}">
+
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == NOTEQUAL}">"services": {
+                            
+                            <div class = "space" th:each = "fieldService : ${parameter.getValue().fields()}"><span th:text = "${fieldService.getKey()}"/>: {
+                                <th:block th:each = "resfS1 : ${result}" th:if = "${fieldService.getValue().hashCode() == resfS1.getKey() and resfS1.getValue() == EQUAL}">
+                                    <div th:each = "fieldServiceNameEq : ${fieldService.getValue().fields()}">
+                                        <p class = "space" th:text = "${fieldServiceNameEq}"/>
+                                    </div>
+                                </th:block>
+
+
+                                <div th:each = "fieldServiceName : ${fieldService.getValue().fields()}">
+                                    <p class = "space green" th:each = "resFieldServ : ${result}" th:if = "${fieldServiceName.getValue().hashCode() == resFieldServ.getKey() and resFieldServ.getValue() == NOTEQUAL}" th:text = "${fieldServiceName}"/>
+                                </div>
+                            }</div>
+                        }</div>
+                    </th:block>
+
+                    <!--services equal-->
+                    <th:block th:if = "${parameter.getKey().equals('services')}" th:each = "resultServices : ${result}">
+
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == EQUAL}">"services": {
+                            <div class = "space" th:each = "fieldServices : ${parameter.getValue().fields()}" >
+                                <span th:text = "${fieldServices.getKey()}" /><div class = "space" th:each = "ff : ${fieldServices.getValue().fields()}">{
+                                    <p class = "space" th:text = "${ff}" />
+                                }</div>
+                            </div>
+                            
                         }</div>
                     </th:block>
                     
