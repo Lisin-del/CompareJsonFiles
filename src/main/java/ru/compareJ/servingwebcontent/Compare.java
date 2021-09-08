@@ -116,27 +116,11 @@ public class Compare {
 
                 //compare parameters
                 compareParam.parametersCompare(node1, node2);
-
-
             }
         }
         else {
             resultCompareFiles.put(1, ResultCompare.WRONGSTRUCTURE);
         }
-
-        for(Map.Entry<Integer, HashMap<String, ResultCompare>> map : checkFieldsOptionalServices1.entrySet()) {
-            System.out.println(map.getKey() + ":" + map.getValue());
-        }
-        System.out.println("##########");
-
-        for(Map.Entry<Integer, HashMap<String, ResultCompare>> map : checkFieldsOptionalServices2.entrySet()) {
-            System.out.println(map.getKey() + ":" + map.getValue());
-        }
-
-
-
-
-
     }
 
 
