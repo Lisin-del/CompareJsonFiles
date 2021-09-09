@@ -481,7 +481,14 @@
                                 <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
 
                                     <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
-                                        <p class = "space" th:text = "${fieldsTopMvn}"/>
+                                        <p class = "space" th:each = "mandField : ${mandatoryFieldsArtifactsMvn}" th:if = "${fieldsTopMvn.getKey().equals(mandField)}" th:text = "${fieldsTopMvn}" />
+
+                                        <th:block th:each = "checkOptional : ${checkFieldsOptionalArtifactsMvn1}">
+                                            <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
+                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${fieldsTopMvn}"/>
+                                            <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
+                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == EQUAL}" th:text = "${fieldsTopMvn}"/>
+                                        </th:block>
                                     </div>
 
                                     <!--output the missing mandatory fields-->
@@ -614,7 +621,14 @@
                                 <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
 
                                     <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
-                                        <p class = "space" th:text = "${fieldsTopMvn}"/>
+                                        <p class = "space" th:each = "mandField : ${mandatoryFieldsArtifactsMvn}" th:if = "${fieldsTopMvn.getKey().equals(mandField)}" th:text = "${fieldsTopMvn}" />
+
+                                        <th:block th:each = "checkOptional : ${checkFieldsOptionalArtifactsMvn2}">
+                                            <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
+                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${fieldsTopMvn}"/>
+                                            <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
+                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == EQUAL}" th:text = "${fieldsTopMvn}"/>
+                                        </th:block>
                                     </div>
 
                                     <!--output the missing mandatory fields-->

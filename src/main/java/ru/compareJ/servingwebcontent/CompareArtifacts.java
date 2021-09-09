@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class CompareArtifacts {
     //the mandatory fields for the mvn for the artifacts
-    private ArrayList<String> mandatoryFieldsArtifactsMvn = new ArrayList<>();
+    public static ArrayList<String> mandatoryFieldsArtifactsMvn = new ArrayList<>();
     {
         mandatoryFieldsArtifactsMvn.add("groupId");
         mandatoryFieldsArtifactsMvn.add("artifactId");
@@ -74,6 +74,9 @@ public class CompareArtifacts {
         }
         compareOptionalFields1(node1, node2);
         compareOptionalFields2(node2, node1);
+
+        compareOptionalFieldsMvn1(node1, node2);
+        compareOptionalFieldsMvn2(node2, node1);
     }
 
     private void compare(JsonNode node1, JsonNode node2) {
@@ -209,22 +212,32 @@ public class CompareArtifacts {
                             }
                             if(count > 0) {
                                 Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.EQUAL);
+                                int h1 = artifact1.hashCode();
                                 Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
                             }
                             else {
                                 Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.NOTEQUAL);
+                                int h2 = artifact1.hashCode();
                                 Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
                             }
                         }
                     }
+
+                    for(Map.Entry<Integer, ResultCompare> result : Compare.resultCompareFiles.entrySet()) {
+                        for(JsonNode mvn : artifact1.get("mvn")) {
+                            if(mvn.hashCode() == result.getKey() && result.getValue() == ResultCompare.NOTEQUAL) {
+                                Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
+                            }
+                        }
+                    }
+
+
                 }
             }
+
+
+
         }
-
-
-
-
-
     }
 
     //compare optional fields node #1
@@ -278,6 +291,78 @@ public class CompareArtifacts {
                 }
             }
             Compare.checkFieldsOptionalArtifacts2.put(artifact2.hashCode(), compareOpt);
+        }
+    }
+
+    public void compareOptionalFieldsMvn1(JsonNode node1, JsonNode node2) {
+        for(JsonNode artifact1 : node1.get("artifacts")) {
+
+            if(artifact1.get("mvn") != null) {
+                for(JsonNode artifact2 : node2.get("artifacts")) {
+                    if(artifact2.get("mvn") != null) {
+
+                        for(JsonNode mvn1 : artifact1.get("mvn")) {
+                            HashMap<String, ResultCompare> compareOpt = new HashMap<>();
+
+                            for(JsonNode mvn2 : artifact2.get("mvn")) {
+
+                                for(String fieldName : optionalFieldsArtifactsMvn) {
+                                    if(mvn1.get(fieldName) != null && mvn2.get(fieldName) != null &&
+                                            Compare.resultCompareFiles.get(mvn1.hashCode()) == ResultCompare.EQUAL && Compare.resultCompareFiles.get(mvn2.hashCode()) == ResultCompare.EQUAL) {
+
+                                        if(mvn1.get(fieldName).equals(mvn2.get(fieldName)) && compareOpt.get(fieldName) == null) {
+                                            compareOpt.put(fieldName, ResultCompare.EQUAL);
+                                        }
+                                        else if(mvn1.get(fieldName).equals(mvn2.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
+                                            compareOpt.put(fieldName, ResultCompare.EQUAL);
+                                        }
+                                        else if(!mvn1.get(fieldName).equals(mvn2.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
+                                            compareOpt.put(fieldName, ResultCompare.NOTEQUAL);
+                                        }
+                                    }
+                                }
+                            }
+                            Compare.checkFieldsOptionalArtifactsMvn1.put(mvn1.hashCode(), compareOpt);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void compareOptionalFieldsMvn2(JsonNode node2, JsonNode node1) {
+        for(JsonNode artifact2 : node2.get("artifacts")) {
+
+            if(artifact2.get("mvn") != null) {
+                for(JsonNode artifact1 : node1.get("artifacts")) {
+                    if(artifact1.get("mvn") != null) {
+
+                        for(JsonNode mvn2 : artifact2.get("mvn")) {
+                            HashMap<String, ResultCompare> compareOpt = new HashMap<>();
+
+                            for(JsonNode mvn1 : artifact1.get("mvn")) {
+
+                                for(String fieldName : optionalFieldsArtifactsMvn) {
+                                    if(mvn2.get(fieldName) != null && mvn1.get(fieldName) != null &&
+                                            Compare.resultCompareFiles.get(mvn2.hashCode()) == ResultCompare.EQUAL && Compare.resultCompareFiles.get(mvn1.hashCode()) == ResultCompare.EQUAL) {
+
+                                        if(mvn2.get(fieldName).equals(mvn1.get(fieldName)) && compareOpt.get(fieldName) == null) {
+                                            compareOpt.put(fieldName, ResultCompare.EQUAL);
+                                        }
+                                        else if(mvn2.get(fieldName).equals(mvn1.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
+                                            compareOpt.put(fieldName, ResultCompare.EQUAL);
+                                        }
+                                        else if(!mvn2.get(fieldName).equals(mvn1.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
+                                            compareOpt.put(fieldName, ResultCompare.NOTEQUAL);
+                                        }
+                                    }
+                                }
+                            }
+                            Compare.checkFieldsOptionalArtifactsMvn2.put(mvn2.hashCode(), compareOpt);
+                        }
+                    }
+                }
+            }
         }
     }
 }

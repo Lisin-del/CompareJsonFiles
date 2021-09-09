@@ -25,9 +25,13 @@ public class Compare {
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsMandatoryArtifacts = new HashMap<>();
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsMandatoryArtifactsMvn = new HashMap<>();
 
-    //check the optional fields fot the artifacts
+    //check the optional fields for the artifacts
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalArtifacts1 = new HashMap<>();
     public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalArtifacts2 = new HashMap<>();
+
+    //check the optional fields for the artifacts
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalArtifactsMvn1 = new HashMap<>();
+    public static HashMap<Integer, HashMap<String, ResultCompare>> checkFieldsOptionalArtifactsMvn2 = new HashMap<>();
     //===ARTIFACTS END===
 
     //===SCRIPT===
@@ -77,6 +81,8 @@ public class Compare {
         checkFieldsMandatoryArtifactsMvn.clear();
         checkFieldsOptionalArtifacts1.clear();
         checkFieldsOptionalArtifacts2.clear();
+        checkFieldsOptionalArtifactsMvn1.clear();
+        checkFieldsOptionalArtifactsMvn2.clear();
 
         checkFieldsMandatoryRpm.clear();
         checkFieldsOptionalRpm1.clear();
@@ -121,7 +127,12 @@ public class Compare {
         else {
             resultCompareFiles.put(1, ResultCompare.WRONGSTRUCTURE);
         }
+
+        for(Map.Entry<Integer, ResultCompare> res : resultCompareFiles.entrySet()) {
+            System.out.println(res.getKey() + ":" + res.getValue());
+        }
     }
+
 
 
 

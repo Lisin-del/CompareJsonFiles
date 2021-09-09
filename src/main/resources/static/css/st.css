@@ -21,3 +21,8 @@
 .noField {
     background-color: #5EC4CD;
 }
+
+.table {
+    table-layout: fixed;
+    width: 30%;
+}
