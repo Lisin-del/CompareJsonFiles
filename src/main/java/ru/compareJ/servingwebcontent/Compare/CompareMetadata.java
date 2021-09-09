@@ -1,6 +1,7 @@
-package ru.compareJ.servingwebcontent;
+package ru.compareJ.servingwebcontent.Compare;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import ru.compareJ.servingwebcontent.ResultCompare;
 
 public class CompareMetadata {
     public void metadataCompare(JsonNode node1, JsonNode node2) {

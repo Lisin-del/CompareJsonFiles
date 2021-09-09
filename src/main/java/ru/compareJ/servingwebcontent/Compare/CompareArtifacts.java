@@ -1,4 +1,4 @@
-package ru.compareJ.servingwebcontent;
+package ru.compareJ.servingwebcontent.Compare;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
+import ru.compareJ.servingwebcontent.ResultCompare;
 
 public class CompareArtifacts {
     //the mandatory fields for the mvn for the artifacts
