@@ -8,570 +8,1136 @@
     <title th:text = "${title}"></title>
 </head>
 <body>
-    <div class="row justify-content-center">
-        <div class="row">
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Json file #1</th>
+        <th scope="col">Json file #2</th>
+    </tr>
+    </thead>
+    <tbody>
 
-            <!--left column-->
-            <div class="col-lg-6 col-md-6">
-                <h3>Json file #1</h3>
-
-                <!--check structure and extension file-->
-                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
-                    <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
-                </th:block>
-
-                <!--check equal files-->
-                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == EQUAL}">
-                    <th:block th:each = "node : ${node1.fieldNames()}">
-                        <!--metadata-->
-                        <div th:if = "${node == 'metadata'}" >"metadata": {
-                            <div th:each = "field : ${node1.get('metadata').fields()}">
-                                <p class = "space" th:text = "${field}"/>
-                            </div>
-                        }</div>
-
-                        <!--services-->
-                        <div th:if = "${node == 'services'}">"services": [
-                            <div class = "space" th:each = "topObj : ${node1.get('services')}">{
-                                <div th:each = "field : ${topObj.fields()}">
-                                    <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
-                                    <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
-                                        <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
-                                    }</div>
-                                </div>
-
-                                <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
-                                    <th:block th:each = "noField2 : ${noField.getValue()}">
-                                        <p class = "space noField" th:if = "${noField.getKey() == topObj.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                                    </th:block>
-                                </th:block>
-                            }</div>
-                        ]</div>
-
-                        <!--artifacts-->
-                        <div th:if = "${node == 'artifacts'}" >"artifacts": [
-                            <th:block th:each = "topObj : ${node1.get('artifacts')}">
-                                <!--mvn-->
-                                <div class = "space" th:if = "${topObj.get('mvn') != null}">{"mvn": [
-                                    <div class = "space" th:each = "elementMvn : ${topObj.get('mvn')}">{
-                                        <div th:each = "field : ${elementMvn.fields()}">
-                                            <p th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
-
-                                            <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
-                                                <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
-                                            }</div>
-                                        </div>
-                                    }</div>
-                                ]</div>
-
-                                <!--target_repository-->
-                                <div class = "space" th:each = "fieldTopObj : ${topObj.fields()}" th:if = "${topObj.get('mvn') != null and fieldTopObj.getKey() == 'target_repository'}">
-                                    <p class = "space" th:text = "${fieldTopObj}"/>
-                                }</div>
-
-                                <!--top objects of the artifacts-->
-                                <div class = "space" th:if = "${topObj.get('mvn') == null}">{
-                                    <div  th:each = "fieldTopObj : ${topObj.fields()}">
-                                        <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes' and fieldTopObj.getKey() != 'file'}" th:text = "${fieldTopObj}"/>
-
-                                        <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
-                                            <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
-                                        }</div>
-
-                                        <div class = "space" th:if = "${fieldTopObj.getKey() == 'file'}" >"file": [
-                                            <p class = "space" th:each = "fileFile : ${fieldTopObj.getValue()}" th:text = "${fileFile}"/>
-                                        ]</div>
-                                    </div>
-                                }</div>
-                            </th:block>
-                        ]</div>
-
-                        <!--script-->
-                        <div th:if = "${node == 'script'}">"script": [
-                            <div class = "space" th:each = "topObj : ${node1.get('script')}">{
-                                <div th:each = "fieldTopObj : ${topObj.fields()}">
-                                    <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes'}" th:text = "${fieldTopObj}"/>
-
-                                    <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
-                                        <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
-                                    }</div>
-                                </div>
-                            }</div>
-                        ]</div>
-
-                        <!--rpm-->
-                        <div th:if = "${node == 'rpm'}">"rpm": {
-                            <div th:each = "field : ${node1.get('rpm').fields()}">
-                                <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
-
-                                <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
-                                    <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
-                                }</div>
-                            </div>
-                        }</div>
-
-                        <!--parameters-->
-                        <div th:if = "${node == 'parameters'}">"parameters": {
-                            <div th:each = "field : ${node1.get('parameters').fields()}">
-                                <div class = "space" th:if = "${field.getKey() == 'common'}">"common": {
-                                    <div th:each = "fieldCommon : ${field.getValue().fields()}">
-                                        <p class = "space" th:text = "${fieldCommon}"/>
-                                    </div>
-                                }</div>
-
-                                <div class = "space" th:if = "${field.getKey() == 'services'}">"services": {
-                                    <div th:each = "fieldServices : ${field.getValue().fields()}">
-                                        <p class = "space" th:text = "${fieldServices}"/>
-                                    </div>
-                                }</div>
-                            </div>
-                        }</div>
+    <!--check structure files-->
+    <tr>
+        <td><th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
+            <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
+        </th:block>
+        </td>
 
 
-                    </th:block>
-                </th:block>
+        <td>
+            <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
+                <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
+            </th:block>
+        </td>
+    </tr>
 
-                <!--if the file1 not equal the file2-->
-                <!--check metadata-->
-                <div th:each = "resCom : ${result}" th:if = "${ resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
-                    <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('metadata').hashCode() and resCom.value == EQUAL}">
+    <!--if files equal-->
+    <tr>
+        <td>
+            <th:block th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == EQUAL}">
+                <th:block th:each = "node : ${node1.fieldNames()}">
+                    <!--metadata-->
+                    <div th:if = "${node == 'metadata'}" >"metadata": {
                         <div th:each = "field : ${node1.get('metadata').fields()}">
-                            <p class = "space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
-                        </div>
-                    </th:block>
-
-                    <th:block th:each = "field : ${node1.get('metadata').fields()}">
-                        <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == NOTEQUAL}">
-                            <p class = "red space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
-                        </div>
-
-                        <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == EQUAL}">
-                            <p class = "space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
-                        </div>
-                    </th:block>
-                }</div>
-
-                <!--check services-->
-                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
-                    <div class = "space" th:each = "service : ${node1.get('services')}">{
-                        <!--top object not equal-->
-                        <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOTEQUAL}">
-                            <th:block th:each = "field : ${service.fields()}">
-                                <p class = "space red" th:text = "${field}"/>
-                            </th:block>
-
-                            <!--output the missing mandatory fields-->
-                            <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
-                                <th:block th:each = "noField2 : ${noField.getValue()}">
-                                    <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                                </th:block>
-                            </th:block>
-                        </div>
-
-                        <!--top object equal-->
-                        <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == EQUAL}">
-                            <th:block th:each = "field : ${service.fields()}">
-                                <p class = "space" th:each = "mandField : ${mandatoryFieldsServices}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
-
-                                <!--compare optional fields-->
-                                <th:block th:each = "checkOptional : ${checkFieldsOptionalServices1}">
-                                    <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
-                                    <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
-                                </th:block>
-                            </th:block>
-
-                            <!--output the missing mandatory fields-->
-                            <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
-                                <th:block th:each = "noField2 : ${noField.getValue()}">
-                                    <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                                </th:block>
-                            </th:block>
-                        </div>
-                    }</div>
-
-                    <div th:if = "${node2.get('services').size() > node1.get('services').size()}" th:each = "empty : ${fieldsEmptyServices}">
-                        <br>
-                    </div>
-
-                ]</div>
-
-                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">"services": [
-                    <div class = "space" th:each = "service : ${node1.get('services')}">{
-                        <th:block th:each = "field : ${service.fields()}">
                             <p class = "space" th:text = "${field}"/>
-                        </th:block>
+                        </div>
+                        }</div>
 
-                        <div th:each = "res : ${result}">
+                    <!--services-->
+                    <div th:if = "${node == 'services'}">"services": [
+                        <div class = "space" th:each = "topObj : ${node1.get('services')}">{
+                            <div th:each = "field : ${topObj.fields()}">
+                                <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
+                                <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
+                                    <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
+                                    }</div>
+                            </div>
+
                             <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
                                 <th:block th:each = "noField2 : ${noField.getValue()}">
-                                    <p class = "space noField" th:if = "${noField.getKey() == res.getKey()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                    <p class = "space noField" th:if = "${noField.getKey() == topObj.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                 </th:block>
                             </th:block>
-                        </div>
-                    }</div>
-                ]</div>
+                            }</div>
+                        ]</div>
 
+                    <!--artifacts-->
+                    <div th:if = "${node == 'artifacts'}" >"artifacts": [
+                        <th:block th:each = "topObj : ${node1.get('artifacts')}">
+                            <!--mvn-->
+                            <div class = "space" th:if = "${topObj.get('mvn') != null}">{"mvn": [
+                                <div class = "space" th:each = "elementMvn : ${topObj.get('mvn')}">{
+                                    <div th:each = "field : ${elementMvn.fields()}">
+                                        <p th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
 
-                <!--check artifacts-->
-                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('artifacts').hashCode() and resCom.value == NOTEQUAL}">"artifacts": [
-
-                    <div class = "space" th:each = "artifact : ${node1.get('artifacts')}">
-                    <!--top object not equal-->
-                        <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == NOTEQUAL}">{
-                            <th:block th:each = "field : ${artifact.fields()}">
-
-                                <!--mvn-->
-                                <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
-                                    <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
-
-                                        <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
-                                            <p class = "space red" th:text = "${fieldsTopMvn}"/>
-                                        </div>
-
-                                        <!--output the missing mandatory fields-->
-                                        <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
-                                            <th:block th:each = "noField2 : ${noField.getValue()}">
-                                                <p class = "space noField" th:if = "${noField.getKey() == fieldMvn.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                                            </th:block>
-                                        </th:block>
+                                        <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
+                                            <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
+                                            }</div>
+                                    </div>
                                     }</div>
                                 ]</div>
 
-                                <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
-                                    <p class = "red" th:text = "${field}"/>
+                            <!--target_repository-->
+                            <div class = "space" th:each = "fieldTopObj : ${topObj.fields()}" th:if = "${topObj.get('mvn') != null and fieldTopObj.getKey() == 'target_repository'}">
+                                <p class = "space" th:text = "${fieldTopObj}"/>
+                                }</div>
+
+                            <!--top objects of the artifacts-->
+                            <div class = "space" th:if = "${topObj.get('mvn') == null}">{
+                                <div  th:each = "fieldTopObj : ${topObj.fields()}">
+                                    <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes' and fieldTopObj.getKey() != 'file'}" th:text = "${fieldTopObj}"/>
+
+                                    <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
+                                        <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
+                                        }</div>
+
+                                    <div class = "space" th:if = "${fieldTopObj.getKey() == 'file'}" >"file": [
+                                        <p class = "space" th:each = "fileFile : ${fieldTopObj.getValue()}" th:text = "${fileFile}"/>
+                                        ]</div>
                                 </div>
+                                }</div>
+                        </th:block>
+                        ]</div>
 
-                            </th:block>
+                    <!--script-->
+                    <div th:if = "${node == 'script'}">"script": [
+                        <div class = "space" th:each = "topObj : ${node1.get('script')}">{
+                            <div th:each = "fieldTopObj : ${topObj.fields()}">
+                                <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes'}" th:text = "${fieldTopObj}"/>
 
-                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
-                                <p class = "space red" th:text = "${field}"/>
-                            </th:block>
+                                <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
+                                    <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
+                                    }</div>
+                            </div>
+                            }</div>
+                        ]</div>
+
+                    <!--rpm-->
+                    <div th:if = "${node == 'rpm'}">"rpm": {
+                        <div th:each = "field : ${node1.get('rpm').fields()}">
+                            <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
+
+                            <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
+                                <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
+                                }</div>
+                        </div>
                         }</div>
 
-                        <!--top object equal-->
-                        <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == EQUAL}">{
-                            <th:block th:each = "field : ${artifact.fields()}">
-
-                                <!--mvn-->
-                                <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
-                                    <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
-
-                                        <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
-                                            <p class = "space" th:text = "${fieldsTopMvn}"/>
-                                        </div>
-
-                                        <!--output the missing mandatory fields-->
-                                        <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
-                                            <th:block th:each = "noField2 : ${noField.getValue()}">
-                                                <p class = "space noField" th:if = "${noField.getKey() == fieldMvn.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                                            </th:block>
-                                        </th:block>
-                                        }</div>
-                                    ]</div>
-
-                                <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
-                                    <p th:text = "${field}"/>
+                    <!--parameters-->
+                    <div th:if = "${node == 'parameters'}">"parameters": {
+                        <div th:each = "field : ${node1.get('parameters').fields()}">
+                            <div class = "space" th:if = "${field.getKey() == 'common'}">"common": {
+                                <div th:each = "fieldCommon : ${field.getValue().fields()}">
+                                    <p class = "space" th:text = "${fieldCommon}"/>
                                 </div>
-                            </th:block>
+                                }</div>
 
-                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
-                                <p class = "space" th:text = "${field}"/>
-                            </th:block>
+                            <div class = "space" th:if = "${field.getKey() == 'services'}">"services": {
+                                <div th:each = "fieldServices : ${field.getValue().fields()}">
+                                    <p class = "space" th:text = "${fieldServices}"/>
+                                </div>
+                                }</div>
+                        </div>
+                        }</div>
 
-                            <!--output the missing mandatory fields-->
-                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+
+                </th:block>
+            </th:block>
+        </td>
+
+
+        <td>
+            <th:block th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == EQUAL}">
+                <th:block th:each = "node : ${node2.fieldNames()}">
+                    <!--metadata-->
+                    <div th:if = "${node == 'metadata'}" >"metadata": {
+                        <div th:each = "field : ${node2.get('metadata').fields()}">
+                            <p class = "space" th:text = "${field}"/>
+                        </div>
+                        }</div>
+
+                    <!--services-->
+                    <div th:if = "${node == 'services'}" >"services": [
+                        <div class = "space" th:each = "topObj : ${node2.get('services')}">{
+                            <div th:each = "field : ${topObj.fields()}">
+                                <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
+                                <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
+                                    <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
+                                    }</div>
+                            </div>
+
+                            <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
                                 <th:block th:each = "noField2 : ${noField.getValue()}">
-                                    <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                    <p class = "space noField" th:if = "${noField.getKey() == topObj.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                 </th:block>
                             </th:block>
+                            }</div>
+                        ]</div>
+
+                    <!--artifacts-->
+                    <div th:if = "${node == 'artifacts'}" >"artifacts": [
+                        <th:block th:each = "topObj : ${node2.get('artifacts')}">
+                            <!--mvn-->
+                            <div class = "space" th:if = "${topObj.get('mvn') != null}">{"mvn": [
+                                <div class = "space" th:each = "elementMvn : ${topObj.get('mvn')}">{
+                                    <div th:each = "field : ${elementMvn.fields()}">
+                                        <p th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
+
+                                        <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
+                                            <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
+                                            }</div>
+                                    </div>
+                                    }</div>
+                                ]</div>
+
+                            <!--target_repository-->
+                            <div class = "space" th:each = "fieldTopObj : ${topObj.fields()}" th:if = "${topObj.get('mvn') != null and fieldTopObj.getKey() == 'target_repository'}">
+                                <p class = "space" th:text = "${fieldTopObj}"/>
+                                }</div>
+
+                            <!--top objects of the artifacts-->
+                            <div class = "space" th:if = "${topObj.get('mvn') == null}">{
+                                <div  th:each = "fieldTopObj : ${topObj.fields()}">
+                                    <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes' and fieldTopObj.getKey() != 'file'}" th:text = "${fieldTopObj}"/>
+
+                                    <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
+                                        <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
+                                        }</div>
+
+                                    <div class = "space" th:if = "${fieldTopObj.getKey() == 'file'}" >"file": [
+                                        <p class = "space" th:each = "fileFile : ${fieldTopObj.getValue()}" th:text = "${fileFile}"/>
+                                        ]</div>
+                                </div>
+                                }</div>
+                        </th:block>
+                        ]</div>
+
+                    <!--script-->
+                    <div th:if = "${node == 'script'}">"script": [
+                        <div class = "space" th:each = "topObj : ${node2.get('script')}">{
+                            <div th:each = "fieldTopObj : ${topObj.fields()}">
+                                <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes'}" th:text = "${fieldTopObj}"/>
+
+                                <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
+                                    <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
+                                    }</div>
+                            </div>
+                            }</div>
+                        ]</div>
+
+                    <!--rpm-->
+                    <div th:if = "${node == 'rpm'}">"rpm": {
+                        <div th:each = "field : ${node2.get('rpm').fields()}">
+                            <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
+
+                            <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
+                                <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
+                                }</div>
+                        </div>
                         }</div>
 
+                    <!--parameters-->
+                    <div th:if = "${node == 'parameters'}">"parameters": {
+                        <div th:each = "field : ${node2.get('parameters').fields()}">
+                            <div class = "space" th:if = "${field.getKey() == 'common'}">"common": {
+                                <div th:each = "fieldCommon : ${field.getValue().fields()}">
+                                    <p class = "space" th:text = "${fieldCommon}"/>
+                                </div>
+                                }</div>
+
+                            <div class = "space" th:if = "${field.getKey() == 'services'}">"services": {
+                                <div th:each = "fieldServices : ${field.getValue().fields()}">
+                                    <p class = "space" th:text = "${fieldServices}"/>
+                                </div>
+                                }</div>
+                        </div>
+                        }</div>
+                </th:block>
+            </th:block>
+        </td>
+    </tr>
 
 
+    <!--if files not equal-->
+    <tr>
+        <td>
+            <!--check metadata-->
+            <div th:each = "resCom : ${result}" th:if = "${ resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
+                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('metadata').hashCode() and resCom.value == EQUAL}">
+                    <div th:each = "field : ${node1.get('metadata').fields()}">
+                        <p class = "space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
                     </div>
-                ]</div>
-            </div>
-
-
-            <!--right column-->
-            <div class="col-lg-6 col-md-6">
-                <h3>Json file #2</h3>
-                <!--check structure and extension file-->
-                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
-                    <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
                 </th:block>
 
-                <!--check equal files-->
-                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == EQUAL}">
-                    <th:block th:each = "node : ${node2.fieldNames()}">
-                        <!--metadata-->
-                        <div th:if = "${node == 'metadata'}" >"metadata": {
-                            <div th:each = "field : ${node2.get('metadata').fields()}">
-                                <p class = "space" th:text = "${field}"/>
-                            </div>
-                        }</div>
+                <th:block th:each = "field : ${node1.get('metadata').fields()}">
+                    <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == NOTEQUAL}">
+                        <p class = "red space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
+                    </div>
 
-                        <!--services-->
-                        <div th:if = "${node == 'services'}" >"services": [
-                            <div class = "space" th:each = "topObj : ${node2.get('services')}">{
-                                <div th:each = "field : ${topObj.fields()}">
-                                    <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
-                                    <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
-                                        <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
-                                    }</div>
+                    <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == EQUAL}">
+                        <p class = "space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
+                    </div>
+                </th:block>
+            }</div>
+        </td>
+
+
+        <td>
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
+                <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('metadata').hashCode() and resCom.value == EQUAL}">
+                    <div th:each = "field : ${node2.get('metadata').fields()}">
+                        <p class = "space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
+                    </div>
+                </th:block>
+
+                <th:block th:each = "field : ${node2.get('metadata').fields()}">
+                    <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == NOTEQUAL}">
+                        <p class = "green space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
+                    </div>
+
+                    <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == EQUAL}">
+                        <p class = "space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
+                    </div>
+                </th:block>
+            }</div>
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>
+            <!--check services-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
+                <div class = "space" th:each = "service : ${node1.get('services')}">{
+                    
+                    <!--top object equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == EQUAL}">
+                        <th:block th:each = "field : ${service.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsServices}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <!--compare optional fields-->
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalServices1}">
+                                <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+
+                <div class = "space" th:each = "service : ${node1.get('services')}">{
+                    <!--top object not equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOTEQUAL}">
+                        <th:block th:each = "field : ${service.fields()}">
+                            <p class = "space red" th:text = "${field}"/>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+
+                
+            ]</div>
+
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">"services": [
+                <div class = "space" th:each = "service : ${node1.get('services')}">{
+                    <th:block th:each = "field : ${service.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <div th:each = "res : ${result}">
+                        <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == res.getKey()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+        </td>
+
+
+        <td>
+            <!--check services-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
+
+                <div class = "space" th:each = "service : ${node2.get('services')}">{
+
+                    <!--top object not equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOTEQUAL}">
+                        <th:block th:each = "field : ${service.fields()}">
+                            <p class = "space green" th:text = "${field}"/>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+
+                    <!--top object equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == EQUAL}">
+                        <th:block th:each = "field : ${service.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsServices}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalServices2}">
+                                <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">"services": [
+                <div class = "space" th:each = "service : ${node2.get('services')}">{
+                    <th:block th:each = "field : ${service.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <div th:each = "res : ${result}">
+                        <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == res.getKey()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <!--check artifacts-->
+            <!--artifacts not equal-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('artifacts').hashCode() and resCom.value == NOTEQUAL}">"artifacts": [
+
+                <div class = "space" th:each = "artifact : ${node1.get('artifacts')}">
+                    <!--top object not equal-->
+                    <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == NOTEQUAL}">{
+                        <th:block th:each = "field : ${artifact.fields()}">
+
+                            <!--mvn-->
+                            <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
+                                <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
+
+                                    <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
+                                        <p class = "space red" th:text = "${fieldsTopMvn}"/>
+                                    </div>
+
+                                    <!--output the missing mandatory fields-->
+                                    <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
+                                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                                            <p class = "space noField" th:if = "${noField.getKey() == fieldMvn.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                        </th:block>
+                                    </th:block>
+                                }</div>
+                            ]</div>
+
+                            <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
+                                <p class = "red" th:text = "${field}"/>
+                            </div>
+
+                        </th:block>
+
+                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
+                            <p class = "space red" th:text = "${field}"/>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    }</div>
+
+                    <!--top object equal-->
+                    <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == EQUAL}">{
+                        <th:block th:each = "field : ${artifact.fields()}">
+
+                            <!--mvn-->
+                            <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
+                                <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
+
+                                    <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
+                                        <p class = "space" th:each = "mandField : ${mandatoryFieldsArtifactsMvn}" th:if = "${fieldsTopMvn.getKey().equals(mandField)}" th:text = "${fieldsTopMvn}" />
+
+                                        <th:block th:each = "checkOptional : ${checkFieldsOptionalArtifactsMvn1}">
+                                            <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
+                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${fieldsTopMvn}"/>
+                                            <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
+                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == EQUAL}" th:text = "${fieldsTopMvn}"/>
+                                        </th:block>
+                                    </div>
+
+                                    <!--output the missing mandatory fields-->
+                                    <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
+                                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                                            <p class = "space noField" th:if = "${noField.getKey() == fieldMvn.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                        </th:block>
+                                    </th:block>
+                                }</div>
+                            ]</div>
+
+                            <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
+                                <p th:text = "${field}"/>
+                            </div>
+                        </th:block>
+
+                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsArtifacts}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalArtifacts1}">
+                                <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == artifact.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == artifact.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    }</div>
+                </div>
+            ]</div>
+
+            <!--artifacts equal-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('artifacts').hashCode() and resCom.value == EQUAL}">"artifacts": [
+
+                <div class = "space" th:each = "artifact : ${node1.get('artifacts')}">{
+
+                    <th:block th:each = "field : ${artifact.fields()}">
+                        <!--mvn-->
+                        <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
+                            <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
+
+                                <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
+                                    <p class = "space" th:text = "${fieldsTopMvn}"/>
                                 </div>
 
-                                <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
+                                <!--output the missing mandatory fields-->
+                                <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
                                     <th:block th:each = "noField2 : ${noField.getValue()}">
-                                        <p class = "space noField" th:if = "${noField.getKey() == topObj.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                        <p class = "space noField" th:if = "${noField.getKey() == fieldMvn.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                                     </th:block>
                                 </th:block>
                             }</div>
                         ]</div>
 
-                        <!--artifacts-->
-                        <div th:if = "${node == 'artifacts'}" >"artifacts": [
-                            <th:block th:each = "topObj : ${node2.get('artifacts')}">
-                                <!--mvn-->
-                                <div class = "space" th:if = "${topObj.get('mvn') != null}">{"mvn": [
-                                    <div class = "space" th:each = "elementMvn : ${topObj.get('mvn')}">{
-                                        <div th:each = "field : ${elementMvn.fields()}">
-                                            <p th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
+                        <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
+                            <p th:text = "${field}"/>
+                        </div>
+                    </th:block>
 
-                                            <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
-                                                <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
-                                            }</div>
-                                        </div>
+                    <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <!--output the missing mandatory fields-->
+                    <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                            <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        </th:block>
+                    </th:block>
+                }</div>
+            ]</div>
+        </td>
+
+
+        <td>
+            <!--check artifacts-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('artifacts').hashCode() and resCom.value == NOTEQUAL}">"artifacts": [
+
+                <div class = "space" th:each = "artifact : ${node2.get('artifacts')}">
+                    <!--top object not equal-->
+                    <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == NOTEQUAL}">{
+                        <th:block th:each = "field : ${artifact.fields()}">
+
+                            <!--mvn-->
+                            <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
+                                <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
+
+                                    <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
+                                        <p class = "space green" th:text = "${fieldsTopMvn}"/>
+                                    </div>
+
+                                    <!--output the missing mandatory fields-->
+                                    <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
+                                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                                            <p class = "space noField" th:if = "${noField.getKey() == fieldMvn.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                        </th:block>
+                                    </th:block>
                                     }</div>
                                 ]</div>
 
-                                <!--target_repository-->
-                                <div class = "space" th:each = "fieldTopObj : ${topObj.fields()}" th:if = "${topObj.get('mvn') != null and fieldTopObj.getKey() == 'target_repository'}">
-                                    <p class = "space" th:text = "${fieldTopObj}"/>
-                                }</div>
+                            <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
+                                <p class = "green" th:text = "${field}"/>
+                            </div>
+                        </th:block>
 
-                                <!--top objects of the artifacts-->
-                                <div class = "space" th:if = "${topObj.get('mvn') == null}">{
-                                    <div  th:each = "fieldTopObj : ${topObj.fields()}">
-                                        <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes' and fieldTopObj.getKey() != 'file'}" th:text = "${fieldTopObj}"/>
+                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
+                            <p class = "space green" th:text = "${field}"/>
+                        </th:block>
 
-                                        <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
-                                            <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
-                                        }</div>
-
-                                        <div class = "space" th:if = "${fieldTopObj.getKey() == 'file'}" >"file": [
-                                            <p class = "space" th:each = "fileFile : ${fieldTopObj.getValue()}" th:text = "${fileFile}"/>
-                                        ]</div>
-                                    </div>
-                                }</div>
+                        <!--output the missing mandatory fields-->
+                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                             </th:block>
-                        ]</div>
+                        </th:block>
+                        }</div>
 
-                        <!--script-->
-                        <div th:if = "${node == 'script'}">"script": [
-                            <div class = "space" th:each = "topObj : ${node2.get('script')}">{
-                                <div th:each = "fieldTopObj : ${topObj.fields()}">
-                                    <p class = "space" th:if = "${fieldTopObj.getKey() != 'hashes'}" th:text = "${fieldTopObj}"/>
+                    <!--top object equal-->
+                    <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == EQUAL}">{
+                        <th:block th:each = "field : ${artifact.fields()}">
 
-                                    <div class = "space" th:if = "${fieldTopObj.getKey() == 'hashes'}" >"hashes": {
-                                        <p class = "space" th:each = "fieldHash : ${fieldTopObj.getValue().fields()}" th:text = "${fieldHash}"/>
-                                    }</div>
+                            <!--mvn-->
+                            <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
+                                <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
+
+                                    <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
+                                        <p class = "space" th:each = "mandField : ${mandatoryFieldsArtifactsMvn}" th:if = "${fieldsTopMvn.getKey().equals(mandField)}" th:text = "${fieldsTopMvn}" />
+
+                                        <th:block th:each = "checkOptional : ${checkFieldsOptionalArtifactsMvn2}">
+                                            <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
+                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${fieldsTopMvn}"/>
+                                            <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
+                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == EQUAL}" th:text = "${fieldsTopMvn}"/>
+                                        </th:block>
+                                    </div>
+
+                                    <!--output the missing mandatory fields-->
+                                    <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
+                                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                                            <p class = "space noField" th:if = "${noField.getKey() == fieldMvn.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                        </th:block>
+                                    </th:block>
+                                }</div>
+                            ]</div>
+
+                            <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
+                                <p class = "" th:text = "${field}"/>
+                            </div>
+                        </th:block>
+
+                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsArtifacts}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalArtifacts2}">
+                                <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == artifact.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == artifact.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    }</div>
+                </div>
+            ]</div>
+
+            <!--artifacts equal-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('artifacts').hashCode() and resCom.value == EQUAL}">"artifacts": [
+
+                <div class = "space" th:each = "artifact : ${node1.get('artifacts')}">{
+
+                    <th:block th:each = "field : ${artifact.fields()}">
+                        <!--mvn-->
+                        <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
+                            <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
+
+                                <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
+                                    <p class = "space" th:text = "${fieldsTopMvn}"/>
                                 </div>
+
+                                <!--output the missing mandatory fields-->
+                                <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
+                                    <th:block th:each = "noField2 : ${noField.getValue()}">
+                                        <p class = "space noField" th:if = "${noField.getKey() == fieldMvn.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                                    </th:block>
+                                </th:block>
                             }</div>
                         ]</div>
 
-                        <!--rpm-->
-                        <div th:if = "${node == 'rpm'}">"rpm": {
-                            <div th:each = "field : ${node2.get('rpm').fields()}">
-                                <p class = "space" th:if = "${field.getKey() != 'hashes'}" th:text = "${field}"/>
-
-                                <div class = "space" th:if = "${field.getKey() == 'hashes'}" >"hashes": {
-                                    <p class = "space" th:each = "fieldHash : ${field.getValue().fields()}" th:text = "${fieldHash}"/>
-                                }</div>
-                            </div>
-                        }</div>
-
-                        <!--parameters-->
-                        <div th:if = "${node == 'parameters'}">"parameters": {
-                            <div th:each = "field : ${node2.get('parameters').fields()}">
-                                <div class = "space" th:if = "${field.getKey() == 'common'}">"common": {
-                                    <div th:each = "fieldCommon : ${field.getValue().fields()}">
-                                        <p class = "space" th:text = "${fieldCommon}"/>
-                                    </div>
-                                }</div>
-
-                                <div class = "space" th:if = "${field.getKey() == 'services'}">"services": {
-                                    <div th:each = "fieldServices : ${field.getValue().fields()}">
-                                        <p class = "space" th:text = "${fieldServices}"/>
-                                    </div>
-                                }</div>
-                            </div>
-                        }</div>
-                    </th:block>
-                </th:block>
-
-                <!--####################-->
-                <!--check metadata-->
-                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
-                    <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('metadata').hashCode() and resCom.value == EQUAL}">
-                        <div th:each = "field : ${node2.get('metadata').fields()}">
-                            <p class = "space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
+                        <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
+                            <p th:text = "${field}"/>
                         </div>
                     </th:block>
 
-                    <th:block th:each = "field : ${node2.get('metadata').fields()}">
-                        <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == NOTEQUAL}">
-                            <p class = "green space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
-                        </div>
+                    <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
 
-                        <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == EQUAL}">
-                            <p class = "space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
-                        </div>
+                    <!--output the missing mandatory fields-->
+                    <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                            <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        </th:block>
                     </th:block>
                 }</div>
+            ]</div>
+        </td>
+    </tr>
 
-                <!--check services-->
-
-                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
-
-                    <div class = "space" th:each = "service : ${node2.get('services')}">{
-
-                        <!--top object not equal-->
-                        <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOTEQUAL}">
-                            <th:block th:each = "field : ${service.fields()}">
-                                <p class = "space green" th:text = "${field}"/>
-                            </th:block>
-
-                            <!--output the missing mandatory fields-->
-                            <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
-                                <th:block th:each = "noField2 : ${noField.getValue()}">
-                                    <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                                </th:block>
-                            </th:block>
-                        </div>
-
-                        <!--top object equal-->
-                        <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == EQUAL}">
-                            <th:block th:each = "field : ${service.fields()}">
-                                <p class = "space" th:each = "mandField : ${mandatoryFieldsServices}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
-                                <th:block th:each = "checkOptional : ${checkFieldsOptionalServices2}">
-                                    <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
-                                    <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
-                                </th:block>
-                            </th:block>
-
-                            <!--output the missing mandatory fields-->
-                            <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
-                                <th:block th:each = "noField2 : ${noField.getValue()}">
-                                    <p class = "space noField" th:if = "${noField.getKey() == service.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                                </th:block>
-                            </th:block>
-                        </div>
-                    }</div>
-
-                    <div th:if = "${node1.get('services').size() > node2.get('services').size()}" th:each = "empty : ${fieldsEmptyServices}">
-                        <br>
-                    </div>
-                ]</div>
-
-                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node1.get('services').hashCode() and resCom.value == EQUAL}">"services": [
-                    <div class = "space" th:each = "service : ${node2.get('services')}">{
-                        <th:block th:each = "field : ${service.fields()}">
-                            <p class = "space" th:text = "${field}"/>
+    <tr>
+        <td>
+            <!--check script-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('script').hashCode() and resCom.value == NOTEQUAL}">"script": [
+                <div class = "space" th:each = "script : ${node1.get('script')}">{
+                    <!--top object not equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == NOTEQUAL}">
+                        <th:block th:each = "field : ${script.fields()}">
+                            <p class = "space red" th:text = "${field}"/>
                         </th:block>
 
-                        <div th:each = "res : ${result}">
-                            <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
-                                <th:block th:each = "noField2 : ${noField.getValue()}">
-                                    <p class = "space noField" th:if = "${noField.getKey() == res.getKey()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                                </th:block>
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                             </th:block>
+                        </th:block>
+                    </div>
+
+                    <!--top object equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == EQUAL}">
+                        <th:block th:each = "field : ${script.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsScript}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <!--compare optional fields-->
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalScript1}">
+                                <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('script').hashCode() and resCom.value == EQUAL}">"script": [
+                <div class = "space" th:each = "script : ${node1.get('script')}">{
+                    <th:block th:each = "field : ${script.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <!--output the missing mandatory fields-->
+                    <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                            <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        </th:block>
+                    </th:block>
+                }</div>
+            ]</div>
+        </td>
+
+
+        <td>
+            <!--check script-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('script').hashCode() and resCom.value == NOTEQUAL}">"script": [
+                <div class = "space" th:each = "script : ${node2.get('script')}">{
+                    
+                    <!--top object not equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == NOTEQUAL}">
+                        <th:block th:each = "field : ${script.fields()}">
+                            <p class = "space green" th:text = "${field}"/>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+
+                    <!--top object equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == EQUAL}">
+                        <th:block th:each = "field : ${script.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsScript}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <!--compare optional fields-->
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalScript2}">
+                                <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('script').hashCode() and resCom.value == EQUAL}">"script": [
+                <div class = "space" th:each = "script : ${node2.get('script')}">{
+                    <th:block th:each = "field : ${script.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <!--output the missing mandatory fields-->
+                    <th:block th:each = "noField : ${checkFieldsMandatoryScript}">
+                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                            <p class = "space noField" th:if = "${noField.getKey() == script.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        </th:block>
+                    </th:block>
+                }</div>
+            ]</div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <!--check rpm-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('rpm').hashCode() and resCom.value == NOTEQUAL}">"rpm": [
+                <div th:each = "rpm : ${node1.get('rpm')}">{
+                    
+                    <!--top object not equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == NOTEQUAL}">
+                        <th:block th:each = "field : ${rpm.fields()}">
+                            <p class = "space red" th:text = "${field}"/>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+
+                    <!--top object equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == EQUAL}">
+                        <th:block th:each = "field : ${rpm.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsRpm}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <!--compare optional fields-->
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalRpm1}">
+                                <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('rpm').hashCode() and resCom.value == EQUAL}">"rpm": [
+                <div class = "space" th:each = "rpm : ${node1.get('rpm')}">{
+                    <th:block th:each = "field : ${rpm.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <!--output the missing mandatory fields-->
+                    <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                            <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        </th:block>
+                    </th:block>
+                }</div>
+            ]</div>
+
+        </td>
+        <td>
+            <!--check rpm-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('rpm').hashCode() and resCom.value == NOTEQUAL}">"rpm": [
+                <div th:each = "rpm : ${node2.get('rpm')}">{
+                    
+                    <!--top object not equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == NOTEQUAL}">
+                        <th:block th:each = "field : ${rpm.fields()}">
+                            <p class = "space green" th:text = "${field}"/>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+
+                    <!--top object equal-->
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == EQUAL}">
+                        <th:block th:each = "field : ${rpm.fields()}">
+                            <p class = "space" th:each = "mandField : ${mandatoryFieldsRpm}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
+
+                            <!--compare optional fields-->
+                            <th:block th:each = "checkOptional : ${checkFieldsOptionalRpm2}">
+                                <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
+                                    and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
+                            </th:block>
+                        </th:block>
+
+                        <!--output the missing mandatory fields-->
+                        <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                            <th:block th:each = "noField2 : ${noField.getValue()}">
+                                <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                            </th:block>
+                        </th:block>
+                    </div>
+                }</div>
+            ]</div>
+
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('rpm').hashCode() and resCom.value == EQUAL}">"rpm": [
+                <div class = "space" th:each = "rpm : ${node2.get('rpm')}">{
+                    <th:block th:each = "field : ${rpm.fields()}">
+                        <p class = "space" th:text = "${field}"/>
+                    </th:block>
+
+                    <!--output the missing mandatory fields-->
+                    <th:block th:each = "noField : ${checkFieldsMandatoryRpm}">
+                        <th:block th:each = "noField2 : ${noField.getValue()}">
+                            <p class = "space noField" th:if = "${noField.getKey() == rpm.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        </th:block>
+                    </th:block>
+                }</div>
+            ]</div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <!--check parameters-->
+            <!--equal-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('parameters').hashCode() and resCom.value == EQUAL}">"parameters": {
+
+                <div th:each = "parameter : ${node1.get('parameters').fields()}">
+                    <div class = "space" th:if = "${parameter.getKey().equals('common')}">"common": {
+                        <p class = "space" th:each = "fieldCommon : ${parameter.getValue().fields()}" th:text = "${fieldCommon}"/>
+                    }</div>
+
+                    <div class = "space" th:if = "${parameter.getKey().equals('services')}">"services": {
+
+                        <div class = "space" th:each = "fieldServices : ${parameter.getValue().fields()}" >
+                            <span th:text = "${fieldServices.getKey()}" /><div class = "space" th:each = "ff : ${fieldServices.getValue().fields()}">{
+                                <p class = "space" th:text = "${ff}" />
+                            }
+                            </div>
                         </div>
                     }</div>
-                ]</div>
 
+                </div>
+            }</div>
 
-                <!--check artifacts-->
-                <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('artifacts').hashCode() and resCom.value == NOTEQUAL}">"artifacts": [
+            <!--not equal-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('parameters').hashCode() and resCom.value == NOTEQUAL}">"parameters": {
+                <div th:each = "parameter : ${node1.get('parameters').fields()}">
+                    
+                    <!--common not equal-->
+                    <th:block th:if = "${parameter.getKey().equals('common')}" th:each = "resultCommon : ${result}">
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultCommon.getKey() and resultCommon.getValue() == NOTEQUAL}">"common": {
+                            <div th:each = "fieldCommon : ${parameter.getValue().fields()}">
+                                <p class = "space red" th:each = "resFieldCommon : ${result}" th:if = "${fieldCommon.getValue().hashCode() == resFieldCommon.getKey() and resFieldCommon.getValue() == NOTEQUAL}" th:text = "${fieldCommon}"/>
 
-                    <div class = "space" th:each = "artifact : ${node2.get('artifacts')}">
-                        <!--top object not equal-->
-                        <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == NOTEQUAL}">{
-                            <th:block th:each = "field : ${artifact.fields()}">
+                                <p class = "space" th:each = "resFieldCommon : ${result}" th:if = "${fieldCommon.getValue().hashCode() == resFieldCommon.getKey() and resFieldCommon.getValue() == EQUAL}" th:text = "${fieldCommon}"/>
+                            </div>
+                        }</div>
+                    </th:block>
 
-                                <!--mvn-->
-                                <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
-                                    <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
+                    <!--common equal-->
+                    <th:block th:if = "${parameter.getKey().equals('common')}" th:each = "resultCommon : ${result}">
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultCommon.getKey() and resultCommon.getValue() == EQUAL}">"common": {
+                            <div th:each = "fieldCommon : ${parameter.getValue().fields()}">
 
-                                        <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
-                                            <p class = "space green" th:text = "${fieldsTopMvn}"/>
-                                        </div>
+                                <p class = "space" th:text = "${fieldCommon}"/>
+                            
+                            </div>
+                        }</div>
+                    </th:block>
 
-                                        <!--output the missing mandatory fields-->
-                                        <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
-                                            <th:block th:each = "noField2 : ${noField.getValue()}">
-                                                <p class = "space noField" th:if = "${noField.getKey() == fieldMvn.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                                            </th:block>
-                                        </th:block>
-                                    }</div>
-                                ]</div>
+                    <!--services not equal-->
+                    <th:block th:if = "${parameter.getKey().equals('services')}" th:each = "resultServices : ${result}">
 
-                                <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
-                                    <p class = "green" th:text = "${field}"/>
-                                </div>
-                            </th:block>
-
-                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
-                                <p class = "space green" th:text = "${field}"/>
-                            </th:block>
-
-                            <!--output the missing mandatory fields-->
-                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
-                                <th:block th:each = "noField2 : ${noField.getValue()}">
-                                    <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == NOTEQUAL}">"services": {
+                            
+                            <div class = "space" th:each = "fieldService : ${parameter.getValue().fields()}"><span th:text = "${fieldService.getKey()}"/>: {
+                                <th:block th:each = "resfS1 : ${result}" th:if = "${fieldService.getValue().hashCode() == resfS1.getKey() and resfS1.getValue() == EQUAL}">
+                                    <div th:each = "fieldServiceNameEq : ${fieldService.getValue().fields()}">
+                                        <p class = "space" th:text = "${fieldServiceNameEq}"/>
+                                    </div>
                                 </th:block>
-                            </th:block>
-                        }</div>
 
-                        <!--top object equal-->
-                        <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == EQUAL}">{
-                            <th:block th:each = "field : ${artifact.fields()}">
 
-                                <!--mvn-->
-                                <div class = "space " th:if = "${field.getKey().equals('mvn')}">"mvn": [
-                                    <div class = "space" th:each = "fieldMvn : ${field.getValue()}">{
-
-                                        <div th:each = "fieldsTopMvn : ${fieldMvn.fields()}">
-                                            <p class = "space" th:text = "${fieldsTopMvn}"/>
-                                        </div>
-
-                                        <!--output the missing mandatory fields-->
-                                        <th:block th:each = "noField : ${checkFieldsMandatoryArtifactsMvn}">
-                                            <th:block th:each = "noField2 : ${noField.getValue()}">
-                                                <p class = "space noField" th:if = "${noField.getKey() == fieldMvn.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
-                                            </th:block>
-                                        </th:block>
-                                    }</div>
-                                ]</div>
-
-                                <div class = "space" th:if = "${field.getKey().equals('target_repository') and artifact.get('mvn') != null}">
-                                    <p class = "" th:text = "${field}"/>
+                                <div th:each = "fieldServiceName : ${fieldService.getValue().fields()}">
+                                    <p class = "space red" th:each = "resFieldServ : ${result}" th:if = "${fieldServiceName.getValue().hashCode() == resFieldServ.getKey() and resFieldServ.getValue() == NOTEQUAL}" th:text = "${fieldServiceName}"/>
                                 </div>
-                            </th:block>
-
-                            <th:block th:if = "${artifact.get('mvn') == null}" th:each = "field : ${artifact.fields()}">
-                                <p class = "space" th:text = "${field}"/>
-                            </th:block>
+                            }</div>
                         }</div>
-                    </div>
-                ]</div>
-            </div>
-        </div>
+                    </th:block>
 
-    </div>
+                    <!--services equal-->
+                    <th:block th:if = "${parameter.getKey().equals('services')}" th:each = "resultServices : ${result}">
+
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == EQUAL}">"services": {
+                            <div class = "space" th:each = "fieldServices : ${parameter.getValue().fields()}" >
+                                <span th:text = "${fieldServices.getKey()}" /><div class = "space" th:each = "ff : ${fieldServices.getValue().fields()}">{
+                                    <p class = "space" th:text = "${ff}" />
+                                }</div>
+                            </div>
+                            
+                        }</div>
+                    </th:block>
+
+
+                    
+                </div>
+            }</div>
+            
+        </td>
+
+
+
+        <td>
+            <!--check parameters-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('parameters').hashCode() and resCom.value == EQUAL}">"parameters": {
+
+                <div th:each = "parameter : ${node2.get('parameters').fields()}">
+                    <div class = "space" th:if = "${parameter.getKey().equals('common')}">"common": {
+                        <p class = "space" th:each = "fieldCommon : ${parameter.getValue().fields()}" th:text = "${fieldCommon}"/>
+                    }</div>
+
+                    <div class = "space" th:if = "${parameter.getKey().equals('services')}">"services": {
+
+                        <div class = "space" th:each = "fieldServices : ${parameter.getValue().fields()}" >
+                            <span th:text = "${fieldServices.getKey()}" /><div class = "space" th:each = "ff : ${fieldServices.getValue().fields()}">{
+                                <p class = "space" th:text = "${ff}" />
+                            }
+                            </div>
+                        </div>
+                    }</div>
+
+                </div>
+            }</div>
+
+            <!--not equal-->
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('parameters').hashCode() and resCom.value == NOTEQUAL}">"parameters": {
+                <div th:each = "parameter : ${node2.get('parameters').fields()}">
+                    
+                    <!--common not equal-->
+                    <th:block th:if = "${parameter.getKey().equals('common')}" th:each = "resultCommon : ${result}">
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultCommon.getKey() and resultCommon.getValue() == NOTEQUAL}">"common": {
+                            <div th:each = "fieldCommon : ${parameter.getValue().fields()}">
+                                <p class = "space green" th:each = "resFieldCommon : ${result}" th:if = "${fieldCommon.getValue().hashCode() == resFieldCommon.getKey() and resFieldCommon.getValue() == NOTEQUAL}" th:text = "${fieldCommon}"/>
+
+                                <p class = "space" th:each = "resFieldCommon : ${result}" th:if = "${fieldCommon.getValue().hashCode() == resFieldCommon.getKey() and resFieldCommon.getValue() == EQUAL}" th:text = "${fieldCommon}"/>
+                            </div>
+                        }</div>
+                    </th:block>
+
+                    <!--common equal-->
+                    <th:block th:if = "${parameter.getKey().equals('common')}" th:each = "resultCommon : ${result}">
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultCommon.getKey() and resultCommon.getValue() == EQUAL}">"common": {
+                            <div th:each = "fieldCommon : ${parameter.getValue().fields()}">
+
+                                <p class = "space" th:text = "${fieldCommon}"/>
+                            
+                            </div>
+                        }</div>
+                    </th:block>
+
+
+                    <!--services not equal-->
+                    <th:block th:if = "${parameter.getKey().equals('services')}" th:each = "resultServices : ${result}">
+
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == NOTEQUAL}">"services": {
+                            
+                            <div class = "space" th:each = "fieldService : ${parameter.getValue().fields()}"><span th:text = "${fieldService.getKey()}"/>: {
+                                <th:block th:each = "resfS1 : ${result}" th:if = "${fieldService.getValue().hashCode() == resfS1.getKey() and resfS1.getValue() == EQUAL}">
+                                    <div th:each = "fieldServiceNameEq : ${fieldService.getValue().fields()}">
+                                        <p class = "space" th:text = "${fieldServiceNameEq}"/>
+                                    </div>
+                                </th:block>
+
+
+                                <div th:each = "fieldServiceName : ${fieldService.getValue().fields()}">
+                                    <p class = "space green" th:each = "resFieldServ : ${result}" th:if = "${fieldServiceName.getValue().hashCode() == resFieldServ.getKey() and resFieldServ.getValue() == NOTEQUAL}" th:text = "${fieldServiceName}"/>
+                                </div>
+                            }</div>
+                        }</div>
+                    </th:block>
+
+                    <!--services equal-->
+                    <th:block th:if = "${parameter.getKey().equals('services')}" th:each = "resultServices : ${result}">
+
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == EQUAL}">"services": {
+                            <div class = "space" th:each = "fieldServices : ${parameter.getValue().fields()}" >
+                                <span th:text = "${fieldServices.getKey()}" /><div class = "space" th:each = "ff : ${fieldServices.getValue().fields()}">{
+                                    <p class = "space" th:text = "${ff}" />
+                                }</div>
+                            </div>
+                            
+                        }</div>
+                    </th:block>
+                    
+                </div>
+
+
+            }</div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
 </body>
 </html>

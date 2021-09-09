@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Controller
-public class HomeController {
+public class MainController {
 
     Compare compareFiles = new Compare();
 
@@ -38,7 +38,7 @@ public class HomeController {
     public String uploads(MultipartFile[] uploadFiles, HttpServletRequest req, Model model){
 
         if (uploadFiles.length > 0){
-            for (MultipartFile file:uploadFiles){
+            for (MultipartFile file : uploadFiles){
                 MultipartFile uploadFile = file;
                 String realPath = req.getSession().getServletContext().getRealPath(uploadPath);
                 String format = sdf.format(new Date());
@@ -58,6 +58,7 @@ public class HomeController {
         }else if (uploadFiles.length == 0){
             return "Пожалуйста, выберите файл!";
         }
+
         ParserJson parserJson = new ParserJson();
         parserJson.read();
 
