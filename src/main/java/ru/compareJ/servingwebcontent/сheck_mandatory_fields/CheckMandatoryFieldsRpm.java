@@ -1,7 +1,7 @@
-package ru.compareJ.servingwebcontent.CheckMandatoryFields;
+package ru.compareJ.servingwebcontent.сheck_mandatory_fields;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import ru.compareJ.servingwebcontent.Compare.Compare;
+import ru.compareJ.servingwebcontent.compare.Compare;
 import ru.compareJ.servingwebcontent.ResultCompare;
 
 import java.util.ArrayList;

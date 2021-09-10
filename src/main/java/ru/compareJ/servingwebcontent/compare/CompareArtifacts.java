@@ -1,4 +1,4 @@
-package ru.compareJ.servingwebcontent.Compare;
+package ru.compareJ.servingwebcontent.compare;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -153,6 +153,7 @@ public class CompareArtifacts {
                     Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
                 }
                 else {
+                    int hash = artifact1.hashCode();
                     Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
                 }
             }
@@ -213,23 +214,39 @@ public class CompareArtifacts {
                             if(count > 0) {
                                 Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.EQUAL);
                                 int h1 = artifact1.hashCode();
-                                Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
+                                //Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
                             }
                             else {
                                 Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.NOTEQUAL);
                                 int h2 = artifact1.hashCode();
-                                Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
+                                //Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
                             }
                         }
                     }
 
-                    for(Map.Entry<Integer, ResultCompare> result : Compare.resultCompareFiles.entrySet()) {
-                        for(JsonNode mvn : artifact1.get("mvn")) {
-                            if(mvn.hashCode() == result.getKey() && result.getValue() == ResultCompare.NOTEQUAL) {
-                                Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
-                            }
+                    int c = 0;
+                    for(JsonNode mvn : artifact1.get("mvn")) {
+                        if(Compare.resultCompareFiles.get(mvn.hashCode()) == ResultCompare.NOTEQUAL) {
+                            ++c;
                         }
                     }
+                    if(c > 0 && Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.EQUAL) {
+                        Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
+                        c = 0;
+                    }
+                    else if(c == 0 && Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.EQUAL) {
+                        Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
+                    }
+
+
+//                    for(Map.Entry<Integer, ResultCompare> result : Compare.resultCompareFiles.entrySet()) {
+//                        for(JsonNode mvn : artifact1.get("mvn")) {
+//                            if(mvn.hashCode() == result.getKey() && result.getValue() == ResultCompare.NOTEQUAL || Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.NOTEQUAL) {
+//                                Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
+//                            }
+//                            else if(mvn.hashCode() == result.getKey() && result.getValue() != ResultCompare.NOTEQUAL && Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.)
+//                        }
+//                    }
 
 
                 }

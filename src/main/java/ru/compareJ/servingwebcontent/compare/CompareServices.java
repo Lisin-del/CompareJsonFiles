@@ -1,4 +1,4 @@
-package ru.compareJ.servingwebcontent.Compare;
+package ru.compareJ.servingwebcontent.compare;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import ru.compareJ.servingwebcontent.ResultCompare;

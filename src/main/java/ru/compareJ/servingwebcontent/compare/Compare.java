@@ -1,10 +1,10 @@
-package ru.compareJ.servingwebcontent.Compare;
+package ru.compareJ.servingwebcontent.compare;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import ru.compareJ.servingwebcontent.CheckMandatoryFields.CheckMandatoryFieldsArt;
-import ru.compareJ.servingwebcontent.CheckMandatoryFields.CheckMandatoryFieldsRpm;
-import ru.compareJ.servingwebcontent.CheckMandatoryFields.CheckMandatoryFieldsScript;
-import ru.compareJ.servingwebcontent.CheckMandatoryFields.CheckMandatoryFieldsServices;
+import ru.compareJ.servingwebcontent.сheck_mandatory_fields.CheckMandatoryFieldsArt;
+import ru.compareJ.servingwebcontent.сheck_mandatory_fields.CheckMandatoryFieldsRpm;
+import ru.compareJ.servingwebcontent.сheck_mandatory_fields.CheckMandatoryFieldsScript;
+import ru.compareJ.servingwebcontent.сheck_mandatory_fields.CheckMandatoryFieldsServices;
 import ru.compareJ.servingwebcontent.ResultCompare;
 import ru.compareJ.servingwebcontent.ValidatorJson;
 
