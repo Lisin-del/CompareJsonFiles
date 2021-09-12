@@ -2,6 +2,7 @@ package ru.compareJ.servingwebcontent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
+import ru.compareJ.servingwebcontent.compare.Compare;
 
 import java.io.*;
 import java.util.ArrayList;

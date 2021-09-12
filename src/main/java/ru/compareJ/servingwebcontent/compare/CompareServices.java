@@ -242,4 +242,9 @@ public class CompareServices {
             Compare.checkFieldsOptionalServices2.put(service2.hashCode(), compareOpt);
         }
     }
+
+    //compare additional fields
+    private void additionalCompare1(JsonNode node1, JsonNode node2) {
+
+    }
 }

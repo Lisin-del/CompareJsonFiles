@@ -15,6 +15,7 @@ import java.util.Map;
 public class Compare {
     //all result compare
     public static HashMap<Integer, ResultCompare> resultCompareFiles = new HashMap<>();
+    public static HashMap<Integer, String> infoStructure = new HashMap<>();
 
     //===SERVICES===
     //check the mandatory fields for the services
@@ -93,6 +94,7 @@ public class Compare {
         checkFieldsOptionalRpm1.clear();
         checkFieldsOptionalRpm2.clear();
 
+        infoStructure.clear();
         resultCompareFiles.clear();
 
         if(validatorJson.validationObjectJson(node1) & validatorJson.validationObjectJson(node2)) {

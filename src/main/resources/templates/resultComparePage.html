@@ -19,15 +19,22 @@
 
     <!--check structure files-->
     <tr>
-        <td><th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
-            <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
+        <td>
+            <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
+                <h4>Your file has incorrect structure or incorrect extension! Please check your file!</h4>
+                <th:block th:each = "info : ${infoStructure}">
+                    <h5 th:if = "${node1.hashCode() == info.getKey()}" th:text = "${info.getValue()}" />
+                </th:block>
         </th:block>
         </td>
 
 
         <td>
             <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
-                <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
+                <h4>Your file has incorrect structure or incorrect extension! Please check your file!</h4>
+                <th:block th:each = "info : ${infoStructure}">
+                    <h5 th:if = "${node2.hashCode() == info.getKey()}" th:text = "${info.getValue()}" />
+                </th:block>
             </th:block>
         </td>
     </tr>

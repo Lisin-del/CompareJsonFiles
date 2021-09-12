@@ -83,6 +83,7 @@ public class MainController {
         model.addAttribute("node1", compareFiles.getNode1());
         model.addAttribute("node2", compareFiles.getNode2());
         model.addAttribute("result", Compare.resultCompareFiles);
+        model.addAttribute("infoStructure", Compare.infoStructure);
 
         model.addAttribute("checkFieldsMandatoryServices", Compare.checkFieldsMandatoryServices);
         model.addAttribute("mandatoryFieldsServices", CompareServices.mandatoryFieldsServices);

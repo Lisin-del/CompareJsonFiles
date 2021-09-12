@@ -8,6 +8,7 @@ public enum ResultCompare {
     TYPE,
     WRONGTYPE,
     WRONGSTRUCTURE,
-    WRONGEXTENSION
+    WRONGEXTENSION,
+    WRONGVALUE
 
 }
