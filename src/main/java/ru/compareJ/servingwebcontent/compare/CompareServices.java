@@ -196,10 +196,10 @@ public class CompareServices {
                         }
                     }
                     else if(service1.get(name) == null) {
-                        compareOpt.put(name, ResultCompare.NOTEQUAL);
+                        compareOpt.put(name, ResultCompare.NOTEXIST);
                     }
                     else if(service2.get(name) == null) {
-                        compareOpt.put(name, ResultCompare.NOTEQUAL);
+                        compareOpt.put(name, ResultCompare.NOTEXIST);
                     }
                 }
 
@@ -231,10 +231,10 @@ public class CompareServices {
                         }
                     }
                     else if(service2.get(name) == null) {
-                        compareOpt.put(name, ResultCompare.NOTEQUAL);
+                        compareOpt.put(name, ResultCompare.NOTEXIST);
                     }
                     else if(service1.get(name) == null) {
-                        compareOpt.put(name, ResultCompare.NOTEQUAL);
+                        compareOpt.put(name, ResultCompare.NOTEXIST);
                     }
                 }
 
