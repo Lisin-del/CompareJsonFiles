@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CheckMandatoryFieldsServices {
+
+    //mandatory fields services
     private ArrayList<String> fieldsServices = new ArrayList<>();
     {
         fieldsServices.add("service_name");

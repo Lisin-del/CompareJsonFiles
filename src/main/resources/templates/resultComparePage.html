@@ -424,10 +424,6 @@
                             </th:block>
                         </th:block>
 
-                        
-
-                        
-
                         <!--output the missing mandatory fields-->
                         <th:block th:each = "noField : ${checkFieldsMandatoryServices}">
                             <th:block th:each = "noField2 : ${noField.getValue()}">
@@ -495,7 +491,7 @@
                         </th:block>
 
                         <!--output the missing mandatory fields-->
-                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                        <th:block  th:each = "noField : ${checkFieldsMandatoryArtifacts}">
                             <th:block th:each = "noField2 : ${noField.getValue()}">
                                 <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                             </th:block>
@@ -547,7 +543,7 @@
                         </th:block>
 
                         <!--output the missing mandatory fields-->
-                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                        <th:block  th:each = "noField : ${checkFieldsMandatoryArtifacts}">
                             <th:block th:each = "noField2 : ${noField.getValue()}">
                                 <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                             </th:block>
@@ -589,7 +585,7 @@
                     </th:block>
 
                     <!--output the missing mandatory fields-->
-                    <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                    <th:block  th:each = "noField : ${checkFieldsMandatoryArtifacts}">
                         <th:block th:each = "noField2 : ${noField.getValue()}">
                             <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                         </th:block>
@@ -635,7 +631,7 @@
                         </th:block>
 
                         <!--output the missing mandatory fields-->
-                        <th:block th:if = "${artifact.get('mvn') == null}" th:each = "noField : ${checkFieldsMandatoryArtifacts}">
+                        <th:block  th:each = "noField : ${checkFieldsMandatoryArtifacts}">
                             <th:block th:each = "noField2 : ${noField.getValue()}">
                                 <p class = "space noField" th:if = "${noField.getKey() == artifact.hashCode()}" th:text = "${noField2.getKey()} + ':' + ${noField2.getValue()}"/>
                             </th:block>

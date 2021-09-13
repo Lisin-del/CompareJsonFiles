@@ -11,6 +11,7 @@ import java.util.Map;
 public class CompareServices {
 
 
+    //mandatory fields services
     public static ArrayList<String> mandatoryFieldsServices = new ArrayList<>();
     {
         mandatoryFieldsServices.add("service_name");
@@ -23,6 +24,8 @@ public class CompareServices {
         mandatoryFieldsServices.add("sha256");
     }
 
+
+    //optional fields services
     private ArrayList<String> optionalFieldsServices = new ArrayList<>();
     {
         optionalFieldsServices.add("service-short-name");
@@ -32,6 +35,8 @@ public class CompareServices {
         optionalFieldsServices.add("github_hash");
     }
 
+
+    //compare services
     public void servicesCompare(JsonNode node1, JsonNode node2) {
 
         if(node1.get("services").hashCode() == node2.get("services").hashCode()) {
@@ -101,9 +106,7 @@ public class CompareServices {
                     else {
                         Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.NOT_EQUAL);
                     }
-
                 }
-
             }
 
 
@@ -173,6 +176,7 @@ public class CompareServices {
 
     }
 
+
     //compare optional fields services 1 node
     private void optionalCompare1(JsonNode node1, JsonNode node2) {
         for(JsonNode service1 : node1.get("services")) {
@@ -208,6 +212,7 @@ public class CompareServices {
         }
     }
 
+
     //compare optional fields services 2 node
     private void optionalCompare2(JsonNode node2, JsonNode node1) {
         for(JsonNode service2 : node2.get("services")) {
@@ -241,10 +246,5 @@ public class CompareServices {
             }
             Compare.checkFieldsOptionalServices2.put(service2.hashCode(), compareOpt);
         }
-    }
-
-    //compare additional fields
-    private void additionalCompare1(JsonNode node1, JsonNode node2) {
-
     }
 }

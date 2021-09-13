@@ -77,8 +77,10 @@ public class Compare {
 
     private ValidatorJson validatorJson = new ValidatorJson();
 
+
     public void compareFiles() {
 
+        //clear comparison results
         checkFieldsOptionalServices1.clear();
         checkFieldsOptionalServices2.clear();
         checkFieldsMandatoryServices.clear();
@@ -97,11 +99,19 @@ public class Compare {
         infoStructure.clear();
         resultCompareFiles.clear();
 
+        //check structure the files (validation)
         if(validatorJson.validationObjectJson(node1) & validatorJson.validationObjectJson(node2)) {
+
+            //compare hash codes ot the files
             if(node1.hashCode() == node2.hashCode()) {
                 int hash = node1.hashCode();
 
+                //check availability the mandatory fields
                 checkMandatoryFieldsServices.checkAvailabilityFields(node1, node2);
+                checkMandatoryFieldsArt.checkAvailabilityFieldsArtifacts(node1, node2);
+                checkMandatoryFieldsScript.checkAvailabilityFieldsScript(node1, node2);
+                checkMandatoryFieldsRpm.checkAvailabilityFieldsRpm(node1, node2);
+
                 resultCompareFiles.put(hash, ResultCompare.EQUAL);
             }
             else {
@@ -134,15 +144,7 @@ public class Compare {
         else {
             resultCompareFiles.put(1, ResultCompare.WRONG_STRUCTURE);
         }
-
-        for(Map.Entry<Integer, ResultCompare> res : resultCompareFiles.entrySet()) {
-            System.out.println(res.getKey() + ":" + res.getValue());
-        }
     }
-
-
-
-
 
 
     public JsonNode getNode1() {
