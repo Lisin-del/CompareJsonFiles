@@ -58,8 +58,8 @@ public class CompareArtifacts {
             }
         }
         else {
-            Compare.resultCompareFiles.put(node1.get("artifacts").hashCode(), ResultCompare.NOTEQUAL);
-            Compare.resultCompareFiles.put(node2.get("artifacts").hashCode(), ResultCompare.NOTEQUAL);
+            Compare.resultCompareFiles.put(node1.get("artifacts").hashCode(), ResultCompare.NOT_EQUAL);
+            Compare.resultCompareFiles.put(node2.get("artifacts").hashCode(), ResultCompare.NOT_EQUAL);
 
             System.out.println("0 top object for the artifacts1: " + node1.get("artifacts").get(0).hashCode());
             System.out.println("0 top object for the artifacts2: " + node2.get("artifacts").get(0).hashCode());
@@ -154,7 +154,7 @@ public class CompareArtifacts {
                 }
                 else {
                     int hash = artifact1.hashCode();
-                    Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
+                    Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOT_EQUAL);
                 }
             }
         }
@@ -217,21 +217,21 @@ public class CompareArtifacts {
                                 //Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.EQUAL);
                             }
                             else {
-                                Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.NOTEQUAL);
+                                Compare.resultCompareFiles.put(mvn1.hashCode(), ResultCompare.NOT_EQUAL);
                                 int h2 = artifact1.hashCode();
-                                //Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
+                                //Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOT_EQUAL);
                             }
                         }
                     }
 
                     int c = 0;
                     for(JsonNode mvn : artifact1.get("mvn")) {
-                        if(Compare.resultCompareFiles.get(mvn.hashCode()) == ResultCompare.NOTEQUAL) {
+                        if(Compare.resultCompareFiles.get(mvn.hashCode()) == ResultCompare.NOT_EQUAL) {
                             ++c;
                         }
                     }
                     if(c > 0 && Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.EQUAL) {
-                        Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
+                        Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOT_EQUAL);
                         c = 0;
                     }
                     else if(c == 0 && Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.EQUAL) {
@@ -241,10 +241,10 @@ public class CompareArtifacts {
 
 //                    for(Map.Entry<Integer, ResultCompare> result : Compare.resultCompareFiles.entrySet()) {
 //                        for(JsonNode mvn : artifact1.get("mvn")) {
-//                            if(mvn.hashCode() == result.getKey() && result.getValue() == ResultCompare.NOTEQUAL || Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.NOTEQUAL) {
-//                                Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOTEQUAL);
+//                            if(mvn.hashCode() == result.getKey() && result.getValue() == ResultCompare.NOT_EQUAL || Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.NOT_EQUAL) {
+//                                Compare.resultCompareFiles.put(artifact1.hashCode(), ResultCompare.NOT_EQUAL);
 //                            }
-//                            else if(mvn.hashCode() == result.getKey() && result.getValue() != ResultCompare.NOTEQUAL && Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.)
+//                            else if(mvn.hashCode() == result.getKey() && result.getValue() != ResultCompare.NOT_EQUAL && Compare.resultCompareFiles.get(artifact1.hashCode()) == ResultCompare.)
 //                        }
 //                    }
 
@@ -275,7 +275,7 @@ public class CompareArtifacts {
                             compareOpt.put(fieldName, ResultCompare.EQUAL);
                         }
                         else if(!artifact1.get(fieldName).equals(artifact2.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
-                            compareOpt.put(fieldName, ResultCompare.NOTEQUAL);
+                            compareOpt.put(fieldName, ResultCompare.NOT_EQUAL);
                         }
                     }
                 }
@@ -302,7 +302,7 @@ public class CompareArtifacts {
                             compareOpt.put(fieldName, ResultCompare.EQUAL);
                         }
                         else if(!artifact2.get(fieldName).equals(artifact1.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
-                            compareOpt.put(fieldName, ResultCompare.NOTEQUAL);
+                            compareOpt.put(fieldName, ResultCompare.NOT_EQUAL);
                         }
                     }
                 }
@@ -334,7 +334,7 @@ public class CompareArtifacts {
                                             compareOpt.put(fieldName, ResultCompare.EQUAL);
                                         }
                                         else if(!mvn1.get(fieldName).equals(mvn2.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
-                                            compareOpt.put(fieldName, ResultCompare.NOTEQUAL);
+                                            compareOpt.put(fieldName, ResultCompare.NOT_EQUAL);
                                         }
                                     }
                                 }
@@ -370,7 +370,7 @@ public class CompareArtifacts {
                                             compareOpt.put(fieldName, ResultCompare.EQUAL);
                                         }
                                         else if(!mvn2.get(fieldName).equals(mvn1.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
-                                            compareOpt.put(fieldName, ResultCompare.NOTEQUAL);
+                                            compareOpt.put(fieldName, ResultCompare.NOT_EQUAL);
                                         }
                                     }
                                 }

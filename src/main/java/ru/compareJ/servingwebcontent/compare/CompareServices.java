@@ -46,8 +46,8 @@ public class CompareServices {
             int hash1 = node1.get("services").hashCode();
             int hash2 = node2.get("services").hashCode();
 
-            Compare.resultCompareFiles.put(hash1, ResultCompare.NOTEQUAL);
-            Compare.resultCompareFiles.put(hash2, ResultCompare.NOTEQUAL);
+            Compare.resultCompareFiles.put(hash1, ResultCompare.NOT_EQUAL);
+            Compare.resultCompareFiles.put(hash2, ResultCompare.NOT_EQUAL);
 
             //json file #1
             for(JsonNode service1 : node1.get("services")) {
@@ -99,7 +99,7 @@ public class CompareServices {
                         Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.EQUAL);
                     }
                     else {
-                        Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.NOTEQUAL);
+                        Compare.resultCompareFiles.put(service1.hashCode(), ResultCompare.NOT_EQUAL);
                     }
 
                 }
@@ -161,7 +161,7 @@ public class CompareServices {
                     }
                     else {
                         int h2 = service2.hashCode();
-                        Compare.resultCompareFiles.put(service2.hashCode(), ResultCompare.NOTEQUAL);
+                        Compare.resultCompareFiles.put(service2.hashCode(), ResultCompare.NOT_EQUAL);
                     }
 
                 }
@@ -192,14 +192,14 @@ public class CompareServices {
                             compareOpt.put(name, ResultCompare.EQUAL);
                         }
                         else if(!service1.get(name).equals(service2.get(name)) && compareOpt.get(name) != ResultCompare.EQUAL) {
-                            compareOpt.put(name, ResultCompare.NOTEQUAL);
+                            compareOpt.put(name, ResultCompare.NOT_EQUAL);
                         }
                     }
                     else if(service1.get(name) == null) {
-                        compareOpt.put(name, ResultCompare.NOTEXIST);
+                        compareOpt.put(name, ResultCompare.NOT_EXIST);
                     }
                     else if(service2.get(name) == null) {
-                        compareOpt.put(name, ResultCompare.NOTEXIST);
+                        compareOpt.put(name, ResultCompare.NOT_EXIST);
                     }
                 }
 
@@ -227,14 +227,14 @@ public class CompareServices {
                             compareOpt.put(name, ResultCompare.EQUAL);
                         }
                         else if(!service2.get(name).equals(service1.get(name)) && compareOpt.get(name) != ResultCompare.EQUAL) {
-                            compareOpt.put(name, ResultCompare.NOTEQUAL);
+                            compareOpt.put(name, ResultCompare.NOT_EQUAL);
                         }
                     }
                     else if(service2.get(name) == null) {
-                        compareOpt.put(name, ResultCompare.NOTEXIST);
+                        compareOpt.put(name, ResultCompare.NOT_EXIST);
                     }
                     else if(service1.get(name) == null) {
-                        compareOpt.put(name, ResultCompare.NOTEXIST);
+                        compareOpt.put(name, ResultCompare.NOT_EXIST);
                     }
                 }
 

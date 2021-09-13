@@ -105,8 +105,8 @@ public class Compare {
                 resultCompareFiles.put(hash, ResultCompare.EQUAL);
             }
             else {
-                resultCompareFiles.put(node1.hashCode(), ResultCompare.NOTEQUAL);
-                resultCompareFiles.put(node2.hashCode(), ResultCompare.NOTEQUAL);
+                resultCompareFiles.put(node1.hashCode(), ResultCompare.NOT_EQUAL);
+                resultCompareFiles.put(node2.hashCode(), ResultCompare.NOT_EQUAL);
 
                 //compare metadata
                 compareMetadata.metadataCompare(node1, node2);
@@ -132,7 +132,7 @@ public class Compare {
             }
         }
         else {
-            resultCompareFiles.put(1, ResultCompare.WRONGSTRUCTURE);
+            resultCompareFiles.put(1, ResultCompare.WRONG_STRUCTURE);
         }
 
         for(Map.Entry<Integer, ResultCompare> res : resultCompareFiles.entrySet()) {

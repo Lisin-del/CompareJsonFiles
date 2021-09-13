@@ -13,8 +13,8 @@ public class CompareParameters {
             Compare.resultCompareFiles.put(node1.get("parameters").hashCode(), ResultCompare.EQUAL);
         }
         else {
-            Compare.resultCompareFiles.put(node1.get("parameters").hashCode(), ResultCompare.NOTEQUAL);
-            Compare.resultCompareFiles.put(node2.get("parameters").hashCode(), ResultCompare.NOTEQUAL);
+            Compare.resultCompareFiles.put(node1.get("parameters").hashCode(), ResultCompare.NOT_EQUAL);
+            Compare.resultCompareFiles.put(node2.get("parameters").hashCode(), ResultCompare.NOT_EQUAL);
 
             compare(node1, node2);
         }
@@ -28,8 +28,8 @@ public class CompareParameters {
                 Compare.resultCompareFiles.put(node1.get("parameters").get("common").hashCode(), ResultCompare.EQUAL);
             }
             else {
-                Compare.resultCompareFiles.put(node1.get("parameters").get("common").hashCode(), ResultCompare.NOTEQUAL);
-                Compare.resultCompareFiles.put(node2.get("parameters").get("common").hashCode(), ResultCompare.NOTEQUAL);
+                Compare.resultCompareFiles.put(node1.get("parameters").get("common").hashCode(), ResultCompare.NOT_EQUAL);
+                Compare.resultCompareFiles.put(node2.get("parameters").get("common").hashCode(), ResultCompare.NOT_EQUAL);
 
                 Iterator<Map.Entry<String, JsonNode>> iterator = node1.get("parameters").get("common").fields();
 
@@ -41,8 +41,8 @@ public class CompareParameters {
                             Compare.resultCompareFiles.put(field.getValue().hashCode(), ResultCompare.EQUAL);
                         }
                         else {
-                            Compare.resultCompareFiles.put(field.getValue().hashCode(), ResultCompare.NOTEQUAL);
-                            Compare.resultCompareFiles.put(node2.get("parameters").get("common").get(field.getKey()).hashCode(), ResultCompare.NOTEQUAL);
+                            Compare.resultCompareFiles.put(field.getValue().hashCode(), ResultCompare.NOT_EQUAL);
+                            Compare.resultCompareFiles.put(node2.get("parameters").get("common").get(field.getKey()).hashCode(), ResultCompare.NOT_EQUAL);
                         }
                     }
                 }
@@ -54,8 +54,8 @@ public class CompareParameters {
                 Compare.resultCompareFiles.put(node1.get("parameters").get("services").hashCode(), ResultCompare.EQUAL);
             }
             else {
-                Compare.resultCompareFiles.put(node1.get("parameters").get("services").hashCode(), ResultCompare.NOTEQUAL);
-                Compare.resultCompareFiles.put(node2.get("parameters").get("services").hashCode(), ResultCompare.NOTEQUAL);
+                Compare.resultCompareFiles.put(node1.get("parameters").get("services").hashCode(), ResultCompare.NOT_EQUAL);
+                Compare.resultCompareFiles.put(node2.get("parameters").get("services").hashCode(), ResultCompare.NOT_EQUAL);
 
                 Iterator<Map.Entry<String, JsonNode>> iterator = node1.get("parameters").get("services").fields();
 
@@ -67,8 +67,8 @@ public class CompareParameters {
                             Compare.resultCompareFiles.put(service.getValue().hashCode(), ResultCompare.EQUAL);
                         }
                         else {
-                            Compare.resultCompareFiles.put(service.getValue().hashCode(), ResultCompare.NOTEQUAL);
-                            Compare.resultCompareFiles.put(node2.get("parameters").get("services").get(service.getKey()).hashCode(), ResultCompare.NOTEQUAL);
+                            Compare.resultCompareFiles.put(service.getValue().hashCode(), ResultCompare.NOT_EQUAL);
+                            Compare.resultCompareFiles.put(node2.get("parameters").get("services").get(service.getKey()).hashCode(), ResultCompare.NOT_EQUAL);
 
                             Iterator<Map.Entry<String, JsonNode>> iteratorServices = service.getValue().fields();
 
@@ -80,8 +80,8 @@ public class CompareParameters {
                                         Compare.resultCompareFiles.put(fieldServiceName.getValue().hashCode(), ResultCompare.EQUAL);
                                     }
                                     else {
-                                        Compare.resultCompareFiles.put(fieldServiceName.getValue().hashCode(), ResultCompare.NOTEQUAL);
-                                        Compare.resultCompareFiles.put(node2.get("parameters").get("services").get(service.getKey()).get(fieldServiceName.getKey()).hashCode(), ResultCompare.NOTEQUAL);
+                                        Compare.resultCompareFiles.put(fieldServiceName.getValue().hashCode(), ResultCompare.NOT_EQUAL);
+                                        Compare.resultCompareFiles.put(node2.get("parameters").get("services").get(service.getKey()).get(fieldServiceName.getKey()).hashCode(), ResultCompare.NOT_EQUAL);
                                     }
                                 }
                             }

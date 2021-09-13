@@ -2,13 +2,13 @@ package ru.compareJ.servingwebcontent;
 
 public enum ResultCompare {
     EXIST,
-    NOTEXIST,
+    NOT_EXIST,
     EQUAL,
-    NOTEQUAL,
+    NOT_EQUAL,
     TYPE,
-    WRONGTYPE,
-    WRONGSTRUCTURE,
-    WRONGEXTENSION,
-    WRONGVALUE
+    WRONG_TYPE,
+    WRONG_STRUCTURE,
+    WRONG_EXTENSION,
+    WRONG_VALUE
 
 }

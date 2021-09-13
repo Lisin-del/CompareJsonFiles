@@ -19,14 +19,14 @@
 
     <!--check structure files-->
     <tr>
-        <td><th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
+        <td><th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONG_STRUCTURE}">
             <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
         </th:block>
         </td>
 
 
         <td>
-            <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONGSTRUCTURE}">
+            <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == 1 and resCom.value == WRONG_STRUCTURE}">
                 <h5>Your file has incorrect structure or incorrect extension! Please check your file!</h5>
             </th:block>
         </td>
@@ -263,7 +263,7 @@
     <tr>
         <td>
             <!--check metadata-->
-            <div th:each = "resCom : ${result}" th:if = "${ resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
+            <div th:each = "resCom : ${result}" th:if = "${ resCom.key != 1 and resCom.key == node1.hashCode() and resCom.value == NOT_EQUAL}">"metadata": {
                 <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('metadata').hashCode() and resCom.value == EQUAL}">
                     <div th:each = "field : ${node1.get('metadata').fields()}">
                         <p class = "space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
@@ -271,7 +271,7 @@
                 </th:block>
 
                 <th:block th:each = "field : ${node1.get('metadata').fields()}">
-                    <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == NOTEQUAL}">
+                    <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == NOT_EQUAL}">
                         <p class = "red space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
                     </div>
 
@@ -284,7 +284,7 @@
 
 
         <td>
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.hashCode() and resCom.value == NOTEQUAL}">"metadata": {
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.hashCode() and resCom.value == NOT_EQUAL}">"metadata": {
                 <th:block th:each = "resCom : ${result}" th:if = "${resCom.key == node1.get('metadata').hashCode() and resCom.value == EQUAL}">
                     <div th:each = "field : ${node2.get('metadata').fields()}">
                         <p class = "space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
@@ -292,7 +292,7 @@
                 </th:block>
 
                 <th:block th:each = "field : ${node2.get('metadata').fields()}">
-                    <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == NOTEQUAL}">
+                    <div th:each = "resCom : ${result}" th:if = "${field.getValue().hashCode() == resCom.key and resCom.value == NOT_EQUAL}">
                         <p class = "green space" th:text = "${field.getKey()} + ':' + ${field.getValue()}"/>
                     </div>
 
@@ -308,7 +308,7 @@
     <tr>
         <td>
             <!--check services-->
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('services').hashCode() and resCom.value == NOT_EQUAL}">"services": [
                 <div class = "space" th:each = "service : ${node1.get('services')}">{
                     
                     <!--top object equal-->
@@ -319,7 +319,7 @@
                             <!--compare optional fields-->
                             <th:block th:each = "checkOptional : ${checkFieldsOptionalServices1}">
                                 <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOT_EQUAL}" th:text = "${field}"/>
                                 <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
                                     and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
                             </th:block>
@@ -336,7 +336,7 @@
 
                 <div class = "space" th:each = "service : ${node1.get('services')}">{
                     <!--top object not equal-->
-                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOTEQUAL}">
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOT_EQUAL}">
                         <th:block th:each = "field : ${service.fields()}">
                             <p class = "space red" th:text = "${field}"/>
                         </th:block>
@@ -373,12 +373,12 @@
 
         <td>
             <!--check services-->
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.get('services').hashCode() and resCom.value == NOTEQUAL}">"services": [
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.key == node2.get('services').hashCode() and resCom.value == NOT_EQUAL}">"services": [
 
                 <div class = "space" th:each = "service : ${node2.get('services')}">{
 
                     <!--top object not equal-->
-                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOTEQUAL}">
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == service.hashCode() and resCom.getValue() == NOT_EQUAL}">
                         <th:block th:each = "field : ${service.fields()}">
                             <p class = "space green" th:text = "${field}"/>
                         </th:block>
@@ -397,7 +397,7 @@
                             <p class = "space" th:each = "mandField : ${mandatoryFieldsServices}" th:if = "${field.getKey().equals(mandField)}" th:text = "${field}"/>
                             <th:block th:each = "checkOptional : ${checkFieldsOptionalServices2}">
                                 <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOT_EQUAL}" th:text = "${field}"/>
                                 <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == service.hashCode()
                                     and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
                             </th:block>
@@ -435,11 +435,11 @@
         <td>
             <!--check artifacts-->
             <!--artifacts not equal-->
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('artifacts').hashCode() and resCom.value == NOTEQUAL}">"artifacts": [
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('artifacts').hashCode() and resCom.value == NOT_EQUAL}">"artifacts": [
 
                 <div class = "space" th:each = "artifact : ${node1.get('artifacts')}">
                     <!--top object not equal-->
-                    <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == NOTEQUAL}">{
+                    <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == NOT_EQUAL}">{
                         <th:block th:each = "field : ${artifact.fields()}">
 
                             <!--mvn-->
@@ -490,7 +490,7 @@
 
                                         <th:block th:each = "checkOptional : ${checkFieldsOptionalArtifactsMvn1}">
                                             <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
-                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${fieldsTopMvn}"/>
+                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == NOT_EQUAL}" th:text = "${fieldsTopMvn}"/>
                                             <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
                                                 and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == EQUAL}" th:text = "${fieldsTopMvn}"/>
                                         </th:block>
@@ -515,7 +515,7 @@
 
                             <th:block th:each = "checkOptional : ${checkFieldsOptionalArtifacts1}">
                                 <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == artifact.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOT_EQUAL}" th:text = "${field}"/>
                                 <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == artifact.hashCode()
                                     and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
                             </th:block>
@@ -576,11 +576,11 @@
 
         <td>
             <!--check artifacts-->
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('artifacts').hashCode() and resCom.value == NOTEQUAL}">"artifacts": [
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('artifacts').hashCode() and resCom.value == NOT_EQUAL}">"artifacts": [
 
                 <div class = "space" th:each = "artifact : ${node2.get('artifacts')}">
                     <!--top object not equal-->
-                    <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == NOTEQUAL}">{
+                    <div class = "space" th:each = "resCom1 : ${result}" th:if = "${resCom1.getKey() == artifact.hashCode() and resCom1.getValue() == NOT_EQUAL}">{
                         <th:block th:each = "field : ${artifact.fields()}">
 
                             <!--mvn-->
@@ -630,7 +630,7 @@
 
                                         <th:block th:each = "checkOptional : ${checkFieldsOptionalArtifactsMvn2}">
                                             <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
-                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${fieldsTopMvn}"/>
+                                                and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == NOT_EQUAL}" th:text = "${fieldsTopMvn}"/>
                                             <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == fieldMvn.hashCode()
                                                 and opt.getKey() == fieldsTopMvn.getKey() and opt.getValue() == EQUAL}" th:text = "${fieldsTopMvn}"/>
                                         </th:block>
@@ -655,7 +655,7 @@
 
                             <th:block th:each = "checkOptional : ${checkFieldsOptionalArtifacts2}">
                                 <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == artifact.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOT_EQUAL}" th:text = "${field}"/>
                                 <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == artifact.hashCode()
                                     and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
                             </th:block>
@@ -717,10 +717,10 @@
     <tr>
         <td>
             <!--check script-->
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('script').hashCode() and resCom.value == NOTEQUAL}">"script": [
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('script').hashCode() and resCom.value == NOT_EQUAL}">"script": [
                 <div class = "space" th:each = "script : ${node1.get('script')}">{
                     <!--top object not equal-->
-                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == NOTEQUAL}">
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == NOT_EQUAL}">
                         <th:block th:each = "field : ${script.fields()}">
                             <p class = "space red" th:text = "${field}"/>
                         </th:block>
@@ -741,7 +741,7 @@
                             <!--compare optional fields-->
                             <th:block th:each = "checkOptional : ${checkFieldsOptionalScript1}">
                                 <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOT_EQUAL}" th:text = "${field}"/>
                                 <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
                                     and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
                             </th:block>
@@ -776,11 +776,11 @@
 
         <td>
             <!--check script-->
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('script').hashCode() and resCom.value == NOTEQUAL}">"script": [
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('script').hashCode() and resCom.value == NOT_EQUAL}">"script": [
                 <div class = "space" th:each = "script : ${node2.get('script')}">{
                     
                     <!--top object not equal-->
-                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == NOTEQUAL}">
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == script.hashCode() and resCom.getValue() == NOT_EQUAL}">
                         <th:block th:each = "field : ${script.fields()}">
                             <p class = "space green" th:text = "${field}"/>
                         </th:block>
@@ -801,7 +801,7 @@
                             <!--compare optional fields-->
                             <th:block th:each = "checkOptional : ${checkFieldsOptionalScript2}">
                                 <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOT_EQUAL}" th:text = "${field}"/>
                                 <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == script.hashCode()
                                     and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
                             </th:block>
@@ -837,11 +837,11 @@
     <tr>
         <td>
             <!--check rpm-->
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('rpm').hashCode() and resCom.value == NOTEQUAL}">"rpm": [
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('rpm').hashCode() and resCom.value == NOT_EQUAL}">"rpm": [
                 <div th:each = "rpm : ${node1.get('rpm')}">{
                     
                     <!--top object not equal-->
-                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == NOTEQUAL}">
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == NOT_EQUAL}">
                         <th:block th:each = "field : ${rpm.fields()}">
                             <p class = "space red" th:text = "${field}"/>
                         </th:block>
@@ -862,7 +862,7 @@
                             <!--compare optional fields-->
                             <th:block th:each = "checkOptional : ${checkFieldsOptionalRpm1}">
                                 <p class = "space red" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOT_EQUAL}" th:text = "${field}"/>
                                 <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
                                     and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
                             </th:block>
@@ -896,11 +896,11 @@
         </td>
         <td>
             <!--check rpm-->
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('rpm').hashCode() and resCom.value == NOTEQUAL}">"rpm": [
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('rpm').hashCode() and resCom.value == NOT_EQUAL}">"rpm": [
                 <div th:each = "rpm : ${node2.get('rpm')}">{
                     
                     <!--top object not equal-->
-                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == NOTEQUAL}">
+                    <div th:each = "resCom : ${result}" th:if = "${resCom.getKey() == rpm.hashCode() and resCom.getValue() == NOT_EQUAL}">
                         <th:block th:each = "field : ${rpm.fields()}">
                             <p class = "space green" th:text = "${field}"/>
                         </th:block>
@@ -921,7 +921,7 @@
                             <!--compare optional fields-->
                             <th:block th:each = "checkOptional : ${checkFieldsOptionalRpm2}">
                                 <p class = "space green" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
-                                    and opt.getKey() == field.getKey() and opt.getValue() == NOTEQUAL}" th:text = "${field}"/>
+                                    and opt.getKey() == field.getKey() and opt.getValue() == NOT_EQUAL}" th:text = "${field}"/>
                                 <p class = "space" th:each = "opt : ${checkOptional.getValue()}" th:if = "${checkOptional.getKey() == rpm.hashCode()
                                     and opt.getKey() == field.getKey() and opt.getValue() == EQUAL}" th:text = "${field}"/>
                             </th:block>
@@ -979,14 +979,14 @@
             }</div>
 
             <!--not equal-->
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('parameters').hashCode() and resCom.value == NOTEQUAL}">"parameters": {
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node1.get('parameters').hashCode() and resCom.value == NOT_EQUAL}">"parameters": {
                 <div th:each = "parameter : ${node1.get('parameters').fields()}">
                     
                     <!--common not equal-->
                     <th:block th:if = "${parameter.getKey().equals('common')}" th:each = "resultCommon : ${result}">
-                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultCommon.getKey() and resultCommon.getValue() == NOTEQUAL}">"common": {
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultCommon.getKey() and resultCommon.getValue() == NOT_EQUAL}">"common": {
                             <div th:each = "fieldCommon : ${parameter.getValue().fields()}">
-                                <p class = "space red" th:each = "resFieldCommon : ${result}" th:if = "${fieldCommon.getValue().hashCode() == resFieldCommon.getKey() and resFieldCommon.getValue() == NOTEQUAL}" th:text = "${fieldCommon}"/>
+                                <p class = "space red" th:each = "resFieldCommon : ${result}" th:if = "${fieldCommon.getValue().hashCode() == resFieldCommon.getKey() and resFieldCommon.getValue() == NOT_EQUAL}" th:text = "${fieldCommon}"/>
 
                                 <p class = "space" th:each = "resFieldCommon : ${result}" th:if = "${fieldCommon.getValue().hashCode() == resFieldCommon.getKey() and resFieldCommon.getValue() == EQUAL}" th:text = "${fieldCommon}"/>
                             </div>
@@ -1007,7 +1007,7 @@
                     <!--services not equal-->
                     <th:block th:if = "${parameter.getKey().equals('services')}" th:each = "resultServices : ${result}">
 
-                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == NOTEQUAL}">"services": {
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == NOT_EQUAL}">"services": {
                             
                             <div class = "space" th:each = "fieldService : ${parameter.getValue().fields()}"><span th:text = "${fieldService.getKey()}"/>: {
                                 <th:block th:each = "resfS1 : ${result}" th:if = "${fieldService.getValue().hashCode() == resfS1.getKey() and resfS1.getValue() == EQUAL}">
@@ -1018,7 +1018,7 @@
 
 
                                 <div th:each = "fieldServiceName : ${fieldService.getValue().fields()}">
-                                    <p class = "space red" th:each = "resFieldServ : ${result}" th:if = "${fieldServiceName.getValue().hashCode() == resFieldServ.getKey() and resFieldServ.getValue() == NOTEQUAL}" th:text = "${fieldServiceName}"/>
+                                    <p class = "space red" th:each = "resFieldServ : ${result}" th:if = "${fieldServiceName.getValue().hashCode() == resFieldServ.getKey() and resFieldServ.getValue() == NOT_EQUAL}" th:text = "${fieldServiceName}"/>
                                 </div>
                             }</div>
                         }</div>
@@ -1069,14 +1069,14 @@
             }</div>
 
             <!--not equal-->
-            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('parameters').hashCode() and resCom.value == NOTEQUAL}">"parameters": {
+            <div th:each = "resCom : ${result}" th:if = "${resCom.key != 1 and resCom.getKey() == node2.get('parameters').hashCode() and resCom.value == NOT_EQUAL}">"parameters": {
                 <div th:each = "parameter : ${node2.get('parameters').fields()}">
                     
                     <!--common not equal-->
                     <th:block th:if = "${parameter.getKey().equals('common')}" th:each = "resultCommon : ${result}">
-                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultCommon.getKey() and resultCommon.getValue() == NOTEQUAL}">"common": {
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultCommon.getKey() and resultCommon.getValue() == NOT_EQUAL}">"common": {
                             <div th:each = "fieldCommon : ${parameter.getValue().fields()}">
-                                <p class = "space green" th:each = "resFieldCommon : ${result}" th:if = "${fieldCommon.getValue().hashCode() == resFieldCommon.getKey() and resFieldCommon.getValue() == NOTEQUAL}" th:text = "${fieldCommon}"/>
+                                <p class = "space green" th:each = "resFieldCommon : ${result}" th:if = "${fieldCommon.getValue().hashCode() == resFieldCommon.getKey() and resFieldCommon.getValue() == NOT_EQUAL}" th:text = "${fieldCommon}"/>
 
                                 <p class = "space" th:each = "resFieldCommon : ${result}" th:if = "${fieldCommon.getValue().hashCode() == resFieldCommon.getKey() and resFieldCommon.getValue() == EQUAL}" th:text = "${fieldCommon}"/>
                             </div>
@@ -1098,7 +1098,7 @@
                     <!--services not equal-->
                     <th:block th:if = "${parameter.getKey().equals('services')}" th:each = "resultServices : ${result}">
 
-                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == NOTEQUAL}">"services": {
+                        <div class = "space" th:if = "${parameter.getValue().hashCode() == resultServices.getKey() and resultServices.getValue() == NOT_EQUAL}">"services": {
                             
                             <div class = "space" th:each = "fieldService : ${parameter.getValue().fields()}"><span th:text = "${fieldService.getKey()}"/>: {
                                 <th:block th:each = "resfS1 : ${result}" th:if = "${fieldService.getValue().hashCode() == resfS1.getKey() and resfS1.getValue() == EQUAL}">
@@ -1109,7 +1109,7 @@
 
 
                                 <div th:each = "fieldServiceName : ${fieldService.getValue().fields()}">
-                                    <p class = "space green" th:each = "resFieldServ : ${result}" th:if = "${fieldServiceName.getValue().hashCode() == resFieldServ.getKey() and resFieldServ.getValue() == NOTEQUAL}" th:text = "${fieldServiceName}"/>
+                                    <p class = "space green" th:each = "resFieldServ : ${result}" th:if = "${fieldServiceName.getValue().hashCode() == resFieldServ.getKey() and resFieldServ.getValue() == NOT_EQUAL}" th:text = "${fieldServiceName}"/>
                                 </div>
                             }</div>
                         }</div>

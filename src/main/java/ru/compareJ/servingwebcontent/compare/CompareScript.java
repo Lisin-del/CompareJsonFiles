@@ -34,8 +34,8 @@ public class CompareScript {
             }
         }
         else {
-            Compare.resultCompareFiles.put(node1.get("script").hashCode(), ResultCompare.NOTEQUAL);
-            Compare.resultCompareFiles.put(node2.get("script").hashCode(), ResultCompare.NOTEQUAL);
+            Compare.resultCompareFiles.put(node1.get("script").hashCode(), ResultCompare.NOT_EQUAL);
+            Compare.resultCompareFiles.put(node2.get("script").hashCode(), ResultCompare.NOT_EQUAL);
 
             compare(node1.get("script"), node2.get("script"));
             compare(node2.get("script"), node1.get("script"));
@@ -93,7 +93,7 @@ public class CompareScript {
                     Compare.resultCompareFiles.put(script1.hashCode(), ResultCompare.EQUAL);
                 }
                 else {
-                    Compare.resultCompareFiles.put(script1.hashCode(), ResultCompare.NOTEQUAL);
+                    Compare.resultCompareFiles.put(script1.hashCode(), ResultCompare.NOT_EQUAL);
                 }
             }
         }
@@ -117,7 +117,7 @@ public class CompareScript {
                             compareOpt.put(fieldName, ResultCompare.EQUAL);
                         }
                         else if(!script1.get(fieldName).equals(script2.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
-                            compareOpt.put(fieldName, ResultCompare.NOTEQUAL);
+                            compareOpt.put(fieldName, ResultCompare.NOT_EQUAL);
                         }
                     }
                 }
@@ -144,7 +144,7 @@ public class CompareScript {
                             compareOpt.put(fieldName, ResultCompare.EQUAL);
                         }
                         else if(!script2.get(fieldName).equals(script1.get(fieldName)) && compareOpt.get(fieldName) != ResultCompare.EQUAL) {
-                            compareOpt.put(fieldName, ResultCompare.NOTEQUAL);
+                            compareOpt.put(fieldName, ResultCompare.NOT_EQUAL);
                         }
                     }
                 }

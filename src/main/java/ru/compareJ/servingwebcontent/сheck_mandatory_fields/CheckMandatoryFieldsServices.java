@@ -28,13 +28,13 @@ public class CheckMandatoryFieldsServices {
             for(String field1 : fieldsServices) {
                 if(!field1.equals("sha1") && !field1.equals("sha256") && topObj.get(field1) == null) {
 
-                    noFields1.put(field1, ResultCompare.NOTEXIST);
+                    noFields1.put(field1, ResultCompare.NOT_EXIST);
                     Compare.checkFieldsMandatoryServices.put(topObj.hashCode(), noFields1);
                 }
                 else if(field1.equals("sha1") || field1.equals("sha256")) {
                     if(topObj.get("hashes") != null) {
                         if(topObj.get("hashes").get(field1) == null) {
-                            noFields1.put(field1, ResultCompare.NOTEXIST);
+                            noFields1.put(field1, ResultCompare.NOT_EXIST);
                             Compare.checkFieldsMandatoryServices.put(topObj.hashCode(), noFields1);
                         }
                     }
@@ -48,13 +48,13 @@ public class CheckMandatoryFieldsServices {
             HashMap<String, ResultCompare> noFields2 = new HashMap<>();
             for(String field2 : fieldsServices) {
                 if(!field2.equals("sha1") && !field2.equals("sha256") && topObj.get(field2) == null) {
-                    noFields2.put(field2, ResultCompare.NOTEXIST);
+                    noFields2.put(field2, ResultCompare.NOT_EXIST);
                     Compare.checkFieldsMandatoryServices.put(topObj.hashCode(), noFields2);
                 }
                 else if(field2.equals("sha1") || field2.equals("sha256")) {
                     if(topObj.get("hashes") != null) {
                         if(topObj.get("hashes").get(field2) == null) {
-                            noFields2.put(field2, ResultCompare.NOTEXIST);
+                            noFields2.put(field2, ResultCompare.NOT_EXIST);
                             Compare.checkFieldsMandatoryServices.put(topObj.hashCode(), noFields2);
                         }
                     }

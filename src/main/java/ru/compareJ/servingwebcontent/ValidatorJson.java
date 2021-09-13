@@ -25,6 +25,9 @@ public class ValidatorJson {
                         Compare.infoStructure.put(node.hashCode(), "Version: wrong value!");
                     }
                 }
+
+
+
                 if(node.get("metadata").get("application").get("name") == null) {
                     if(Compare.infoStructure.get(node.hashCode()) != null) {
                         Compare.infoStructure.put(node.hashCode(), Compare.infoStructure.get(node.hashCode()) + " " + "Name: null!");
@@ -33,6 +36,8 @@ public class ValidatorJson {
                         Compare.infoStructure.put(node.hashCode(), "Name: null!");
                     }
                 }
+
+
                 else if(!node.get("metadata").get("application").get("name").getNodeType().equals(JsonNodeType.STRING)) {
                     if(Compare.infoStructure.get(node.hashCode()) != null) {
                         Compare.infoStructure.put(node.hashCode(), Compare.infoStructure.get(node.hashCode()) + " " + "Name: wrong type!");

@@ -24,13 +24,13 @@ public class CheckMandatoryFieldsScript {
 
             for(String fieldName1 : mandatoryFieldsScript) {
                 if(!fieldName1.equals("sha1") && !fieldName1.equals("sha256") && script.get(fieldName1) == null) {
-                    noFields1.put(fieldName1, ResultCompare.NOTEXIST);
+                    noFields1.put(fieldName1, ResultCompare.NOT_EXIST);
                     Compare.checkFieldsMandatoryScript.put(script.hashCode(), noFields1);
                 }
                 else if(fieldName1.equals("sha1") || fieldName1.equals("sha256")) {
                     if(script.get("hashes") != null) {
                         if(script.get("hashes").get(fieldName1) == null) {
-                            noFields1.put(fieldName1, ResultCompare.NOTEXIST);
+                            noFields1.put(fieldName1, ResultCompare.NOT_EXIST);
                             Compare.checkFieldsMandatoryScript.put(script.hashCode(), noFields1);
                         }
                     }
@@ -44,13 +44,13 @@ public class CheckMandatoryFieldsScript {
 
             for(String fieldName2 : mandatoryFieldsScript) {
                 if(!fieldName2.equals("sha1") && !fieldName2.equals("sha256") && script.get(fieldName2) == null) {
-                    noFields2.put(fieldName2, ResultCompare.NOTEXIST);
+                    noFields2.put(fieldName2, ResultCompare.NOT_EXIST);
                     Compare.checkFieldsMandatoryScript.put(script.hashCode(), noFields2);
                 }
                 else if(fieldName2.equals("sha1") || fieldName2.equals("sha256")) {
                     if(script.get("hashes") != null) {
                         if(script.get("hashes").get(fieldName2) == null) {
-                            noFields2.put(fieldName2, ResultCompare.NOTEXIST);
+                            noFields2.put(fieldName2, ResultCompare.NOT_EXIST);
                             Compare.checkFieldsMandatoryScript.put(script.hashCode(), noFields2);
                         }
                     }
